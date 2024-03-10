@@ -1,0 +1,37 @@
+format = """
+$username\
+$hostname\
+$localip\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$line_break\
+$container\
+"""
+
+[line_break]
+disabled = true
+
+[username]
+### #7000FF
+style_user = "red bold"
+style_root = "red bold"
+format = "[$user]($style) in "
+disabled = false
+show_always = true
+
+[directory]
+truncate_to_repo = true
+#style = "#00A693 italic"
+style = "blue"
+
+[git_branch]
+symbol = ""
+style = "yellow"
+#style = "#5495fb"
+
+[cmd_duration]
+#style = "green"
