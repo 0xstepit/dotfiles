@@ -1,0 +1,41 @@
+# Move window into another space.
+ctrl + shift - 1 : yabai -m window --space  1; 
+ctrl + shift - 2 : yabai -m window --space  2; # yabai -m space --focus 2
+ctrl + shift - 3 : yabai -m window --space  3; # yabai -m space --focus 3
+ctrl + shift - 4 : yabai -m window --space  4; # yabai -m space --focus 4
+ctrl + shift - 5 : yabai -m window --space  5; # yabai -m space --focus 5
+
+# Move focus on windows.
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - h : yabai -m window --focus west
+alt - l : yabai -m window --focus east
+
+# Swap windows in a space.
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+
+# Move window to display left and right.
+shift + alt - n : yabai -m window --display west; yabai -m display --focus west;
+shift + alt - m : yabai -m window --display east; yabai -m display --focus east;
+
+# Rotate layout.
+alt - r : yabai -m space --rotate 90
+
+# Mirror y axis.
+alt - y : yabai -m space --mirror y-axis
+
+# Balance windows in the space.
+shift + alt - b : yabai -m space --balance
+
+# yabai restart, stop, and start.
+ctrl + alt - r : yabai --restart-service
+ctrl + alt - x : yabai --stop-service
+ctrl + alt - s : yabai --start-service
+
+# Applications shortcut.
+ctrl + alt - t : open -na /Applications/Alacritty.app; yabai -m space --focus 3
+ctrl + alt - b : open -a Arc.app
+ctrl + alt - n : open "obsidian://open?vault=main"; yabai -m space --focus 5

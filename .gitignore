@@ -1,0 +1,8 @@
+raycast/*
+cache/*
+
+#Zsh stuff
+.zsh_sessions/
+.zsh_history
+.zhistory
+.zcompdump
