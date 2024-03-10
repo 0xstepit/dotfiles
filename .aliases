@@ -1,0 +1,25 @@
+# Application aliases.
+alias v=nvim
+alias t=tmux
+
+# Tmux aliases.
+alias tk='t kill-server'
+alias ta='tmux attach-server -t'
+
+# Git aliases.
+alias gp='git pull'
+alias gs='git status'
+alias gl='git log --pretty=format:"%h - %an, %ar : %s"'
+
+# Utils aliases.
+alias ls='exa --long'
+alias tree='exa --tree --level=2'
+
+# vim aliases.
+alias vf='v $(fzf)'
+
+# cd aliases.
+alias cdr='cd "$REPOS"'
+alias cdw='cd "$WORK"'
+alias cdc='cd "$CHAINS"'
+alias cdcw='cd "$COSMWASM"'
