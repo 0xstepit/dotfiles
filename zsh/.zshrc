@@ -43,3 +43,8 @@ eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 # Activate starship PS1 to define the primary prompt string.
 eval "$(starship init zsh)"
+
+# go settings.
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+

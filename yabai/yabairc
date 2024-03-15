@@ -34,10 +34,11 @@ yabai -m config mouse_follows_focus off
 # List of application not managed by yabai.
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Bitwarden$" manage=off
 
 yabai -m rule --add app="^(Arc|Safari|Brave)$" space=1
 yabai -m rule --add app="^(Linear|Notion)$" space=2
-yabai -m rule --add app="^Alacritty$" space=^3 #^ used to follow focus
+# yabai -m rule --add app="^Alacritty$" space=^3 #^ used to follow focus
 yabai -m rule --add app="^(Slack|Telegram)$" space=4
 yabai -m rule --add app="^Obsidian$" space=5
 

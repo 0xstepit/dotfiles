@@ -1,6 +1,6 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/theme/catpuccin.toml"]
+import = ["~/.config/alacritty/themes/catpuccin.toml"]
 
 [window]
 opacity = 0.60
