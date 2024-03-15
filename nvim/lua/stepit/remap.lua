@@ -34,8 +34,8 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", 'K', ":m '<-2<CR>gv=gv")
 
--- use register 0 when pasting in visual mode
-vim.keymap.set("x", "p", '"0p')
+-- Don't change clipboard when pasting over text.
+vim.keymap.set("x", "p", 'P')
 
 -- folding
 vim.keymap.set("n", "+", "<cmd>foldclose<CR>")
@@ -60,7 +60,7 @@ vim.keymap.set("n", '<leader>ee', ":Ex<CR>")
 
 -- bind L to select for opening and closing folders
 vim.api.nvim_create_autocmd('filetype', {
-	pattern = { 'netrw', "Trouble" },
+	pattern = { 'netrw', "Trouble"},
 	desc = 'L to open and close folders and open files.',
 	callback = function()
 		local bind = function(lhs, rhs)

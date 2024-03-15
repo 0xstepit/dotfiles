@@ -2,6 +2,7 @@
   "Autopair": { "branch": "master", "commit": "eac31b4797ce4fa9dd546f7b98ec32305527b19e" },
   "Comment.nvim": { "branch": "master", "commit": "0236521ea582747b58869cb72f70ccfa967d2e89" },
   "Completion": { "branch": "main", "commit": "04e0ca376d6abdbfc8b52180f8ea236cbfddf782" },
+  "Delve": { "branch": "master", "commit": "41d6ad294fb6dd5090f5f938318fc4ed73b6e1ea" },
   "Fidget": { "branch": "main", "commit": "60404ba67044c6ab01894dd5bf77bd64ea5e09aa" },
   "Fugitive": { "branch": "master", "commit": "854a8df0d06b8d3fcb30fa7f2b08c62b553eee3b" },
   "Gitlinker": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },

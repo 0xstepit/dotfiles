@@ -24,6 +24,8 @@ return {
 						["<C-k>"] = actions.move_selection_previous,
 						-- move down in Results
 						["<C-j>"] = actions.move_selection_next,
+						-- select
+						["L"] = actions.select_default,
 						-- move up in Results
 						["<C-y>"] = actions.select_default,
 						-- close window
