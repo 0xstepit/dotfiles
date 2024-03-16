@@ -1,24 +1,12 @@
 .blacklist [
    "Bitwarden"
 ]
-# Move window into another space.
-ctrl + shift - 1 : yabai -m window --space  1 --focus;
-ctrl + shift - 2 : yabai -m window --space  2 --focus;
-ctrl + shift - 3 : yabai -m window --space  3 --focus;
-ctrl + shift - 4 : yabai -m window --space  4 --focus;
-ctrl + shift - 5 : yabai -m window --space  5 --focus;
 
 # Move focus on windows.
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
 alt - h : yabai -m window --focus west
 alt - l : yabai -m window --focus east
-
-# Swap windows in a space.
-ctrl + alt - h : yabai -m window --swap west
-ctrl + alt - j : yabai -m window --swap south
-ctrl + alt - k : yabai -m window --swap north
-ctrl + alt - l : yabai -m window --swap east
 
 # Move window to display left and right.
 alt - n : yabai -m window --display west; yabai -m display --focus west;
@@ -30,15 +18,6 @@ alt - s : yabai -m window --resize bottom:0:20
 alt - w : yabai -m window --resize top:0:-20
 alt - d : yabai -m window --resize right:20:0
 
-# Change focused window to occupy 1/3 of the space.
-alt - t : yabai -m window --ratio abs:0.33
-
-# Change focused window to occupy just the center (requires float).
-alt - c : yabai -m window --grid 5:5:1:1:3:3
-
-# Make focused window float.
-alt -f : yabai -m window --toggle float
-
 # Rotate layout.
 alt - r : yabai -m space --rotate 90
 
@@ -47,6 +26,28 @@ alt - y : yabai -m space --mirror y-axis
 
 # Balance windows in the space.
 alt - b : yabai -m space --balance
+
+# Change focused window to occupy 1/3 of the space.
+alt - t : yabai -m window --ratio abs:0.33
+
+# Change focused window to occupy just the center (requires float).
+alt - c : yabai -m window --grid 5:5:1:1:3:3
+
+# Make focused window float.
+alt - f : yabai -m window --toggle float
+
+# Move window into another space.
+ctrl + shift - 1 : yabai -m window --space  1 --focus;
+ctrl + shift - 2 : yabai -m window --space  2 --focus;
+ctrl + shift - 3 : yabai -m window --space  3 --focus;
+ctrl + shift - 4 : yabai -m window --space  4 --focus;
+ctrl + shift - 5 : yabai -m window --space  5 --focus;
+
+# Swap windows in a space.
+ctrl + alt - h : yabai -m window --swap west
+ctrl + alt - j : yabai -m window --swap south
+ctrl + alt - k : yabai -m window --swap north
+ctrl + alt - l : yabai -m window --swap east
 
 # yabai restart, stop, and start.
 ctrl + alt - r : yabai --restart-service
