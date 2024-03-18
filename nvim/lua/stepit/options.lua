@@ -55,7 +55,7 @@ opt.sidescrolloff = 5
 opt.signcolumn = "yes"
 opt.isfname:append("@-@")
 
-opt.colorcolumn = "100"
+-- opt.colorcolumn = "100"
 
 vim.g.blamer_enabled = true
 vim.g.blamer_show_in_visual_modes = false

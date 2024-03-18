@@ -19,8 +19,9 @@ size = 11
 x = 1
 
 [font.normal]
-family = "RobotoMono Nerd Font"
-style = "Regular"
+# family = "RobotoMono Nerd Font"
+family = "Noto Sans Mono"
+style = "Light"
 
 [font.bold]
 family = "RobotoMono Nerd Font"
