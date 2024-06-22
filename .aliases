@@ -1,0 +1,44 @@
+# Applications aliases.
+alias v=nvim
+alias t=tmux
+
+# vim aliases.
+alias vf='v $(fzf)'
+
+# Tmux aliases.
+alias tk='t kill-server'
+alias tl='t ls'
+alias ta='t attach-session -t'
+
+# Git aliases.
+alias gp='git push'
+alias gpo='gp origin'
+alias gs='git status'
+alias gl='git log --pretty=format:"%h - %an, %ar : %s"'
+alias gcb='git checkout -b'
+alias gcm='git checkout main'
+alias gac='git add . && git commit -m'
+alias grh='git reset --hard'
+alias gpf='gp fork'
+alias gpo!='gp --set-upstream origin $(git symbolic-ref --short HEAD)'
+alias gpf!='gp --set-upstream fork $(git symbklic-ref --short HEAD)'
+alias gdn='git diff --name-only'
+
+# Utils aliases.
+alias l='exa --long'
+alias tree='exa --tree --level=2'
+alias treen='treeN() { exa --tree --level=$1}; treeN'
+
+# cd aliases.
+alias cdr='cd "$REPOS"'
+alias cdn='cd "$DOTFILES"/nvim'
+alias cdw='cd "$WORK"'
+alias cdb='cd "$BLOCKCHAIN"'
+alias cdc='cd "$CHAINS"'
+alias cdcw='cd "$COSMWASM"'
+# ref: https://thevaluable.dev/zsh-install-configure-mouseless/
+alias d='dirs -v | head -n 10'
+for index ({0..9}) alias "$index"="cd +${index}"; unset index
+
+# sourcing
+alias sourcezsh='source "$ZDOTDIR"/.zshrc'

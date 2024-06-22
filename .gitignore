@@ -1,0 +1,16 @@
+# Software fodlers
+**/raycast/*
+**/gh/*
+**/nvm/*
+**/zsh-syntax-highlighting/*
+
+# Zsh stuff
+.zsh_sessions/
+.zsh_history
+.zhistory
+.zcompdump
+
+# Misc
+cache/*
+.foundry/*
+./configstore/*

@@ -1,0 +1,28 @@
+# Colors (Berlin Night)
+
+# Default colors
+[colors.primary]
+background = '#191919' #color.base04
+foreground = '#f2f2f2' #color.fg
+
+# Normal colors
+[colors.normal]
+black   = '#121B21' #color.base04
+red     = '#F07580' #color.red
+green   = '#80F075' #color.green
+yellow  = '#F0E575' #color.yellow
+blue    = '#7580F0' #color.blue
+magenta = '#A875F0' #color.magenta
+cyan    = '#75F0E6' #color.cyan
+white   = '#EEF3F6' #color.base2
+
+# Bright colors
+[colors.bright]
+black   = '#002d38' #color.base03
+red     = '#f65351' #color.red300
+green   = '#b7fa00' #color.green300
+yellow  = '#ffbf00' #color.yellow300
+blue    = '#47adf5' #color.blue300
+magenta = '#f254a1' #color.magenta300
+cyan    = '#2beede' #color.cyan300
+white   = '#fdf6e2' #color.base3

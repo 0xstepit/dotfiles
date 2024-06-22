@@ -1,0 +1,54 @@
+format = """
+$username\
+$hostname\
+$localip\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$line_break\
+$container\
+$nix_shell\
+$shell\
+"""
+
+palette = 'new'
+
+[line_break]
+disabled = true
+
+[palettes.new]
+purple = '#A875F0'
+base = '#75BDF0'
+
+[username]
+style_user = "purple bold"
+style_root = "red bold"
+format = "[$user]($style) in "
+disabled = false
+show_always = true
+
+[directory]
+truncate_to_repo = true
+style = "blue"
+
+[git_branch]
+symbol = ""
+style = "base"
+
+[git_status]
+style = "red"
+
+[cmd_duration]
+#style = "green"
+
+[nix_shell]
+disabled = false
+symbol = "NIX "
+style = "yellow"
+impure_msg = '[impure shell](bold red)'
+pure_msg = '[pure shell](bold green)'
+unknown_msg = '[unknown shell](bold yellow)'
+format = 'via [☃️ $state( \($name\))](bold blue) '

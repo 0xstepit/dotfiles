@@ -1,0 +1,41 @@
+live_config_reload = true
+
+import = ["~/.config/alacritty/themes/berlin-night.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+opacity = 0.75
+blur = true
+decorations = "buttonless"
+dynamic_padding = false
+
+[window.padding]
+x = 20
+y = 15
+
+[cursor]
+thickness = 0.1
+
+[font]
+size = 11 
+
+[font.offset]
+x = 1
+
+[font.normal]
+# family = "RobotoMono Nerd Font"
+family = "Noto Sans Mono"
+style = "Regular"
+
+[font.bold]
+family = "Noto Sans Mono"
+# family = "RobotoMono Nerd Font"
+style = "Bold"
+
+[font.italic]
+family = "Noto Sans Mono"
+# family = "RobotoMono Nerd Font"
+style = "Italic"
+
