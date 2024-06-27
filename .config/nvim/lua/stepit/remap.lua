@@ -44,3 +44,6 @@ vim.keymap.set("n", "-", "<cmd>foldopen<CR>", { desc = "Open fold" })
 vim.keymap.set("n", "<leader>+", "zM<CR>", { desc = "Close all folds" })
 -- vim.keymap.set("n", "<leader>", "zR<CR>", { desc = "Open all folds" })
 vim.keymap.set("n", "<leader>0", "zczA", { desc = "Open current fold" })
+
+-- Workaround because was not working
+vim.keymap.set("n", "<C-I>", "<C-I>", { noremap = true })

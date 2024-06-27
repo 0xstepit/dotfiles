@@ -20,6 +20,7 @@ follow the instructions provided on the [official Neovim website](https://neovim
     git clone https://github.com/0xstepit/nvim.git ~/.config/nvim
     ```
 
+"./lua/stepit/"
 2. Launch Neovim.
 
     ```bash

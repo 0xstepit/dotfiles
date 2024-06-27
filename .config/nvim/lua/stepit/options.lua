@@ -56,7 +56,7 @@ opt.spelllang = "en_us"
 opt.spell = true
 
 opt.list = true
-opt.listchars = { space = "·", trail = "·", tab = "> " }
+opt.listchars = { space = "·", trail = "·", tab = "│ " }
 
 -- Allow the cursor to move where no character is present in visual block mode.
 opt.virtualedit = "block"
@@ -75,3 +75,5 @@ opt.inccommand = "split" -- create a split below with affected text during chang
 opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
 g.icons_enabled = true
+
+opt.conceallevel = 1

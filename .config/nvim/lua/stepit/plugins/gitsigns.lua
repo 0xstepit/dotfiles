@@ -7,11 +7,12 @@ return {
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
 		signs = {
-			add = { text = "+" },
-			change = { text = "~" },
-			delete = { text = "_" },
+			add = { text = "│" },
+			change = { text = "│" },
+			delete = { text = "│" },
 			topdelete = { text = "‾" },
-			changedelete = { text = "x" },
+			changedelete = { text = "│" },
+			untracked = { text = "┆" },
 		},
 		-- commit info on the right of a line
 		current_line_blame = true,
@@ -44,7 +45,7 @@ return {
 				gs.blame_line({ full = true })
 			end, opts)
 			opts.desc = "Diff this"
-			vim.keymap.set("n", "<leader>hd", gs.diffthis, opts)
+			vim.keymap.set("n", "<leader>hd", ":Gitsign diffthis main<CR>", opts)
 			opts.desc = "Diff this ~"
 			vim.keymap.set("n", "<leader>hD", function()
 				gs.diffthis("~")
