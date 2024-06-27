@@ -18,6 +18,7 @@ setopt HIST_SAVE_NO_DUPS
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
+setopt share_history
 
 # Load and run completion.
 autoload -U compinit; compinit
@@ -39,6 +40,18 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
+# Required to have backspace working in vim
+bindkey -M viins '^?' backward-delete-char
+bindkey -M viins '^?' backward-delete-char
+
+# Yank to the system clipboard
+function vi-yank-xclip {
+   zle vi-yank
+   echo "$CUTBUFFER" | pbcopy -i
+}
+zle -N vi-yank-xclip
+bindkey -M vicmd 'y' vi-yank-xclip
+
 # Activate starship PS1 to define the primary prompt string.
 eval "$(starship init zsh)"
 
@@ -56,3 +69,6 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=border:#
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude plugins/'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey '^E' fzf-cd-widget
+
+# bun completions
+[ -s "/Users/stepit/.bun/_bun" ] && source "/Users/stepit/.bun/_bun"

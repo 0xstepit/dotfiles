@@ -41,9 +41,6 @@ style = "base"
 [git_status]
 style = "red"
 
-[cmd_duration]
-#style = "green"
-
 [nix_shell]
 disabled = false
 symbol = "NIX "
