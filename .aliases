@@ -23,6 +23,7 @@ alias gpf='gp fork'
 alias gpo!='gp --set-upstream origin $(git symbolic-ref --short HEAD)'
 alias gpf!='gp --set-upstream fork $(git symbklic-ref --short HEAD)'
 alias gdn='git diff --name-only'
+alias gdc='git_diff_count'
 
 # Utils aliases.
 alias l='exa --long'
@@ -31,7 +32,8 @@ alias treen='treeN() { exa --tree --level=$1}; treeN'
 
 # cd aliases.
 alias cdr='cd "$REPOS"'
-alias cdn='cd "$DOTFILES"/nvim'
+alias cdv='cd "$DOTFILES"/.config/nvim'
+alias cdn='cd "$NOTES/main"'
 alias cdw='cd "$WORK"'
 alias cdb='cd "$BLOCKCHAIN"'
 alias cdc='cd "$CHAINS"'
@@ -41,4 +43,13 @@ alias d='dirs -v | head -n 10'
 for index ({0..9}) alias "$index"="cd +${index}"; unset index
 
 # sourcing
-alias sourcezsh='source "$ZDOTDIR"/.zshrc'
+alias sz='source "$ZDOTDIR"/.zshrc'
+
+
+git_diff_count() {
+    output=$(git diff --name-status main)
+    m_count=$(echo "$output" | grep -E '^[[:space:]]*M' -c)
+    a_count=$(echo "$output" | grep -E '^[[:space:]]*A' -c)
+    d_count=$(echo "$output" | grep -E '^[[:space:]]*D' -c)
+    echo "Changes M: $m_count, A: $a_count, D: $d_count"
+}
