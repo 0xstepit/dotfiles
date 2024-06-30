@@ -65,7 +65,7 @@ eval "$(register-python-argcomplete pipx)"
 
 # fzf configuration.
 eval "$(fzf --zsh)"
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=border:#C8C8C8,spinner:#E12672,hl:#75BDF0,fg:#616161,header:#E12672,info:#7580F0,pointer:#E12672,fg+:#EEF3F6,prompt:#0099BD,hl+:#F07580'
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude plugins/'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey '^E' fzf-cd-widget

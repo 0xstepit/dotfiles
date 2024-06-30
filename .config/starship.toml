@@ -35,7 +35,7 @@ truncate_to_repo = true
 style = "blue"
 
 [git_branch]
-symbol = ""
+symbol = " "
 style = "base"
 
 [git_status]

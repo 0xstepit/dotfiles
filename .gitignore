@@ -1,7 +1,11 @@
 # Software fodlers
 **/raycast/*
 **/gh/*
+**/cache/*
+**/.foundry/*
+**/dlv/*
 **/nvm/*
+**/tmux/plugins/*
 **/zsh-syntax-highlighting/*
 
 # Zsh stuff
@@ -11,6 +15,4 @@
 .zcompdump
 
 # Misc
-cache/*
-.foundry/*
 ./configstore/*

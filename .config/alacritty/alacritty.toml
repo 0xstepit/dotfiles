@@ -26,16 +26,15 @@ x = 1
 
 [font.normal]
 # family = "RobotoMono Nerd Font"
-family = "Noto Sans Mono"
+# family = "Noto Sans Mono"
+# family = "IBM Plex Mono"
+family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
 style = "Regular"
 
 [font.bold]
-family = "Noto Sans Mono"
-# family = "RobotoMono Nerd Font"
+family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
 style = "Bold"
 
 [font.italic]
-family = "Noto Sans Mono"
-# family = "RobotoMono Nerd Font"
+family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
 style = "Italic"
-
