@@ -1,8 +1,7 @@
--- add core
-require("stepit.remap")
-require("stepit.autocommands")
-require("stepit.options")
-require("stepit.utils.hsl")
+require "stepit.globals"
+require "stepit.options"
+require "stepit.keymaps"
+require "stepit.autocommands"
+require "stepit.lazy"
 
---add plugins
-require("stepit.lazy")
+-- require("stepit.utils.hsl")
