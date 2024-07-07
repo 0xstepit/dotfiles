@@ -23,11 +23,9 @@ size = 11
 
 [font.offset]
 x = 1
+y = 2
 
 [font.normal]
-# family = "RobotoMono Nerd Font"
-# family = "Noto Sans Mono"
-# family = "IBM Plex Mono"
 family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
 style = "Regular"
 
