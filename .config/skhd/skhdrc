@@ -2,6 +2,11 @@
    "Bitwarden"
 ]
 
+# yabai restart, stop, and start.
+ctrl + alt - r : yabai --restart-service
+ctrl + alt - x : yabai --stop-service
+ctrl + alt - s : yabai --start-service
+
 # Move focus on windows.
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
@@ -49,14 +54,6 @@ ctrl + alt - j : yabai -m window --swap south
 ctrl + alt - k : yabai -m window --swap north
 ctrl + alt - l : yabai -m window --swap east
 
-# yabai restart, stop, and start.
-ctrl + alt - r : yabai --restart-service
-ctrl + alt - x : yabai --stop-service
-ctrl + alt - s : yabai --start-service
-
 # Applications shortcut.
-ctrl + alt - t : open -a /Applications/Alacritty.app;
-# ctrl + alt - v : open -a /Applications/Alacritty.app/Contents/MacOS/alacritty;
 ctrl + alt - p : open -a Bitwarden.app;
 ctrl + alt - b : open -a Arc.app
-ctrl + alt - n : open "obsidian://open?vault=main";

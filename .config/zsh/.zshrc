@@ -14,8 +14,7 @@ export SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 
-# Directory stack options.
-setopt AUTO_PUSHD
+# Directory stack options. setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 setopt share_history
@@ -32,7 +31,7 @@ zmodload zsh/complist
 
 # Activate vim mode with ESC.
 bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode # remap exit to jj
+bindkey -M viins 'jk' vi-cmd-mode # remap exit to jj
 
 # Vim keybinding for completion. complist give access to the menuselct keymap.
 bindkey -M menuselect 'h' vi-backward-char
@@ -66,6 +65,11 @@ eval "$(register-python-argcomplete pipx)"
 # fzf configuration.
 eval "$(fzf --zsh)"
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+--color=fg:#8BAAC1,hl:#F0E575,border:#8BAAC1 \
+--color=fg+:#F2F2F2,hl+:#F0E575 \
+--color=info:#7580F0,prompt:#75F0E6,pointer:#FF007C \
+--color=marker:#80F075,spinner:#FF007C,header:#FF007C"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude plugins/'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey '^E' fzf-cd-widget
