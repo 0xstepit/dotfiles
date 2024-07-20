@@ -7,27 +7,27 @@ return {
     {
       "<leader>tt",
       "<cmd>Trouble diagnostics toggle<cr>",
-      desc = "Diagnostis (Trouble)",
+      desc = "Project diagnostis",
     },
     {
       "<leader>tT",
       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-      desc = "Buffer Diagnostics (Trouble)",
+      desc = "Buffer diagnostics",
     },
     {
-      "<leader>cs",
+      "<leader>ts",
       "<cmd>Trouble symbols toggle focus=false<cr>",
-      desc = "Symbols (Trouble)",
+      desc = "File symbols",
     },
     {
-      "<leader>xL",
+      "<leader>tl",
       "<cmd>Trouble loclist toggle<cr>",
-      desc = "Location List (Trouble)",
+      desc = "Location list",
     },
     {
-      "<leader>xQ",
+      "<leader>tq",
       "<cmd>Trouble qflist toggle<cr>",
-      desc = "Quickfix List (Trouble)",
+      desc = "Quickfix list",
     },
   },
   config = function()

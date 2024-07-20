@@ -32,15 +32,15 @@ return {
       icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
       controls = {
         icons = {
-          pause = "⏸",
-          play = "▶",
-          step_into = "⏎",
-          step_over = "⏭",
-          step_out = "⏮",
-          step_back = "b",
-          run_last = "▶▶",
-          terminate = "⏹",
-          disconnect = "⏏",
+          pause = " ",
+          play = " ",
+          step_into = "󱞣",
+          step_over = "󰑃",
+          step_out = "󰑁",
+          step_back = "󱞿",
+          run_last = "",
+          terminate = "",
+          disconnect = "",
         },
       },
     }
@@ -50,6 +50,12 @@ return {
     dap.listeners.after.event_initialized["dapui_config"] = dapui.open
     dap.listeners.before.event_terminated["dapui_config"] = dapui.close
     dap.listeners.before.event_exited["dapui_config"] = dapui.close
+
+    vim.fn.sign_define("DapBreakpoint", { text = " ", texthl = "DapBreakpoint" })
+    vim.fn.sign_define("DapBreakpointCondition", { text = " ﳁ", texthl = "DapBreakpoint" })
+    vim.fn.sign_define("DapBreakpointRejected", { text = " ", texthl = "DapBreakpoint" })
+    vim.fn.sign_define("DapLogPoint", { text = " ", texthl = "DapLogPoint" })
+    vim.fn.sign_define("DapStopped", { text = " ", texthl = "DapStopped" })
 
     require("dap-go").setup {
       delve = {

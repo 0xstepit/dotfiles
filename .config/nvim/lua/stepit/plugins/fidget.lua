@@ -6,6 +6,11 @@ return {
     local fidget = require "fidget"
 
     fidget.setup {
+      progress = {
+        display = {
+          done_style = "CursorLineNr",
+        },
+      },
       notification = {
         window = {
           normal_hl = "Comment",

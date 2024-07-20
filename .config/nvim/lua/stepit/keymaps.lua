@@ -23,6 +23,9 @@ set("n", "<C-s>", "<C-W>-") -- smaller
 set("n", "<C-d>", "<C-d>zz", { desc = "Move half page  down with centered cursor" })
 set("n", "<C-u>", "<C-u>zz", { desc = "Move half page up with centered cursor" })
 
+set("n", "[q", ":cn<CR>", { desc = "Move to previous quickfix item" })
+set("n", "]q", ":cp<CR>", { desc = "Move to next quickfix item" })
+
 -- Search
 set("n", "n", "nzzzv", { desc = "Search with centered result" })
 set("n", "N", "Nzzzv", { desc = "Search backwards with centered result" })
@@ -49,7 +52,8 @@ set("n", "J", "mzJ`z", { desc = "Join with next line wihtout chaingin cursor pos
 set("x", "p", "P", { desc = "Paste without changing clipboard" })
 
 -- Folding
-set("n", "+", "<cmd>foldclose<CR>", { desc = "Close fold" })
-set("n", "-", "<cmd>foldopen<CR>", { desc = "Open fold" })
-set("n", "<leader>+", "zM<CR>", { desc = "Close all folds" })
-set("n", "<leader>0", "zczA", { desc = "Open current fold" })
+set("n", "+", "zc", { desc = "Close fold under cursor" })
+set("n", "<leader>-", "zR<CR>", { desc = "Open all folds" })
+set("n", "<leader>0", "za", { desc = "Toggle current fold" })
+
+vim.api.nvim_set_keymap("n", "<leader>nn", "<cmd>:ObsidianNew<CR>", { silent = true, noremap = true })

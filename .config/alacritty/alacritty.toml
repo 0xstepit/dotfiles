@@ -1,6 +1,6 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/themes/berlin-night.toml"]
+import = ["~/.config/alacritty/themes/flow.toml"]
 
 [env]
 TERM = "xterm-256color"

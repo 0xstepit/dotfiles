@@ -1,5 +1,6 @@
 return {
   "epwalsh/obsidian.nvim",
+  name = "Obsidian",
   version = "*",
   lazy = false,
   ft = "markdown",
@@ -20,33 +21,16 @@ return {
         end,
         opts = { buffer = true },
       },
-      ["<leader>nn"] = {
-        action = function()
-          return require("obsidian").util.ObsidianNew()
-        end,
-        opts = { buffer = true },
-      },
     },
     workspaces = {
       {
-        name = "houze",
+        name = "main",
         path = "$NOTES/main",
       },
     },
     ui = {
-      enable = false,
+      enable = true,
       -- heckboxes = {
-      -- 	[" "] = { char = "X", hl_group = "ObsidianTodo" },
-      -- 	["x"] = { char = "X", hl_group = "ObsidianDone" },
-      -- 	[">"] = { char = "X", hl_group = "ObsidianRightArrow" },
-      -- 	["~"] = { char = "~", hl_group = "ObsidianTilde" },
-      -- 	["!"] = { char = "!", hl_group = "ObsidianImportant" },
-      -- 	-- Replace the above with this if you don't have a patched font:
-      -- 	-- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
-      -- 	-- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
-      --
-      -- 	-- You can also add more custom ones...
-      -- },
     },
 
     daily_notes = {
@@ -64,7 +48,10 @@ return {
 
     notes_subdir = "./0-Inbox",
     new_notes_location = "notes_subdir",
-
+    note_path_func = function(spec)
+      local path = spec.dir / tostring(spec.title)
+      return path:with_suffix ".md"
+    end,
     templates = {
       folder = "Templates",
       date_format = "%Y-%m-%d-%a",
@@ -98,7 +85,4 @@ return {
       return out
     end,
   },
-  -- config = function()
-  --   vim.keymap.set("n", "<leader>nn", "<cmd>:ObsidianNew<CR>")
-  -- end,
 }

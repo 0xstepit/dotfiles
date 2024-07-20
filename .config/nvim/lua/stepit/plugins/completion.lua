@@ -113,7 +113,7 @@ return {
         ["<C-p>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
+          elseif luasnip.jumpable(-1) then -- jump to previous position is snippet
             luasnip.jump(-1)
           else
             fallback()
@@ -121,9 +121,8 @@ return {
         end, { "i", "c", "s" }),
         ["<Tab>"] = cmp.mapping(function(fallback)
           local col = vim.fn.col "." - 1
-
           if cmp.visible() then
-            if #cmp.get_entries() == 1 then
+            if #cmp.get_entries() == 1 then -- if only one entry, confirm it
               cmp.confirm { select = true }
             else
               cmp.select_next_item()

@@ -12,6 +12,7 @@ opt.termguicolors = true -- enables 24-bit RGB
 opt.cursorline = true -- display current line with different color
 opt.signcolumn = "yes" -- display column on left or line number
 opt.showmatch = true -- highlight matching parenthesis
+-- opt.colorcolumn = "120"
 
 -- Line numbers
 opt.number = true -- show line number
@@ -38,27 +39,39 @@ opt.scrolloff = 10 -- never less than 10 lines at bottom and top when scrolling
 opt.sidescrolloff = 5 -- never less than 5 characters when scrolling horizontally
 
 -- Spelling check
-opt.spelllang = "en_us"
+opt.spelllang = { "en_us", "it" }
 opt.spell = true
 
 opt.list = true
-opt.listchars = { space = "·", trail = "·", tab = "│ " }
+opt.listchars = { space = " ", trail = "·", tab = "│ " }
 
 -- Allow the cursor to move where no character is present in visual block mode.
 opt.virtualedit = "block"
 
 -- Folding
-opt.foldcolumn = "1"
-opt.foldmethod = "indent"
-opt.foldenable = false
+function FoldStyle()
+  local line = vim.fn.getline(vim.v.foldstart)
+  return "> " .. line .. "..."
+end
+
+opt.foldcolumn = "0"
+opt.foldenable = true
+-- opt.foldmethod = "indent"
+opt.foldtext = "v:lua.FoldStyle()"
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
+opt.foldnestmax = 3
+opt.foldlevel = 99
+opt.foldlevelstart = 99
 
 -- Misc
-opt.isfname:append("@-@")
+opt.isfname:append "@-@"
 opt.mouse = "a" -- Enable mouse support
-opt.conceallevel = 1
+opt.conceallevel = 0
 opt.inccommand = "split" -- create a split below with affected text during change
 opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
 opt.undofile = true
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
+opt.updatetime = 250
+opt.timeoutlen = 300

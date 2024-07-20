@@ -29,8 +29,9 @@ return {
             -- Actions
             ["<C-l>"] = actions.select_default,
             ["<C-y>"] = actions.select_default,
-            ["<C-q>"] = actions.close, -- close window
-            ["<C-c>"] = actions.delete_buffer, -- close buffer
+            ["<C-c>"] = actions.close, -- close window
+            -- ["<C-c>"] = actions.delete_buffer, -- close buffer
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
           },
         },
       },
@@ -43,22 +44,22 @@ return {
         },
       },
       pickers = {
-        -- find_files = {
-        -- 	theme = "dropdown",
-        -- 	show_line = false,
-        -- 	previewer = false,
-        -- 	disable_devicons = true,
-        -- },
+        find_files = {
+          -- theme = "dropdown", -- for some reason this is not working
+          show_line = true,
+          previewer = false,
+          disable_devicons = false,
+        },
         live_grep = {
           layout_config = {
             width = 0.90,
           },
-          theme = "dropdown",
+          -- theme = "dropdown",
           show_line = false,
           disable_devicons = true,
         },
         oldfiles = {
-          theme = "dropdown",
+          -- theme = "dropdown",
           previewer = false,
           disable_devicons = true,
         },
@@ -66,7 +67,7 @@ return {
           layout_config = {
             width = 0.90,
           },
-          theme = "dropdown",
+          -- theme = "dropdown",
           show_line = false,
           disable_devicons = true,
         },
@@ -74,7 +75,7 @@ return {
           layout_config = {
             width = 0.90,
           },
-          theme = "dropdown",
+          -- theme = "dropdown",
           show_line = false,
           disable_devicons = true,
         },
@@ -83,12 +84,13 @@ return {
 
     local builtin = require "telescope.builtin"
 
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Fuzzy find files in cwd" })
-    vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Fuzzy find git files" })
+    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files in cwd" })
+    vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find git files" })
     vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find string in cwd" })
     vim.keymap.set("n", "<leader>f<space>", builtin.oldfiles, { desc = "Find old files" })
     vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Find lsp references" })
     vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+    vim.keymap.set("n", "<leader>fh", "<cmd>Telescope highlights<cr>", { desc = "Find highlight group" })
     vim.keymap.set(
       "n",
       "<leader>cd",

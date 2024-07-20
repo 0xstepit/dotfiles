@@ -49,7 +49,7 @@ return {
             "filename",
             file_status = true,
             newfile_status = true,
-            path = 3,
+            path = 1,
             symbols = {
               modified = " ●", -- Text to show when the buffer is modified
               readonly = "", -- Text to show when the file is non-modifiable or readonly.

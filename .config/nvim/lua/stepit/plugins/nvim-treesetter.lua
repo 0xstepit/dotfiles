@@ -3,7 +3,10 @@ return {
   name = "Treesitter",
   build = ":TSUpdate",
   dependencies = {
-    { "nvim-treesitter/nvim-treesitter-textobjects" },
+    {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context",
+    },
   },
   config = function()
     local options = require "nvim-treesitter.configs"

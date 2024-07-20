@@ -18,37 +18,31 @@ local plugin_path = { import = "stepit.plugins" }
 
 -- Plugins that don't require any config.
 local additional_plugins = {
+  { "AlexvZyl/nordic.nvim" },
+  { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
   { "tpope/vim-surround" },
   { "mattn/emmet-vim" },
   { "numToStr/Comment.nvim", opts = {} },
-  { "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
   {
-	"folke/which-key.nvim",
-	name = "WhichKey",
-	event = "VimEnter",
-	opts = {
-		icons = {
-			breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-			separator = "→", -- symbol used between a key and it's label
-			group = "+", -- symbol prepended to a group
-		},
-		plugins = { spelling = true },
-		defaults = {
-			mode = { "n", "v" },
-			["<leader>a"] = { name = "+harpoon" },
-			["<leader>e"] = { name = "+netrw" },
-			["<leader>g"] = { name = "+git" },
-			["<leader>t"] = { name = "+trouble" },
-			["<leader>h"] = { name = "+gitsign" },
-			["<leader>f"] = { name = "[F]ind" },
-		},
-	},
-	config = function(_, opts)
-		local wk = require("which-key")
-		wk.setup(opts)
-		wk.register(opts.defaults)
-	end,
-}
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      keywords = {
+        FIX = {
+          icon = " ", -- icon used for the sign, and in search results
+          color = "error", -- can be a hex color, or a named color (see below)
+          alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+          -- signs = false, -- configure signs for some keywords individually
+        },
+        TODO = { icon = " ", color = "info" },
+        HACK = { icon = " ", color = "warning" },
+        WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+        TEST = { icon = " ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+      },
+    },
+  },
 }
 
 local spec = {

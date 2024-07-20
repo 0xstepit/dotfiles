@@ -22,6 +22,24 @@ return {
   end,
   config = function(_, opts)
     require("neodev").setup {}
+    local border = {
+      { "╭", "FloatBorder" },
+      { "─", "FloatBorder" },
+      { "╮", "FloatBorder" },
+      { "│", "FloatBorder" },
+      { "╯", "FloatBorder" },
+      { "─", "FloatBorder" },
+      { "╰", "FloatBorder" },
+      { "│", "FloatBorder" },
+    }
+
+    local handler = {
+      ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+      ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    }
+
+    -- TODO: floating window above the cursor
+    -- vim.lsp.util.make_floating_popup_options(relative="cursor")
 
     local signs = { Error = "✗ ", Warn = "▲ ", Hint = "! ", Info = "▶ " }
     for type, icon in pairs(signs) do
@@ -55,11 +73,17 @@ return {
       },
     }
     lspconfig.gopls.setup {
+      handlers = handler,
       cmd = { "gopls" },
       filetypes = { "go", "gomod", "gowork", "gotmpl" },
       -- capabilities = lsp_capabilities,
       settings = {
         gopls = {
+          ["ui.inlayhint.hints"] = {
+            compositeLiteralFields = true,
+            constantValues = true,
+            parameterNames = true,
+          },
           completeUnimported = true,
           usePlaceholders = true,
           analyses = {
@@ -149,6 +173,10 @@ return {
       run_on_start = true,
     }
 
+    -- vim.lsp.on_attach_callback = function(client, bufnr)
+    --   vim.lsp.inlay_hint(bufnr, true)
+    -- end
+
     -- Use LspAttach autocommand to only map the following keys
     -- after the language server attaches to the current buffer
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -169,10 +197,11 @@ return {
         opts.desc = "Go to implementation"
         vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts)
 
-        opts.desc = "Rename what under the cursor in the project"
-        vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+        opts.desc = "Rename variable"
+        vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts)
 
         opts.desc = "Open floating doc for type under the cursor"
+        -- calling this twice will move the cursor in the doc floating window.
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 
         opts.desc = "Open code actions"
@@ -191,7 +220,7 @@ return {
         vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
 
         opts.desc = "Diagnostic in float window"
-        vim.keymap.set("n", "<leader>di", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts)
       end,
     })
   end,
