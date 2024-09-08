@@ -4,16 +4,7 @@ local t = ls.text_node
 local c = ls.choice_node
 local i = ls.insert_node
 local f = ls.function_node
-local fmt = require("luasnip.extras.fmt").fmt
 
--- s({ trig = "frontmatter", desc = "Add frontmatter" }, { -- the trigger is frontmatter.
---   t { "---" },
---   t { "", "aliases: [" },
---   i(1),
---   t "]",
---   t { "", "---" },
--- }),
---
 ls.config.setup { store_selection_keys = "<Tab>" }
 
 local filename = function()
