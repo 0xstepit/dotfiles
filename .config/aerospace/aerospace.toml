@@ -103,7 +103,7 @@ alt-2 = 'workspace 2'
 alt-3 = 'workspace 3' # Terminal
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
-lt-d = 'workspace D' # Docker
+alt-d = 'workspace D' # Docker
 alt-m = 'workspace M' # Music
 alt-n = 'workspace N' # Notes
 alt-s = 'workspace S' # Social
@@ -176,4 +176,3 @@ run = ['move-node-to-workspace M']
 [[on-window-detected]]
 if.app-name-regex-substring = 'bitwarden'
 run = 'layout floating'
-
