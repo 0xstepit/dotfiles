@@ -13,6 +13,7 @@ return {
       diagnostics = {
         underline = true,
         severity_sort = true,
+        float = { border = "rounded" },
         virtual_text = {
           source = "if_many",
           prefix = "● ",
@@ -41,11 +42,12 @@ return {
     -- TODO: floating window above the cursor
     -- vim.lsp.util.make_floating_popup_options(relative="cursor")
 
-    local signs = { Error = "✗ ", Warn = "▲ ", Hint = "! ", Info = "▶ " }
+    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
+
     vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
     -- Here we configure Mason
