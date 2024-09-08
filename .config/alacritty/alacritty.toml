@@ -1,6 +1,6 @@
 live_config_reload = true
 
-import = ["~/.config/alacritty/themes/flow.toml"]
+import = ["~/.config/alacritty/themes/flow-eclipse.toml"]
 
 [env]
 TERM = "xterm-256color"

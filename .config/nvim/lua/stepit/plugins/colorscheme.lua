@@ -1,26 +1,19 @@
 return {
   "0xstepit/flow.nvim",
-  dev = true,
+  -- dev = true,
   lazy = false,
+  tag = "v1.0.0",
   priority = 1000,
   opts = {},
   config = function()
-    require("flow").setup_options {
+    require("flow").setup {
+      dark_theme = true,
       transparent = true,
+      high_contrast = false,
       fluo_color = "pink",
-      mode = "normal",
+      mode = "desaturate",
       aggressive_spell = false,
     }
     vim.cmd "colorscheme flow"
   end,
 }
-
--- return {
---   "AlexvZyl/nordic.nvim",
---   lazy = false,
---   priority = 1000,
---   opts = {},
---   config = function()
---     require("nordic").load()
---   end,
--- }
