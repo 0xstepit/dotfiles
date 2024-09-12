@@ -20,7 +20,7 @@ set("n", "<C-t>", "<C-W>+") -- taller
 set("n", "<C-s>", "<C-W>-") -- smaller
 
 -- Movement
-set("n", "<C-d>", "<C-d>zz", { desc = "Move half page  down with centered cursor" })
+set("n", "<C-d>", "<C-d>zz", { desc = "Move half page down with centered cursor" })
 set("n", "<C-u>", "<C-u>zz", { desc = "Move half page up with centered cursor" })
 
 set("n", "[q", ":cn<CR>", { desc = "Move to previous quickfix item" })
@@ -56,4 +56,59 @@ set("n", "+", "zc", { desc = "Close fold under cursor" })
 set("n", "<leader>-", "zR<CR>", { desc = "Open all folds" })
 set("n", "<leader>0", "za", { desc = "Toggle current fold" })
 
-vim.api.nvim_set_keymap("n", "<leader>nn", "<cmd>:ObsidianNew<CR>", { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap("n", "<leader>nn", "<cmd>:ObsidianNew<CR>", { silent = true, noremap = true })
+
+vim.keymap.set("n", "<leader>br", function()
+  vim.cmd "bufdo edit!"
+  print "All buffers reloaded"
+end, { desc = "Reload all buffers" })
+
+vim.keymap.set("n", "<leader>td", function()
+  -- Get the current line
+  local current_line = vim.fn.getline "."
+  -- Get the current line number
+  local line_number = vim.fn.line "."
+  if string.find(current_line, "TODO:") then
+    -- Replace the first occurrence of ":" with ";"
+    local new_line = current_line:gsub("TODO:", "TODO;")
+    -- Set the modified line
+    vim.fn.setline(line_number, new_line)
+  elseif string.find(current_line, "TODO;") then
+    -- Replace the first occurrence of ";" with ":"
+    local new_line = current_line:gsub("TODO;", "TODO:")
+    -- Set the modified line
+    vim.fn.setline(line_number, new_line)
+  else
+    vim.cmd "echo 'todo item not detected'"
+  end
+end, { desc = "Toggle item done or not" })
+
+vim.keymap.set("n", "<leader>nn", function()
+  local note_title = vim.fn.input "Note title: "
+  note_title = string.lower(note_title)
+  note_title = note_title:gsub("^%l", string.upper)
+  local note_title_md = note_title .. ".md"
+
+  local notes_dir = os.getenv "NOTES"
+  if notes_dir == "" then
+    print "Aborting because $NOTES env variable is empty"
+    return
+  end
+
+  local inbox_dir = notes_dir .. "/" .. "main/0-Inbox"
+  local note_path = inbox_dir .. "/" .. note_title_md
+
+  if vim.fn.filereadable(note_path) == 0 then
+    local file = io.open(note_path, "w")
+    if file then
+      file:write("# " .. note_title .. "\n\n") -- Optionally, add a heading
+      file:close()
+      local cmd = ":e " .. note_path
+      vim.cmd(cmd)
+    else
+      print("Failed to create file: " .. note_path)
+    end
+  else
+    print("Daily note already exists: " .. note_path)
+  end
+end, { desc = "[P]H1 heading and date" })

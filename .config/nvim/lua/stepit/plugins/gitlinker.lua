@@ -9,6 +9,6 @@ return {
 
     vim.keymap.set("n", "<leader>gy", function()
       gitlinker.get_buf_range_url()
-    end, { desc = "Get repository l nk" })
+    end, { desc = "Get repository link" })
   end,
 }

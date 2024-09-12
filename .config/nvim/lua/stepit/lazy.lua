@@ -18,8 +18,7 @@ local plugin_path = { import = "stepit.plugins" }
 
 -- Plugins that don't require any config.
 local additional_plugins = {
-  { "AlexvZyl/nordic.nvim" },
-  { "ellisonleao/gruvbox.nvim", priority = 1000, config = true, opts = ... },
+  { "ixru/nvim-markdown" },
   { "tpope/vim-surround" },
   { "mattn/emmet-vim" },
   { "numToStr/Comment.nvim", opts = {} },
@@ -40,6 +39,7 @@ local additional_plugins = {
         PERF = { icon = "● ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
         NOTE = { icon = "● ", color = "hint", alt = { "INFO" } },
         TEST = { icon = "● ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+        LEARN = { icon = "● ", color = "warning" },
       },
     },
   },

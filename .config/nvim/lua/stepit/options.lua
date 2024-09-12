@@ -70,6 +70,7 @@ opt.isfname:append "@-@"
 opt.mouse = "a" -- Enable mouse support
 opt.conceallevel = 0
 opt.inccommand = "split" -- create a split below with affected text during change
+opt.textwidth = 80
 opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
 opt.undofile = true

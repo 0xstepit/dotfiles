@@ -6,4 +6,10 @@ return {
   s("hello", {
     t 'print("Hello")',
   }),
+  s("todo", {
+    t "TODO: ",
+  }),
+  s("task", {
+    t "- [ ] ",
+  }),
 }

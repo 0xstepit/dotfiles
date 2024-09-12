@@ -1,8 +1,8 @@
 return {
   "0xstepit/flow.nvim",
-  -- dev = true,
+  dev = true,
   lazy = false,
-  tag = "v1.0.0",
+  -- tag = "v1.0.0",
   priority = 1000,
   opts = {},
   config = function()

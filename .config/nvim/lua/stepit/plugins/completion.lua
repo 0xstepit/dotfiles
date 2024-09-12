@@ -32,6 +32,7 @@ return {
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
     require("luasnip.loaders.from_vscode").lazy_load()
+    -- Load custom plugins in snippets folder
     require("luasnip.loaders.from_lua").load { paths = { "./snippets" } }
 
     -- https://github.com/mrcjkb/nvim/blob/master/nvim/plugin/completion.lua
