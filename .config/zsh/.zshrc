@@ -57,10 +57,10 @@ eval "$(starship init zsh)"
 # pipx configuration.
 eval "$(register-python-argcomplete pipx)"
 
- # Activate NIX.
- if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
- fi
+ # # Activate NIX.
+ # if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+ #    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+ # fi
 
 # fzf configuration.
 eval "$(fzf --zsh)"
