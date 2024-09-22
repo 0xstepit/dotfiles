@@ -85,7 +85,7 @@ end, { desc = "Toggle item done or not" })
 
 vim.keymap.set("n", "<leader>nn", function()
   local note_title = vim.fn.input "Note title: "
-  note_title = string.lower(note_title)
+  -- note_title = string.lower(note_title)
   note_title = note_title:gsub("^%l", string.upper)
   local note_title_md = note_title .. ".md"
 
@@ -101,7 +101,21 @@ vim.keymap.set("n", "<leader>nn", function()
   if vim.fn.filereadable(note_path) == 0 then
     local file = io.open(note_path, "w")
     if file then
-      file:write("# " .. note_title .. "\n\n") -- Optionally, add a heading
+      -- Add the frontmatter
+      file:write "---\n"
+      file:write("author: " .. "Stefano Francesco Pitton\n")
+      file:write("title: " .. note_title .. "\n")
+      local slug_note_title = note_title:lower():gsub("%s+", "-")
+      file:write("slug: " .. slug_note_title .. "\n")
+      file:write "tags: []\n"
+      file:write "related: []\n"
+      local date = os.date "%Y-%m-%d"
+      file:write("created: " .. date .. "\n")
+      file:write("modified: " .. date .. "\n")
+      file:write "to-publish: false\n"
+      file:write "---\n\n"
+      -- Add header
+      file:write("# " .. note_title .. "\n\n")
       file:close()
       local cmd = ":e " .. note_path
       vim.cmd(cmd)

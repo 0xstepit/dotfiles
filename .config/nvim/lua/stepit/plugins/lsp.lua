@@ -115,6 +115,11 @@ return {
       single_file_support = true,
     }
 
+    -- lspconfig.solidity_ls.setup {
+    --   filetypes = { "solidity" },
+    --   root_dir = lspconfig.util.root_pattern("hardhat.config.*", ".git"),
+    -- }
+
     -- Requires better config:
     lspconfig.bufls.setup {}
     lspconfig.pyright.setup {}
@@ -147,7 +152,7 @@ return {
       "golangci_lint_ls",
       "rust_analyzer",
       "marksman",
-      "solidity",
+      "solidity_ls",
       "bufls",
       "tsserver",
       "html",
