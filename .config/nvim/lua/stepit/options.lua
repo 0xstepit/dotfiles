@@ -61,7 +61,7 @@ opt.foldtext = "v:lua.FoldStyle()"
 opt.foldmethod = "expr"
 opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
-opt.foldnestmax = 3
+opt.foldnestmax = 5
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 
