@@ -40,6 +40,14 @@ if.app-name-regex-substring = 'calendar'
 run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
+if.app-name-regex-substring = 'docker'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
 if.app-id = 'org.alacritty'
 run = ['move-node-to-workspace 3']
 
@@ -48,28 +56,25 @@ if.app-name-regex-substring = 'kitty'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
-if.app-name-regex-substring = 'docker'
-run = ['move-node-to-workspace D']
-
-[[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['move-node-to-workspace S']
+run = ['move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'telegram'
-run = ['move-node-to-workspace S']
+run = ['move-node-to-workspace 4']
 
-[[on-window-detected]]
-if.app-id = 'com.spotify.client'
-run = ['move-node-to-workspace M']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'notion'
-run = ['move-node-to-workspace N']
+run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'linear'
+run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'obsidian'
-run = ['move-node-to-workspace N']
+run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'bitwarden'
@@ -100,10 +105,10 @@ alt-2 = 'workspace 2'
 alt-3 = 'workspace 3' # Terminal
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
-alt-d = 'workspace D' # Docker
-alt-m = 'workspace M' # Music
-alt-n = 'workspace N' # Notes
-alt-s = 'workspace S' # Social
+# alt-d = 'workspace D' # Docker
+# alt-m = 'workspace M' # Music
+# alt-n = 'workspace N' # Notes
+# alt-s = 'workspace S' # Social
 
 # Move app to workspace.
 alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
@@ -111,10 +116,10 @@ alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
 alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
 alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
 alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
-alt-shift-d = ['move-node-to-workspace D', 'workspace d']
-alt-shift-m = ['move-node-to-workspace M', 'workspace m']
-alt-shift-n = ['move-node-to-workspace N', 'workspace n']
-alt-shift-s = ['move-node-to-workspace S', 'workspace s']
+# alt-shift-d = ['move-node-to-workspace D', 'workspace d']
+# alt-shift-m = ['move-node-to-workspace M', 'workspace m']
+# alt-shift-n = ['move-node-to-workspace N', 'workspace n']
+# alt-shift-s = ['move-node-to-workspace S', 'workspace s']
 
 alt-tab = 'workspace-back-and-forth'
 
