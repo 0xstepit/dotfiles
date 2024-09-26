@@ -34,6 +34,7 @@ alias treen='treeN() { exa --tree --level=$1}; treeN'
 # cd aliases.
 alias cdr='cd "$REPOS"'
 alias cdv='cd "$DOTFILES"/.config/nvim'
+alias cdd='cd "$DOTFILES"'
 alias cdn='cd "$NOTES/main"'
 alias cdw='cd "$WORK"'
 alias cdb='cd "$BLOCKCHAIN"'
