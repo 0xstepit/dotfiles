@@ -19,6 +19,7 @@ local plugin_path = { import = "stepit.plugins" }
 -- Plugins that don't require any config.
 local additional_plugins = {
   { "ixru/nvim-markdown" },
+  { "google/vim-jsonnet" },
   { "tpope/vim-surround" },
   { "mattn/emmet-vim" },
   { "numToStr/Comment.nvim", opts = {} },
