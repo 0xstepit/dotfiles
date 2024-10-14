@@ -62,7 +62,6 @@ return {
       },
     }
     local lspconfig = require "lspconfig"
-    -- local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     lspconfig.lua_ls.setup {
       -- capabilities = lsp_capabilities,
@@ -119,10 +118,47 @@ return {
     --   filetypes = { "solidity" },
     --   root_dir = lspconfig.util.root_pattern("hardhat.config.*", ".git"),
     -- }
+    lspconfig.jsonnet_ls.setup {
+      settings = {
+        ext_vars = {
+          foo = "bar",
+        },
+        formatting = {
+          -- default values
+          Indent = 2,
+          MaxBlankLines = 2,
+          StringStyle = "single",
+          CommentStyle = "slash",
+          PrettyFieldNames = true,
+          PadArrays = false,
+          PadObjects = true,
+          SortImports = true,
+          UseImplicitPlus = true,
+          StripEverything = false,
+          StripComments = false,
+          StripAllButComments = false,
+        },
+      },
+    }
 
+    local function get_python_path()
+      local venv_path = vim.fn.trim(vim.fn.system "poetry env info -p")
+      return venv_path .. "/bin/python"
+    end
     -- Requires better config:
     lspconfig.bufls.setup {}
-    lspconfig.pyright.setup {}
+    lspconfig.pyright.setup {
+      settings = {
+        python = {
+          analysis = {
+            autoSearchPaths = true,
+            diagnosticMode = "openFilesOnly",
+            useLibraryCodeForTypes = true,
+          },
+          pythonPath = get_python_path(),
+        },
+      },
+    }
     lspconfig.tsserver.setup {
       -- capabilities = lsp_capabilities,
       filetypes = {
