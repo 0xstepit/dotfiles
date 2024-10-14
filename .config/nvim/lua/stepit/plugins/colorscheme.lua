@@ -1,6 +1,6 @@
 return {
   "0xstepit/flow.nvim",
-  -- dev = false,
+  dev = true,
   lazy = false,
   tag = "v1.0.0",
   priority = 1000,
@@ -21,7 +21,7 @@ return {
       transparent = transparent,
       high_contrast = false,
       fluo_color = "pink",
-      mode = "desaturate",
+      mode = "bright",
       aggressive_spell = false,
     }
     vim.cmd "colorscheme flow"
