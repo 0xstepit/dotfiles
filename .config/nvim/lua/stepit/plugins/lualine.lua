@@ -19,7 +19,7 @@ return {
     end
     require("lualine").setup {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
         theme = "auto",
         -- No separators.
         component_separators = "│",
