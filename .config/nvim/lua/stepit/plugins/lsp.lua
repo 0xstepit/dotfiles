@@ -34,10 +34,13 @@ return {
       { "│", "FloatBorder" },
     }
 
-    local handler = {
-      ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-      ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-    }
+    -- For borders
+    local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+    function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+      opts = opts or {}
+      opts.border = opts.border or border
+      return orig_util_open_floating_preview(contents, syntax, opts, ...)
+    end
 
     -- TODO: floating window above the cursor
     -- vim.lsp.util.make_floating_popup_options(relative="cursor")
@@ -74,7 +77,6 @@ return {
       },
     }
     lspconfig.gopls.setup {
-      handlers = handler,
       cmd = { "gopls" },
       filetypes = { "go", "gomod", "gowork", "gotmpl" },
       -- capabilities = lsp_capabilities,
@@ -264,6 +266,9 @@ return {
 
         opts.desc = "Diagnostic in float window"
         vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, opts)
+
+        opts.desc = "Open diagnostic [Q]uickfix list"
+        vim.keymap.set("n", "<leader>cq", vim.diagnostic.setloclist, opts)
       end,
     })
   end,
