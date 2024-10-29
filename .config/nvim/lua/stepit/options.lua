@@ -10,9 +10,9 @@ opt.completeopt = "menu,menuone,preview,noinsert,noselect" -- Autocomplete optio
 -- Visual
 opt.termguicolors = true -- enables 24-bit RGB
 opt.cursorline = true -- display current line with different color
-opt.signcolumn = "yes" -- display column on left or line number
+opt.signcolumn = "yes" -- display column on left of line number
 opt.showmatch = true -- highlight matching parenthesis
--- opt.colorcolumn = "120"
+opt.colorcolumn = "100"
 
 -- Line numbers
 opt.number = true -- show line number
@@ -35,7 +35,7 @@ opt.shiftwidth = 4 -- blanks inserted in automatic indentation. 0 fall back to t
 opt.smartindent = true -- autoindent new lines
 
 -- Scrolling
-opt.scrolloff = 10 -- never less than 10 lines at bottom and top when scrolling
+opt.scrolloff = 15 -- never less than 10 lines at bottom and top when scrolling
 opt.sidescrolloff = 5 -- never less than 5 characters when scrolling horizontally
 
 -- Spelling check
@@ -45,34 +45,32 @@ opt.spell = true
 opt.list = true
 opt.listchars = { space = " ", trail = "·", tab = "│ " }
 
--- Allow the cursor to move where no character is present in visual block mode.
-opt.virtualedit = "block"
+opt.virtualedit = "block" -- allow the cursor to move where no character is present in visual block mode.
 
 -- Folding
 function FoldStyle()
   local line = vim.fn.getline(vim.v.foldstart)
-  return "> " .. line .. "..."
+  return " " .. line .. "..."
 end
 
 opt.foldcolumn = "0"
 opt.foldenable = true
--- opt.foldmethod = "indent"
+opt.foldmethod = "indent"
 opt.foldtext = "v:lua.FoldStyle()"
-opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
-opt.foldnestmax = 5
+opt.foldnestmax = 3
 opt.foldlevel = 99
 opt.foldlevelstart = 99
+-- opt.foldmethod = "expr"
+-- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
 
 -- Misc
 opt.isfname:append "@-@"
-opt.mouse = "a" -- Enable mouse support
+opt.mouse = "a" -- enable mouse support
 opt.conceallevel = 0
-opt.inccommand = "split" -- create a split below with affected text during change
+opt.inccommand = "split" -- create a bottom split with affected text during change
 opt.textwidth = 80
 opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
-opt.undofile = true
 opt.updatetime = 250
 opt.timeoutlen = 300

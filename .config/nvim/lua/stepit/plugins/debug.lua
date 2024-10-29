@@ -66,6 +66,5 @@ return {
       dap.set_breakpoint(vim.fn.input "Breakpoint condition: ")
     end, { desc = "Debug: Set Breakpoint" })
     vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", { desc = "Debug: Inspect state via REPL" })
-    vim.keymap.set("n", "<leader>ds", dapui.toggle, { desc = "Debug: See last session result" })
   end,
 }

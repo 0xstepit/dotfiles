@@ -4,25 +4,20 @@ local set = vim.keymap.set
 set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
 set("n", "<leader>w", ":w<CR>", { desc = "Save current file" })
 set("n", "<leader>ee", ":Ex<CR>", { desc = "Toggle Netrw" })
-
--- Diagnostic
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+set("n", "<leader>\\", ":nohl<CR>", { desc = "Exit from search" })
 
 -- Windows management
 set("n", "<leader><c-v>", "<C-w>v", { desc = "Split window horizontally" })
 set("n", "<leader><c-h>", "<C-w>s", { desc = "Split window vertically" })
 set("n", "<leader>=", "<C-w>=", { desc = "Set split windows to equal size" })
 set("n", "<C-b>", "<c-w>5>") -- bigger
+set("n", "<C-c>", "<c-w>5<") -- compact
 set("n", "<C-t>", "<C-W>+") -- taller
 set("n", "<C-s>", "<C-W>-") -- smaller
 
 -- Movement
 set("n", "<C-d>", "<C-d>zz", { desc = "Move half page down with centered cursor" })
 set("n", "<C-u>", "<C-u>zz", { desc = "Move half page up with centered cursor" })
-
 set("n", "[q", ":cn<CR>", { desc = "Move to previous quickfix item" })
 set("n", "]q", ":cp<CR>", { desc = "Move to next quickfix item" })
 
@@ -30,7 +25,6 @@ set("n", "]q", ":cp<CR>", { desc = "Move to next quickfix item" })
 set("n", "n", "nzzzv", { desc = "Search with centered result" })
 set("n", "N", "Nzzzv", { desc = "Search backwards with centered result" })
 set("n", "<CR>", function()
-  ---@diagnostic disable-next-line: undefined-field
   if vim.v.hlsearch == 1 then
     vim.cmd.nohl()
     return ""
@@ -46,23 +40,17 @@ set("v", "<", "<gv", { desc = "Unindent multiple lines with hold" })
 -- Text movement
 set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move multiple lines down" })
 set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move multiple lines up" })
-set("n", "J", "mzJ`z", { desc = "Join with next line wihtout chaingin cursor position" })
+set("n", "J", "mzJ`z", { desc = "Join with next line wihtout changing cursor position" })
 
 -- Copy
 set("x", "p", "P", { desc = "Paste without changing clipboard" })
-
--- Folding
-set("n", "+", "zc", { desc = "Close fold under cursor" })
-set("n", "<leader>-", "zR<CR>", { desc = "Open all folds" })
-set("n", "<leader>0", "za", { desc = "Toggle current fold" })
-
--- vim.api.nvim_set_keymap("n", "<leader>nn", "<cmd>:ObsidianNew<CR>", { silent = true, noremap = true })
 
 vim.keymap.set("n", "<leader>br", function()
   vim.cmd "bufdo edit!"
   print "All buffers reloaded"
 end, { desc = "Reload all buffers" })
 
+-- TODO: change this with boxes
 vim.keymap.set("n", "<leader>td", function()
   -- Get the current line
   local current_line = vim.fn.getline "."
@@ -82,6 +70,69 @@ vim.keymap.set("n", "<leader>td", function()
     vim.cmd "echo 'todo item not detected'"
   end
 end, { desc = "Toggle item done or not" })
+
+vim.keymap.set("n", "<leader>mr", function()
+  local file_path = vim.fn.fnamemodify(vim.fn.expand "%", ":p")
+  local file_name = vim.fn.fnamemodify(vim.fn.expand "%", ":t")
+  if vim.fn.fnamemodify(vim.fn.expand "%", ":e") ~= "md" then
+    print "Aborting because current file is not a note"
+  end
+
+  local notes_dir = os.getenv "NOTES"
+  if notes_dir == "" then
+    print "Aborting because $NOTES env variable is empty"
+    return
+  end
+
+  local resources_dir = notes_dir .. "/" .. "main/2-Resources"
+  local note_path = resources_dir .. "/" .. file_name
+  local success = vim.fn.rename(file_path, note_path)
+  if success ~= 0 then
+    vim.notify "Error while renaming current file name"
+  end
+  local cmd = ":e " .. note_path
+  vim.cmd(cmd)
+end, { desc = "Move the current file to the 2-Resources folder" })
+
+local function move_note_command(destination)
+  local file_path = vim.fn.fnamemodify(vim.fn.expand "%", ":p")
+  local file_name = vim.fn.fnamemodify(vim.fn.expand "%", ":t")
+  if vim.fn.fnamemodify(vim.fn.expand "%", ":e") ~= "md" then
+    print "Aborting because current file is not a note"
+    return { error = true, cmd = "" }
+  end
+
+  local notes_dir = os.getenv "NOTES"
+  if notes_dir == "" then
+    print "Aborting because $NOTES env variable is empty"
+    return { error = true, cmd = "" }
+  end
+
+  local destination_dir = notes_dir .. "/" .. "main/" .. destination
+  local note_path = destination .. "/" .. file_name
+  local success = vim.fn.rename(file_path, note_path)
+  if success ~= 0 then
+    vim.notify "Error while renaming current file name"
+    return { error = true, cmd = "" }
+  end
+  local cmd = ":e " .. note_path
+  return { error = false, cmd = cmd }
+end
+
+vim.keymap.set("n", "<leader>mr", function()
+  local out = move_note_command "2-Resources"
+  if out.err ~= true then
+    vim.cmd(out.cmd)
+  end
+end, { desc = "Move the current file to the 2-Resources folder" })
+
+-- TODO: allow selection of multiple files
+vim.keymap.set("n", "<leader>mi", function()
+  local out = move_note_command "0-Inbox"
+  if out.err ~= true then
+    vim.cmd(out.cmd)
+  end
+end, { desc = "Move the current file to the 0-Inbox folder" })
 
 vim.keymap.set("n", "<leader>nn", function()
   local note_title = vim.fn.input "Note title: "

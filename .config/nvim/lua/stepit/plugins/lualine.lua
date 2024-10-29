@@ -25,7 +25,7 @@ return {
         component_separators = "│",
         section_separators = "",
         -- -- Lualine bar only under focused pane.
-        globalstatus = false,
+        globalstatus = true,
         refresh = {
           statusline = 1000,
           tabline = 1000,
@@ -42,7 +42,10 @@ return {
             end,
           },
         },
-        lualine_b = { "branch" },
+        lualine_b = {
+          { "branch", icon = "" },
+          { "diff", symbols = { added = "", modified = "", removed = "" } },
+        },
         -- lualine_c = { "diagnostics" },
         lualine_c = {
           {
@@ -58,7 +61,11 @@ return {
             },
           },
         },
-        lualine_x = { "encoding", "progress", "diagnostics" },
+        lualine_x = {
+          "encoding",
+          "progress",
+          { "diagnostics", symbols = { error = "", warn = "", info = "", hint = "" } },
+        },
         lualine_y = { "filesize", "searchcount" },
         lualine_z = { clients_lsp },
       },

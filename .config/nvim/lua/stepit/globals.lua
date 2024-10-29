@@ -1,9 +1,8 @@
 local g = vim.g
 
--- space as leader
-g.mapleader = " "
+g.mapleader = " " -- space as leader
 
--- Nettw configuration
+-- Netrw
 g.netrw_liststyle = 4
 g.netrw_browse_split = 0
 g.netrw_localcopydircmd = "cp -r"
@@ -13,5 +12,6 @@ g.netrw_bufsettings = "noma nomod nu nowrap ro nobl"
 g.blamer_enabled = true
 g.blamer_show_in_visual_modes = false
 
+-- Icons
 g.icons_enabled = true
-vim.g.have_nerd_font = true
+g.have_nerd_font = true

@@ -7,16 +7,30 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   opts = {
     signs = {
-      add = { text = "│" },
-      change = { text = "│" },
-      delete = { text = "│" },
+      add = { text = "┃" },
+      change = { text = "┃" },
+      delete = { text = "┃" },
       topdelete = { text = "‾" },
-      changedelete = { text = "│" },
+      changedelete = { text = "┃" },
       untracked = { text = "┆" },
     },
-    -- commit info on the right of a line
+    signs_staged = {
+      add = { text = "▐" },
+      change = { text = "▐" },
+      delete = { text = "_" },
+      topdelete = { text = "‾" },
+      changedelete = { text = "~" },
+      untracked = { text = "┆" },
+    }, -- commit info on the right of a line
     current_line_blame = true,
-    current_line_blame_formatter = " <author>, <author_time:%d-%m-%Y> ● <summary>",
+    preview_config = {
+      border = "rounded",
+      style = "minimal",
+      relative = "cursor",
+      row = 0,
+      col = 1,
+    },
+    current_line_blame_formatter = " <author>, <author_time:%d-%m-%Y> ● <summary>",
 
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
@@ -57,12 +71,15 @@ return {
       vim.keymap.set("n", "<leader>gdm", ":Gitsign diffthis main<CR>", opts)
 
       opts.desc = "Diff this ~"
-      vim.keymap.set("n", "<leader>gd", function()
+      vim.keymap.set("n", "<leader>gdt", function()
         gs.diffthis "~"
       end, opts)
 
       opts.desc = "Select hunk"
       vim.keymap.set({ "o", "x" }, "gsh", ":<C-U>Gitsigns select_hunk<CR>", opts)
+
+      opts.desc = "Highlight line"
+      vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", opts)
     end,
   },
 }

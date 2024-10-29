@@ -143,10 +143,11 @@ return {
       },
     }
 
-    local function get_python_path()
-      local venv_path = vim.fn.trim(vim.fn.system "poetry env info -p")
-      return venv_path .. "/bin/python"
-    end
+    -- local function get_python_path()
+    --   -- local venv_path = vim.fn.trim(vim.fn.system "poetry env info -p")
+    --   -- return venv_path .. "/bin/python"
+    --   return "/Users/stepit/Repositories/Blockchain/Mantra/mantra-py/venv/bin/python3"
+    -- end
     -- Requires better config:
     lspconfig.bufls.setup {}
     lspconfig.pyright.setup {
@@ -157,7 +158,7 @@ return {
             diagnosticMode = "openFilesOnly",
             useLibraryCodeForTypes = true,
           },
-          pythonPath = get_python_path(),
+          -- pythonPath = get_python_path(),
         },
       },
     }

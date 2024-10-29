@@ -62,12 +62,14 @@ return {
           -- theme = "dropdown",
           previewer = false,
           disable_devicons = true,
+          only_cwd = true, -- restrict displayed files to current dir
         },
         lsp_references = {
           layout_config = {
             width = 0.90,
           },
           -- theme = "dropdown",
+          preview = true,
           show_line = false,
           disable_devicons = true,
         },
@@ -87,7 +89,8 @@ return {
     vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files in cwd" })
     vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find git files" })
     vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find string in cwd" })
-    vim.keymap.set("n", "<leader>f<space>", builtin.oldfiles, { desc = "Find old files" })
+    vim.keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
+    vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Find old files" })
     vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Find lsp references" })
     vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
     vim.keymap.set("n", "<leader>fh", "<cmd>Telescope highlights<cr>", { desc = "Find highlight group" })
