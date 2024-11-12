@@ -20,6 +20,8 @@ set("n", "<C-d>", "<C-d>zz", { desc = "Move half page down with centered cursor"
 set("n", "<C-u>", "<C-u>zz", { desc = "Move half page up with centered cursor" })
 set("n", "[q", ":cn<CR>", { desc = "Move to previous quickfix item" })
 set("n", "]q", ":cp<CR>", { desc = "Move to next quickfix item" })
+set("c", "<C-j>", "<Down>", { desc = "Move down in command mode" })
+set("c", "<C-k>", "<Up>", { desc = "Move up in command mode" })
 
 -- Search
 set("n", "n", "nzzzv", { desc = "Search with centered result" })
