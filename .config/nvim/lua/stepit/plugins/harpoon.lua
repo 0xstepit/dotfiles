@@ -11,16 +11,16 @@ return {
     local ui = require "harpoon.ui"
 
     -- Harp
-    vim.keymap.set("n", "<leader>aa", mark.add_file, { desc = "Harpoon file" })
-    vim.keymap.set("n", "<leader>am", ui.toggle_quick_menu, { desc = "Show harpooned files" })
+    vim.keymap.set("n", "<leader>ha", mark.add_file, { desc = "Harpoon file" })
+    vim.keymap.set("n", "<leader>hm", ui.toggle_quick_menu, { desc = "Show harpooned files" })
 
     -- Movements
-    vim.keymap.set("n", "<leader>an", ui.nav_next, { desc = "Go to next harpoooned mark" })
-    vim.keymap.set("n", "<leader>ap", ui.nav_prev, { desc = "Go to previous harpooned mark" })
+    vim.keymap.set("n", "<leader>hn", ui.nav_next, { desc = "Go to next harpoooned mark" })
+    vim.keymap.set("n", "<leader>hp", ui.nav_prev, { desc = "Go to previous harpooned mark" })
 
     local function create_harpoon_nav_mappings(number_of_mappings)
       for i = 1, number_of_mappings do
-        vim.keymap.set("n", "<leader>a" .. i, function()
+        vim.keymap.set("n", "<leader>h" .. i, function()
           ui.nav_file(i)
         end, { desc = "Go to harpooned mark " .. i })
       end

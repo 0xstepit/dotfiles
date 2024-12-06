@@ -3,7 +3,7 @@ return {
   name = "WhichKey",
   event = "VimEnter",
   opts = {
-    delay = 500,
+    delay = 2000,
     icons = {
       breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
       separator = "→", -- symbol used between a key and it's label
@@ -21,9 +21,19 @@ return {
       { "<leader>g", group = "[G]it" },
       { "<leader>n", group = "[N]ote" },
       { "<leader>t", group = "[T]rouble" },
+      { "<leader>l", group = "[L]LM" },
     },
     win = {
       border = "rounded",
+    },
+  },
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show { global = false }
+      end,
+      desc = "Buffer Local Keymaps (which-key)",
     },
   },
   config = function(_, opts)

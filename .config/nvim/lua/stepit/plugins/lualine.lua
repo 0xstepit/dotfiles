@@ -68,6 +68,7 @@ return {
         },
         lualine_y = { "filesize", "searchcount" },
         lualine_z = { clients_lsp },
+        -- lualine_z = { { clients_lsp, separator = { right = "" }, left_padding = 5 } },
       },
       -- Displayed at the top.
       tabline = {},

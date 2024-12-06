@@ -2,7 +2,7 @@ return {
   "0xstepit/flow.nvim",
   dev = true,
   lazy = false,
-  tag = "v1.0.0",
+  -- tag = "v1.0.0",
   priority = 1000,
   opts = {},
   config = function()
@@ -17,11 +17,12 @@ return {
     end
 
     require("flow").setup {
+      -- TODO: update to just "theme" and accept a string.
       dark_theme = dark_theme,
       transparent = transparent,
-      high_contrast = false,
+      high_contrast = true,
       fluo_color = "pink",
-      mode = "bright",
+      mode = "base",
       aggressive_spell = false,
     }
     vim.cmd "colorscheme flow"

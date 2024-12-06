@@ -22,7 +22,7 @@ return {
       changedelete = { text = "~" },
       untracked = { text = "┆" },
     }, -- commit info on the right of a line
-    current_line_blame = true,
+    current_line_blame = false,
     preview_config = {
       border = "rounded",
       style = "minimal",

@@ -13,7 +13,7 @@ end
 
 local slugify = function()
   local title = vim.fn.fnamemodify(vim.fn.expand "%", ":t:r")
-  return title:lower():gsub("%s+", "-")
+  return title:lower():gsub("[%p%c]+", ""):gsub("%s+", "-")
 end
 
 local current_date = function()

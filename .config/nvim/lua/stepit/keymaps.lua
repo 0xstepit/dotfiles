@@ -73,29 +73,6 @@ vim.keymap.set("n", "<leader>td", function()
   end
 end, { desc = "Toggle item done or not" })
 
-vim.keymap.set("n", "<leader>mr", function()
-  local file_path = vim.fn.fnamemodify(vim.fn.expand "%", ":p")
-  local file_name = vim.fn.fnamemodify(vim.fn.expand "%", ":t")
-  if vim.fn.fnamemodify(vim.fn.expand "%", ":e") ~= "md" then
-    print "Aborting because current file is not a note"
-  end
-
-  local notes_dir = os.getenv "NOTES"
-  if notes_dir == "" then
-    print "Aborting because $NOTES env variable is empty"
-    return
-  end
-
-  local resources_dir = notes_dir .. "/" .. "main/2-Resources"
-  local note_path = resources_dir .. "/" .. file_name
-  local success = vim.fn.rename(file_path, note_path)
-  if success ~= 0 then
-    vim.notify "Error while renaming current file name"
-  end
-  local cmd = ":e " .. note_path
-  vim.cmd(cmd)
-end, { desc = "Move the current file to the 2-Resources folder" })
-
 local function move_note_command(destination)
   local file_path = vim.fn.fnamemodify(vim.fn.expand "%", ":p")
   local file_name = vim.fn.fnamemodify(vim.fn.expand "%", ":t")
@@ -179,3 +156,6 @@ vim.keymap.set("n", "<leader>nn", function()
     print("Daily note already exists: " .. note_path)
   end
 end, { desc = "[P]H1 heading and date" })
+
+vim.g.copilot_no_tab_map = true
+vim.api.nvim_set_keymap("i", "<C-g>", 'copilot#Accept("<CR>")', { silent = true, expr = true })

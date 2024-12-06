@@ -31,6 +31,7 @@
         brews = [ "gh" "cowsay" ];
         casks = [
           "google-chrome"
+          "orbastack"
 
         ];
       };

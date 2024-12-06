@@ -20,19 +20,19 @@ palette = 'new'
 disabled = true
 
 [palettes.new]
-purple = '#A875F0'
+purple = '#ac8cd9'
 base = '#75BDF0'
 
 [username]
-style_user = "purple bold"
-style_root = "red bold"
+style_user = "blue"
+style_root = "red"
 format = "[$user]($style) in "
 disabled = false
 show_always = true
 
 [directory]
 truncate_to_repo = true
-style = "blue"
+style = "purple"
 
 [git_branch]
 symbol = ""

@@ -9,10 +9,10 @@ opt.completeopt = "menu,menuone,preview,noinsert,noselect" -- Autocomplete optio
 
 -- Visual
 opt.termguicolors = true -- enables 24-bit RGB
-opt.cursorline = true -- display current line with different color
+opt.cursorline = false -- display current line with different color
 opt.signcolumn = "yes" -- display column on left of line number
 opt.showmatch = true -- highlight matching parenthesis
-opt.colorcolumn = "100"
+opt.colorcolumn = "50"
 
 -- Line numbers
 opt.number = true -- show line number
@@ -65,7 +65,7 @@ opt.foldlevelstart = 99
 -- opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
 
 -- Misc
-opt.isfname:append "@-@"
+opt.isfname:append("@-@")
 opt.mouse = "a" -- enable mouse support
 opt.conceallevel = 0
 opt.inccommand = "split" -- create a bottom split with affected text during change
@@ -74,3 +74,6 @@ opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
 opt.updatetime = 250
 opt.timeoutlen = 300
+
+-- Avante
+vim.opt.laststatus = 3
