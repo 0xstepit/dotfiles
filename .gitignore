@@ -8,6 +8,7 @@
 **/tmux/plugins/*
 **/zsh-syntax-highlighting/*
 **/nvim-old/*
+**/github-copilot/*
 **/qBittorrent/*
 
 # Zsh stuff

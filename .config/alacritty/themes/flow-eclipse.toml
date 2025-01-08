@@ -3,29 +3,29 @@
 
 # Black and white
 [colors.primary]
-background = '#1b2228'
-foreground = '#b3c1cc'
+background = '#1f282e'
+foreground = '#d1dbe0'
 
 # Normal colors
 [colors.normal]
 black = '#0d0d0d'
-red = '#f0757f'
-green = '#80f075'
-yellow = '#f0e675'
-blue = '#75bdf0'
-magenta = '#a875f0'
-cyan = '#75f0e6'
+red = '#db7079'
+green = '#79db70'
+yellow = '#dbdb70'
+blue = '#70afdb'
+magenta = '#a670db'
+cyan = '#70dbc1'
 white = '#f2f2f2'
 
 # Bright colors
 [colors.bright]
 black = '#0d0d0d'
-red = '#f0757f'
-green = '#80f075'
-yellow = '#f0e675'
-blue = '#75bdf0'
-magenta = '#a875f0'
-cyan = '#75f0e6'
+red = '#db7079'
+green = '#79db70'
+yellow = '#dbdb70'
+blue = '#70afdb'
+magenta = '#a670db'
+cyan = '#70dbc1'
 white = '#f2f2f2'
 
 # Search colors
@@ -60,10 +60,9 @@ background = '#0d0d0d'
 # Purple color
 [[colors.indexed_colors]]
 index = 93
-color = '#a875f0'
+color = '#a670db'
 
 # Fluo Colors
 [[colors.indexed_colors]]
 index = 198
 color = '#ff007b'
-
