@@ -25,6 +25,7 @@ alias gpf!='gp --set-upstream fork $(git symbklic-ref --short HEAD)'
 alias gdn='git diff --name-only'
 alias gdc='git_diff_count'
 alias grs='git reset --soft HEAD~1'
+alias gfom='git fetch origin main:main'
 
 # Utils aliases.
 alias l='exa --long'
