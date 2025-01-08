@@ -7,5 +7,5 @@ local function desc(description)
 end
 
 vim.keymap.set('n', '<space>gc', function()
-	vim.cmd.RustLsp('openCargo')
+  vim.cmd.RustLsp('openCargo')
 end, desc("Open Cargo file of current package."))

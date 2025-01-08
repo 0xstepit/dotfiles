@@ -1,7 +1,20 @@
 return {
   "folke/trouble.nvim",
   name = "Trouble",
-  opts = {}, -- for default options, refer to the configuration section for custom setup.
+  opts = {
+    icons = {
+      indent = {
+        top = "│ ",
+        middle = "├╴",
+        last = "└╴",
+        fold_open = " ",
+        fold_closed = " ",
+        ws = "  ",
+      },
+      folder_closed = "● ",
+      folder_open = "o ",
+    },
+  }, -- for default options, refer to the configuration section for custom setup.
   cmd = "Trouble",
   keys = {
     {
@@ -30,20 +43,7 @@ return {
       desc = "Quickfix list",
     },
   },
-  config = function()
-    require("trouble").setup {
-      icons = {
-        indent = {
-          top = "│ ",
-          middle = "├╴",
-          last = "└╴",
-          fold_open = " ",
-          fold_closed = " ",
-          ws = "  ",
-        },
-        folder_closed = "● ",
-        folder_open = "o ",
-      },
-    }
+  config = function(_, opts)
+    require("trouble").setup(opts)
   end,
 }

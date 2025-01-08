@@ -1,28 +1,23 @@
--- Description: visualize git signs for the current file and allows you to easily
--- use git from nvim.
--- Def: a hunk is a single block of changes.
+local icons = require("stepit.icons")
+
+local signs = {
+  add = { text = icons.line.vertical.single },
+  change = { text = icons.line.vertical.single },
+  delete = { text = icons.line.vertical.single },
+  topdelete = { text = icons.line.horizontal.top },
+  changedelete = { text = icons.line.vertical.single },
+  untracked = { text = icons.line.vertical.dash },
+}
+
+local blame_format = icons.species.person .. " <author>, <author_time:%d-%m-%Y> " .. icons.git.commit .. " <summary>"
+
 return {
   "lewis6991/gitsigns.nvim",
   name = "Gitsigns",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
-    signs = {
-      add = { text = "┃" },
-      change = { text = "┃" },
-      delete = { text = "┃" },
-      topdelete = { text = "‾" },
-      changedelete = { text = "┃" },
-      untracked = { text = "┆" },
-    },
-    signs_staged = {
-      add = { text = "▐" },
-      change = { text = "▐" },
-      delete = { text = "_" },
-      topdelete = { text = "‾" },
-      changedelete = { text = "~" },
-      untracked = { text = "┆" },
-    }, -- commit info on the right of a line
-    current_line_blame = false,
+    signs = signs,
+    signs_staged = signs, -- commit info on the left of a line
     preview_config = {
       border = "rounded",
       style = "minimal",
@@ -30,10 +25,13 @@ return {
       row = 0,
       col = 1,
     },
-    current_line_blame_formatter = " <author>, <author_time:%d-%m-%Y> ● <summary>",
+    current_line_blame = true,
+    current_line_blame_formatter = blame_format,
 
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
+
+      local gitlinker = require("gitlinker")
 
       local opts = { noremap = true, buffer = buffer }
 
@@ -63,16 +61,23 @@ return {
       vim.keymap.set("n", "<leader>ghp", gs.preview_hunk_inline, opts)
 
       opts.desc = "Blame inline"
-      vim.keymap.set("n", "<leader>gb", function()
-        gs.blame_line { full = true }
+      vim.keymap.set("n", "<leader>gbl", function()
+        gs.blame_line({ full = true })
+      end, opts)
+
+      opts.desc = "Blame inline"
+      vim.keymap.set("n", "<leader>gbf", function()
+        gs.blame()
       end, opts)
 
       opts.desc = "Diff this main"
-      vim.keymap.set("n", "<leader>gdm", ":Gitsign diffthis main<CR>", opts)
+      vim.keymap.set("n", "<leader>gdm", function()
+        gs.diffthis("main", { vertical = true, split = "belowright" })
+      end, opts)
 
       opts.desc = "Diff this ~"
       vim.keymap.set("n", "<leader>gdt", function()
-        gs.diffthis "~"
+        gs.diffthis("~", { vertical = true, split = "belowright" })
       end, opts)
 
       opts.desc = "Select hunk"

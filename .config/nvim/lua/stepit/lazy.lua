@@ -1,67 +1,57 @@
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable',
     lazypath,
-  }
+  })
 end
 
 vim.opt.rtp:prepend(lazypath)
 
--- Folder containing all plugins.
-local plugin_path = { import = "stepit.plugins" }
-
--- Plugins that don't require any config.
-local additional_plugins = {
-  { "ixru/nvim-markdown" },
-  { "google/vim-jsonnet" },
-  { "tpope/vim-surround" },
-  { "mattn/emmet-vim" },
-  { "numToStr/Comment.nvim", opts = {} },
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = true,
-  },
-  {
-    "folke/todo-comments.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      keywords = {
-        FIX = { icon = "● ", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" } },
-        TODO = { icon = "● ", color = "info" },
-        NOTE = { icon = "● ", color = "hint", alt = { "INFO" } },
-        LEARN = { icon = "● ", color = "warning" },
-      },
-    },
-  },
-}
-
+-- Spec is used to configure plugins.
 local spec = {
-  plugin_path,
-  additional_plugins,
+  -- Folder containing all plugins.
+  { import = 'stepit.plugins' },
+  -- Plugins that don't require any config.
+  {},
 }
 
+-- Opts are used to configure Lazy plugin managere.
 local opts = {
   -- Path for local plugins.
   dev = {
-    path = "~/Repositories/Nvim/",
-    patterns = {},
-    fallback = false,
+    path = '~/Repositories/Nvim/',
   },
-  change_detection = { notify = false },
   ui = {
-    border = "rounded",
+    border = 'rounded',
     size = {
       width = 0.8,
       height = 0.8,
     },
   },
+  change_detection = { notify = false },
+  rocks = {
+    enabled = false,
+  },
+  performance = {
+    rtp = {
+      -- Stuff I don't use.
+      disabled_plugins = {
+        'gzip',
+        -- 'netrwPlugin',
+        'rplugin',
+        'tarPlugin',
+        'tohtml',
+        'tutor',
+        'zipPlugin',
+      },
+    },
+  },
 }
 
-require("lazy").setup(spec, opts)
+require('lazy').setup(spec, opts)

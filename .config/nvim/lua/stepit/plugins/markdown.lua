@@ -14,33 +14,36 @@ return {
     ft = { "markdown" },
   },
   {
-    -- Make sure to set this up properly if you have lazy=true
     "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
     opts = {
-      file_types = { "markdown", "Avante" },
+      heading = {
+        enabled = true,
+        sign = true,
+        position = "overlay",
+        icons = {},
+        signs = { "" },
+      },
+      code = {
+        sign = false,
+        width = "block", -- block
+        left_pad = 1,
+        -- Minimum width to use for code blocks when width is 'block'
+        min_width = 100, -- same length of colorcolumn
+        above = "",
+        below = "",
+      },
+      dash = {
+        width = 99,
+      },
+      file_types = { "markdown", "Avante", "copilot-chat", "help" },
+      render_modes = true,
     },
     ft = { "markdown", "Avante" },
-    config = function(_, _)
-      require("render-markdown").setup {
-        heading = {
-          enabled = true,
-          sign = true,
-          position = "overlay",
-          icons = {},
-          signs = { "󰫎 " },
-          width = "full",
-          left_margin = 0,
-          left_pad = 0,
-          right_pad = 0,
-          min_width = 0,
-          border = false,
-          border_virtual = false,
-          border_prefix = false,
-          above = "▄",
-          below = "▀",
-        },
-      }
+    config = function(_, opts)
+      require("render-markdown").setup(opts)
     end,
   },
 }

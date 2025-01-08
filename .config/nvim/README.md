@@ -1,7 +1,7 @@
 # Neovim Configuration
 
-This repository contains my personal Neovim configuration, aimed at improving the editing 
-experience with various plugins, mappings, and settings. It utilizes lazy.nvim
+This repository contains my personal Neovim configuration, aimed at improving the editing experience
+with various plugins, mappings, and settings. It utilizes lazy.nvim
 plugin management and a curated set of plugins for enhanced functionality. I hope this
 configuration will help you in making the coding experience blazingly fast! 🚀
 
@@ -9,23 +9,22 @@ configuration will help you in making the coding experience blazingly fast! 🚀
 
 ### Prerequisites
 
-Make sure you have Neovim installed on your system. If you haven't installed Neovim yet, you can 
+Make sure you have Neovim installed on your system. If you haven't installed Neovim yet, you can
 follow the instructions provided on the [official Neovim website](https://neovim.io/).
 
 ### Setup
 
 1. Clone this repository to your Neovim configuration directory.
 
-    ```bash
-    git clone https://github.com/0xstepit/nvim.git ~/.config/nvim
-    ```
+```bash
+git clone https://github.com/0xstepit/nvim.git ~/.config/nvim
+```
 
-"./lua/stepit/"
-2. Launch Neovim.
+"./lua/stepit/" 2. Launch Neovim.
 
-    ```bash
-    nvim .
-    ```
+```bash
+nvim .
+```
 
 ## Plugins Included
 
@@ -53,16 +52,16 @@ on coding.
 
 ## Key Mappings
 
-Some key mappings have been defined to streamline various functionalities. You can find these 
+Some key mappings have been defined to streamline various functionalities. You can find these
 mappings in the `lua/stepit/remap.lua` file along with comments to explain their purposes.
 
 ## Options and Customizations
 
-Certain options and custom configurations have been set to optimize the Neovim environment. 
-These configurations can be found in the `lua/stepit/options.lua` file with comments explaining 
+Certain options and custom configurations have been set to optimize the Neovim environment.
+These configurations can be found in the `lua/stepit/options.lua` file with comments explaining
 their significance.
 
 ## Contributions
 
-Feel free to fork this repository and customize it according to your preferences. If you encounter 
+Feel free to fork this repository and customize it according to your preferences. If you encounter
 any issues or have suggestions for improvements, please create an issue or pull request.

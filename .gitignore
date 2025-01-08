@@ -8,6 +8,7 @@
 **/tmux/plugins/*
 **/zsh-syntax-highlighting/*
 **/nvim-old/*
+**/qBittorrent/*
 
 # Zsh stuff
 .zsh_sessions/

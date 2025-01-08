@@ -1,6 +1,6 @@
 local opt = vim.opt
 
-opt.clipboard = "unnamedplus" -- Copy/paste to/from system clipboard
+vim.opt.clipboard = "unnamedplus"
 
 -- menuone: popup even when there's only one match
 -- noinsert: Do not insert text until a selection is made
@@ -9,16 +9,17 @@ opt.completeopt = "menu,menuone,preview,noinsert,noselect" -- Autocomplete optio
 
 -- Visual
 opt.termguicolors = true -- enables 24-bit RGB
-opt.cursorline = false -- display current line with different color
+opt.cursorline = true -- display current line with different color
 opt.signcolumn = "yes" -- display column on left of line number
 opt.showmatch = true -- highlight matching parenthesis
-opt.colorcolumn = "50"
+opt.colorcolumn = "100" -- number of spaces at which the colorcolumn is
+opt.virtualedit = "block" -- allow the cursor to move where no character is present in visual block mode.
 
 -- Line numbers
 opt.number = true -- show line number
 opt.relativenumber = true --numbers relative to current line
 
--- Panes plitting
+-- Panes splitting
 opt.splitright = true -- vertical split to the right
 opt.splitbelow = true -- horizontal split to the bottom
 
@@ -29,23 +30,20 @@ opt.incsearch = true -- highlight while writing in search
 
 -- Tabs and indentations
 opt.expandtab = true -- use spaces instead of tabs
-opt.tabstop = 4 -- width of a tab character when saving
-opt.softtabstop = 4
-opt.shiftwidth = 4 -- blanks inserted in automatic indentation. 0 fall back to tabstop
+opt.shiftwidth = 4 -- size of an indent
+opt.tabstop = 4 -- number of spaces a tab counts for (very much needed in go)
 opt.smartindent = true -- autoindent new lines
 
 -- Scrolling
-opt.scrolloff = 15 -- never less than 10 lines at bottom and top when scrolling
-opt.sidescrolloff = 5 -- never less than 5 characters when scrolling horizontally
+opt.scrolloff = 15 -- never less than these lines at bottom and top when scrolling
+opt.sidescrolloff = 5 -- never less than these characters when scrolling horizontally
 
 -- Spelling check
-opt.spelllang = { "en_us", "it" }
-opt.spell = true
+opt.spelllang = { "en_us" }
+opt.spell = false
 
-opt.list = true
-opt.listchars = { space = " ", trail = "·", tab = "│ " }
-
-opt.virtualedit = "block" -- allow the cursor to move where no character is present in visual block mode.
+-- Save undo history.
+vim.o.undofile = true
 
 -- Folding
 function FoldStyle()
@@ -53,27 +51,38 @@ function FoldStyle()
   return " " .. line .. "..."
 end
 
+-- Folding
 opt.foldcolumn = "0"
 opt.foldenable = true
 opt.foldmethod = "indent"
 opt.foldtext = "v:lua.FoldStyle()"
 opt.foldnestmax = 3
+opt.foldlevelstart = 3
 opt.foldlevel = 99
-opt.foldlevelstart = 99
--- opt.foldmethod = "expr"
--- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- opt.fillchars = "eob: ,fold: ,foldclose:,foldsep: ,foldopen:"
 
 -- Misc
 opt.isfname:append("@-@")
-opt.mouse = "a" -- enable mouse support
-opt.conceallevel = 0
+opt.mouse = "a" -- enable mouse support in all modes
+opt.conceallevel = 2 -- conceals disabled
 opt.inccommand = "split" -- create a bottom split with affected text during change
-opt.textwidth = 80
+opt.textwidth = 100
 opt.wrap = false -- stop wrapping words in new line
 opt.swapfile = false -- stop creating swap files
 opt.updatetime = 250
-opt.timeoutlen = 300
+opt.timeoutlen = 250
+-- TODO: this is not working because overwritten by something else.
+opt.formatoptions:remove({ "r", "c" })
 
--- Avante
-vim.opt.laststatus = 3
+-- Show trailing whitespaces and tab.
+vim.opt.list = true
+vim.opt.listchars = { space = " ", trail = "⋅", tab = require("stepit.icons").line.vertical.thin .. " " }
+
+-- vim.opt.fillchars = {
+--   horiz = "▔",
+--   horizup = "▔",
+--   horizdown = "▁",
+--   -- vert = C.right_thick,
+--   -- vertleft = C.right_thick,
+--   -- vertright = C.right_thick,
+--   -- verthoriz = C.right_thick,
+-- }

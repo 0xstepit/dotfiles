@@ -1,36 +1,41 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.6",
+  tag = "0.1.8",
   name = "Telescope",
   dependencies = {
     "nvim-lua/plenary.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-    "folke/todo-comments.nvim",
   },
   config = function()
-    -- we need to configure both options and keymaps inside config because:
-    -- - options are configured using telescope actions
-    -- - keymaps are configured using telescope builtin
+    local telescope = require("telescope")
+    local actions = require("telescope.actions")
 
-    local telescope = require "telescope"
-    local actions = require "telescope.actions"
-    telescope.load_extension "fzf"
+    pcall(require("telescope").load_extension, "fzf")
 
-    telescope.setup {
+    local icons = require("stepit.icons")
+
+    telescope.setup({
       defaults = {
+        prompt_prefix = " " .. icons.symbols.lens .. "   ",
+        selection_caret = " " .. icons.arrow.fat .. " ",
         layout_strategy = "vertical",
+        layout_config = {
+          width = 0.70,
+        },
+        disable_devicons = true,
         path_display = { "full" },
         fuzzy = true,
         mappings = {
           i = {
-            -- Movements
-            ["<C-k>"] = actions.move_selection_previous, -- move up in Results
-            ["<C-j>"] = actions.move_selection_next, -- move down in Results
-            -- Actions
-            ["<C-l>"] = actions.select_default,
-            ["<C-y>"] = actions.select_default,
-            ["<C-c>"] = actions.close, -- close window
-            -- ["<C-c>"] = actions.delete_buffer, -- close buffer
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-c>"] = actions.close,
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+          },
+          n = {
+            ["<C-k>"] = actions.move_selection_previous,
+            ["<C-j>"] = actions.move_selection_next,
+            ["<C-c>"] = actions.close,
             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
           },
         },
@@ -45,60 +50,47 @@ return {
       },
       pickers = {
         find_files = {
-          -- theme = "dropdown", -- for some reason this is not working
+          theme = "dropdown",
           show_line = true,
           previewer = false,
-          disable_devicons = false,
         },
         live_grep = {
-          layout_config = {
-            width = 0.90,
-          },
-          -- theme = "dropdown",
           show_line = false,
-          disable_devicons = true,
         },
         oldfiles = {
-          -- theme = "dropdown",
+          theme = "dropdown",
           previewer = false,
-          disable_devicons = true,
-          only_cwd = true, -- restrict displayed files to current dir
+          only_cwd = true,
         },
         lsp_references = {
+          layout_strategy = "horizontal",
           layout_config = {
             width = 0.90,
           },
-          -- theme = "dropdown",
           preview = true,
           show_line = false,
-          disable_devicons = true,
         },
         lsp_implementations = {
-          layout_config = {
-            width = 0.90,
-          },
-          -- theme = "dropdown",
           show_line = false,
-          disable_devicons = true,
         },
       },
-    }
+    })
 
-    local builtin = require "telescope.builtin"
+    local builtin = require("telescope.builtin")
 
-    vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files in cwd" })
-    vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find git files" })
-    vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find string in cwd" })
-    vim.keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
-    vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "Find old files" })
-    vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Find lsp references" })
-    vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
-    vim.keymap.set("n", "<leader>fh", "<cmd>Telescope highlights<cr>", { desc = "Find highlight group" })
-    vim.keymap.set(
-      "n",
-      "<leader>cd",
-      ":cd %:p:h<CR>:pwd<CR>",
-      { desc = "Change current directory (cwd) for Telescope" }
-    )
+    local map = function(keys, func, desc)
+      vim.keymap.set("n", keys, func, { desc = desc })
+    end
+
+    map("<leader>ff", builtin.find_files, "[F]iles in cwd")
+    map("<leader>fg", builtin.git_files, "[G]it files")
+    map("<leader>fc", builtin.git_commits, "[C]ommits")
+    map("<leader>fs", builtin.live_grep, "[S]tring in cwd")
+    map("<leader>fw", builtin.grep_string, "[W]ord under cursor in cwd")
+    map("<leader>fo", builtin.oldfiles, "[O]ld files")
+    map("<leader>fb", builtin.buffers, "Open [B]uffers")
+    map("<leader>fh", builtin.highlights, "[H]ighlight groups")
+
+    -- TODO: add custom for todo, fix, ...
   end,
 }

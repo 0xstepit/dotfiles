@@ -9,6 +9,7 @@ return {
       progress = {
         display = {
           done_style = "CursorLineNr",
+          done_ttl = 20,
         },
       },
       notification = {

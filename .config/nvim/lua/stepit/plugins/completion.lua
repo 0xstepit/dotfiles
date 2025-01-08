@@ -9,10 +9,10 @@ return {
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
-    "hrsh7th/cmp-nvim-lsp-signature-help",
+    -- "hrsh7th/cmp-nvim-lsp-signature-help",
 
     -- Snippets
-    "L3MON4D3/LuaSnip",
+    { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
     "rafamadriz/friendly-snippets",
     "saadparwaiz1/cmp_luasnip",
     "onsails/lspkind.nvim",
@@ -23,37 +23,31 @@ return {
   config = function()
     local cmp_status_ok, cmp = pcall(require, "cmp")
     if not cmp_status_ok then
-      vim.api.nvim_err_writeln "CMP module not found or failed to load"
+      vim.api.nvim_err_writeln("CMP module not found or failed to load")
       return
     end
 
-    local lspkind = require "lspkind"
-    local luasnip = require "luasnip"
+    local lspkind = require("lspkind")
+    local luasnip = require("luasnip")
 
     -- Add parenthesis after completion of method or function.
-    local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+    local cmp_autopairs = require("nvim-autopairs.completion.cmp")
     cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
     require("luasnip.loaders.from_vscode").lazy_load()
     -- Load custom plugins in snippets folder
-    require("luasnip.loaders.from_lua").load { paths = { "./snippets" } }
+    require("luasnip.loaders.from_lua").load({ paths = { "./snippets" } })
 
     local sources = {
       { name = "luasnip", max_item_count = 3 },
       { name = "nvim_lsp" },
       { name = "nvim_lua" },
-      { name = "codeium" },
-      { name = "buffer", max_item_count = 3 },
+      { name = "buffer", max_item_count = 1 },
       { name = "path", max_item_count = 3 },
-      { name = "nvim_lsp_signature_help" },
-      -- { name = "crates" },
+      -- { name = "nvim_lsp_signature_help" },
     }
 
-    -- when moving across possible autocompletions they are not
-    -- inserted in the code until selected.
-    local cmp_select = { behavior = cmp.SelectBehavior.Select }
-    cmp.setup {
-
+    cmp.setup({
       -- use LuaSnip to expand the snippets in the editor.
       snippet = {
         expand = function(args)
@@ -65,8 +59,9 @@ return {
         documentation = cmp.config.window.bordered(),
       },
       formatting = {
+        fields = { "abbr", "kind", "menu" },
         expandable_indicator = true, -- use ~ after snippets to expand
-        format = lspkind.cmp_format {
+        format = lspkind.cmp_format({
           mode = "text",
           with_text = true,
           maxwidth = 50,
@@ -77,25 +72,23 @@ return {
             nvim_lua = "[NLUA]",
             buffer = "[BUF]",
             path = "[PATH]",
-            nvim_lsp_signature_help = "[SIG]",
+            -- nvim_lsp_signature_help = "[SIG]",
           },
-        },
+        }),
       },
+      sources = cmp.config.sources(sources),
       mapping = {
-        -- `i` = insert mode, `c` = command mode, `s` = select mode
-        -- fallback: it is used just because suggested by the doc.
-
         -- Scroll documentations
         ["<C-b>"] = cmp.mapping.scroll_docs(4),
         ["<C-f>"] = cmp.mapping.scroll_docs(-4),
 
         -- Confirm selection
-        ["<C-y>"] = cmp.mapping.confirm { select = true },
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
         ["<C-q>"] = cmp.mapping.close(),
 
         ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() and cmp.get_selected_entry() then
-            cmp.confirm { select = false } -- Confirm only if something is explicitly selected
+            cmp.confirm({ select = false }) -- Confirm only if something is explicitly selected
           else
             fallback() -- Insert a new line
           end
@@ -143,11 +136,14 @@ return {
         --   end
         -- end, { "i", "s" }),
       },
-      sources = cmp.config.sources(sources),
-    }
+    })
 
     cmp.setup.cmdline(":", {
       mapping = cmp.mapping.preset.cmdline(),
+      ---@diagnostic disable-next-line: missing-fields
+      performance = {
+        max_view_entries = 20,
+      },
       sources = cmp.config.sources({
         { name = "path" },
       }, {
