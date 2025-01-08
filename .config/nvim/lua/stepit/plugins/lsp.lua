@@ -34,7 +34,12 @@ return {
       { '│', 'FloatBorder' },
     }
 
-    -- For borders
+    -- 'hrsh7th/cmp-nvim-lsp',
+  },
+  config = function()
+    require("lspconfig.ui.windows").default_options.border = "rounded"
+
+    -- Override the default floating preview window border function to always use rounded borders.
     local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
     function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
       opts = opts or {}

@@ -1,0 +1,12 @@
+font-family = "BlexMono Nerd Font"
+font-style = "Medium"
+font-size = 13
+
+background-opacity = 0.93
+background-blur-radius = 20
+
+theme = "flow-moon-eclipse"
+
+window-padding-x = 20
+window-padding-y = 15
+window-decoration = true
