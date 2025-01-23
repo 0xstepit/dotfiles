@@ -16,7 +16,7 @@ x = 20
 y = 15
 
 [cursor]
-thickness = 0.1
+thickness = 0.2
 
 [font]
 size = 11 
