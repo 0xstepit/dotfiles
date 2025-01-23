@@ -47,14 +47,14 @@ To enable zsh syntax highlighting, run the following command:
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git dotfiles/.config/zsh/plugins/zsh-syntax-highlighting
 ```
 
-
 ## Customization
+
 Feel free to customize these configurations according to your preferences. Each directory contains a README file with specific information and customization options for that application.
 
 ## Acknowledgments
+
 These dotfiles have been inspired by various sources in the open-source community. Special thanks to the developers and contributors of the tools and plugins used in this configuration.
 
 ## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-
