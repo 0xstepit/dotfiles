@@ -2,7 +2,7 @@ return {
   {
     "0xstepit/flow.nvim",
     enabled = true,
-    -- branch = "stepit/refactor-codebase",
+    branch = "stepit/blink",
     dev = true,
     lazy = false,
     priority = 1000,
@@ -11,14 +11,14 @@ return {
       theme = {
         style = "dark",
         contrast = "default",
-        transparent = false,
+        transparent = true,
       },
       colors = {
         mode = "default",
         fluo = "pink",
         custom = {
-          saturation = "80",
-          light = "",
+          -- saturation = "80",
+          -- light = "",
         },
       },
       ui = {

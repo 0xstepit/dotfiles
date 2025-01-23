@@ -16,7 +16,7 @@ return {
   },
   opts = {
     provider = "claude",
-    auto_suggestions_provider = "copilot",
+    -- auto_suggestions_provider = "copilot",
     claude = {
       endpoint = "https://api.anthropic.com",
       model = "claude-3-5-sonnet-20241022",
@@ -73,7 +73,7 @@ return {
         rounded = false,
       },
       input = {
-        prefix = require("stepit.icons").arrow.fat .. " ",
+        prefix = require("stepit.utils.icons").arrow.fat .. " ",
         height = 8, -- Height of the input window in vertical layout
       },
       edit = {

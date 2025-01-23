@@ -1,12 +1,15 @@
+MD007: false
 MD013:
+  code_blocks: false
   line_length: 100
-  # code_blocks: false
   # headings: false
   # tables: false
 
-MD033: false
 
 # Do not consider the frontmatter field `title`
 # as an H1.
 MD025:
   front_matter_title: ""
+
+MD028: false
+MD033: false

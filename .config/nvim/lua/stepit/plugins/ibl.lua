@@ -4,7 +4,7 @@ return {
   event = "VeryLazy",
   opts = {
     indent = {
-      char = require("stepit.icons").line.vertical.thin,
+      char = require("stepit.utils.icons").line.vertical.thin.left,
     },
     scope = {
       enabled = true,

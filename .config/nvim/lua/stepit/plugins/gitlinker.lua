@@ -1,6 +1,5 @@
 return {
   "ruifm/gitlinker.nvim",
-  name = "Gitlinker",
   lazy=true,
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
@@ -8,8 +7,6 @@ return {
 
     gitlinker.setup {}
 
-    vim.keymap.set("n", "<leader>gy", function()
-      gitlinker.get_buf_range_url()
-    end, { desc = "Get repository link" })
+    vim.keymap.set("n", "<leader>gy", function() gitlinker.get_buf_range_url() end, { desc = "[Y]ank repository link" })
   end,
 }

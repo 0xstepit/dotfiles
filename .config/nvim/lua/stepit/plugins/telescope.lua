@@ -1,7 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
   tag = "0.1.8",
-  name = "Telescope",
   dependencies = {
     "nvim-lua/plenary.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -12,7 +11,7 @@ return {
 
     pcall(require("telescope").load_extension, "fzf")
 
-    local icons = require("stepit.icons")
+    local icons = require("stepit.utils.icons")
 
     telescope.setup({
       defaults = {

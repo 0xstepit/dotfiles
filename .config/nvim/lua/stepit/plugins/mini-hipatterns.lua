@@ -6,7 +6,7 @@ return {
     local highlighters = {}
     for _, word in ipairs({ "todo", "note", "hack", "fixme", "debug", "contract" }) do
       highlighters[word] = {
-        pattern = string.format("%%f[%%w]()%s()%%f[%%W]", word:upper()),
+        pattern = string.format(" ()%s():", word:upper()),
         group = string.format("MiniHipatterns%s", word:sub(1, 1):upper() .. word:sub(2)),
       }
     end

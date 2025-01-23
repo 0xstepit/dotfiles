@@ -1,3 +1,6 @@
+local icons = require("stepit.utils.icons")
+
+-- Returns LSP active on the active buffer.
 local active_lsp_clients = function()
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.buf_get_clients(bufnr)
@@ -15,15 +18,13 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  name = "Lualine",
   enabled = true,
   opts = {
     options = {
       icons_enabled = true,
       theme = "auto",
-      component_separators = "│",
+      component_separators = icons.line.vertical.thin.central,
       section_separators = "",
-      -- Lualine bar only under focused pane.
       globalstatus = true,
       refresh = {
         statusline = 1000,
@@ -45,8 +46,10 @@ return {
         { "branch", icon = "" },
         { "diff", symbols = { added = "", modified = "", removed = "" } },
       },
-      -- lualine_c = { "diagnostics" },
       lualine_c = {
+
+        { "diagnostics", symbols = { error = "", warn = "", info = "", hint = "" } },
+        -- NOTE: deprecated in favor of barbecue.
         -- {
         --   'filename',
         --   file_status = true,
@@ -55,18 +58,40 @@ return {
         -- },
       },
       lualine_x = {
-        "encoding",
+         "encoding",
         "filetype",
-        { "diagnostics", symbols = { error = "", warn = "", info = "", hint = "" } },
       },
       lualine_y = { "progress", "filesize", "searchcount" },
       lualine_z = { active_lsp_clients },
-      -- lualine_z = { { clients_lsp, separator = { right = "" }, left_padding = 5 } },
     },
     -- Displayed at the top.
     tabline = {},
     winbar = {},
     inactive_winbar = {},
+    --     tabline = {
+    --   lualine_a = {'buffers'},
+    --   lualine_b = {},
+    --   lualine_c = {},
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {'tabs'}
+    -- },
+    -- winbar = {
+    --   -- lualine_a = {},
+    --   -- lualine_b = {},
+    --   -- lualine_c = {'filename'},
+    --   -- lualine_x = {},
+    --   -- lualine_y = {},
+    --   -- lualine_z = {}
+    -- },
+    -- inactive_winbar = {
+    --   lualine_a = {},
+    --   lualine_b = {},
+    --   lualine_c = {'filename'},
+    --   lualine_x = {},
+    --   lualine_y = {},
+    --   lualine_z = {}
+    -- },
     extensions = {},
   },
   config = function(_, opts)

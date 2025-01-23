@@ -69,8 +69,4 @@ return {
     t("# "),
     f(filename, {}),
   }),
-  s({ trig = "date", desc = "Insert date" }, {
-    t("# "),
-    f(filename, {}),
-  }),
 }

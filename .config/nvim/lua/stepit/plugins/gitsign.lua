@@ -1,4 +1,4 @@
-local icons = require("stepit.icons")
+local icons = require("stepit.utils.icons")
 
 local signs = {
   add = { text = icons.line.vertical.single },
@@ -13,7 +13,6 @@ local blame_format = icons.species.person .. " <author>, <author_time:%d-%m-%Y> 
 
 return {
   "lewis6991/gitsigns.nvim",
-  name = "Gitsigns",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
     signs = signs,
@@ -31,60 +30,23 @@ return {
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
 
-      local gitlinker = require("gitlinker")
-
       local opts = { noremap = true, buffer = buffer }
 
-      -- Keymaps
-      opts.desc = "Next hunk"
-      vim.keymap.set("n", "]h", gs.next_hunk, opts)
 
-      opts.desc = "Previous hunk"
-      vim.keymap.set("n", "[h", gs.prev_hunk, opts)
+      vim.keymap.set("n", "]h", gs.next_hunk, {desc = "Next [H]unk"})
+      vim.keymap.set("n", "[h", gs.prev_hunk, {desc = "Previous [H]unk"})
+      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", {desc = "[H]unk [S]tage"})
+            vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", {desc = "[H]unk [R]eset"})
+            vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, {desc = "[H]unk [U]ndo stage"})
+            vim.keymap.set("n", "<leader>ghp", gs.preview_hunk_inline, {desc = "[H]unk [P]review inline"})
 
-      opts.desc = "Stage hunk"
-      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", opts)
+      vim.keymap.set("n", "<leader>gbs", gs.stage_buffer, {desc = "[S]tage [B]uffer"})
+      vim.keymap.set("n", "<leader>gbr", gs.reset_buffer, {desc = "[R]eset [B]uffer"})
+            vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", {desc = "[H]ighlight [L]ine"})
+      vim.keymap.set("n", "<leader>gbl", function() gs.blame_line({ full = true }) end, {desc = "[B]lame [L]ine"})
 
-      opts.desc = "Undo stage hunk"
-      vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, opts)
-
-      opts.desc = "Reset hunk"
-      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", opts)
-
-      opts.desc = "Stage buffer"
-      vim.keymap.set("n", "<leader>ghS", gs.stage_buffer, opts)
-
-      opts.desc = "Reset buffer"
-      vim.keymap.set("n", "<leader>ghR", gs.reset_buffer, opts)
-
-      opts.desc = "Preview hunk inline"
-      vim.keymap.set("n", "<leader>ghp", gs.preview_hunk_inline, opts)
-
-      opts.desc = "Blame inline"
-      vim.keymap.set("n", "<leader>gbl", function()
-        gs.blame_line({ full = true })
-      end, opts)
-
-      opts.desc = "Blame inline"
-      vim.keymap.set("n", "<leader>gbf", function()
-        gs.blame()
-      end, opts)
-
-      opts.desc = "Diff this main"
-      vim.keymap.set("n", "<leader>gdm", function()
-        gs.diffthis("main", { vertical = true, split = "belowright" })
-      end, opts)
-
-      opts.desc = "Diff this ~"
-      vim.keymap.set("n", "<leader>gdt", function()
-        gs.diffthis("~", { vertical = true, split = "belowright" })
-      end, opts)
-
-      opts.desc = "Select hunk"
-      vim.keymap.set({ "o", "x" }, "gsh", ":<C-U>Gitsigns select_hunk<CR>", opts)
-
-      opts.desc = "Highlight line"
-      vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", opts)
+      vim.keymap.set("n", "<leader>gdm", function() gs.diffthis("main", { vertical = true, split = "belowright" }) end,  {desc = "Diff this main"})
+      vim.keymap.set("n", "<leader>gdt", function() gs.diffthis("~", { vertical = true, split = "belowright" }) end, {desc = "Diff this ~"})
     end,
   },
 }
