@@ -6,6 +6,8 @@ cursor_mode() {
     # emulator to change the cursor style.
     cursor_block='\e[2 q'
     cursor_beam='\e[6 q'
+    cursor_blinking_beam='\e[5 q'
+    cursor_underscore='\e[3 q'
 
     # Executed every time the keymap changes.
     function zle-keymap-select {
