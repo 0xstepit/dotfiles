@@ -29,6 +29,12 @@ local spec = {
   --     require("present").setup()
   --   end,
   -- },
+  {
+    -- dir = "~/Repositories/Nvim/devnotes.nvim/",
+    -- config = function()
+    --   require("devnotes").setup()
+    -- end,
+  },
 }
 
 -- Opts are used to configure Lazy plugin manager.

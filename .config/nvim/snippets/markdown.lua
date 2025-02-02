@@ -35,10 +35,13 @@ return {
   s({ trig = "frontmatter", desc = " Generate the frontmatter and title" }, {
     t("---"),
     t({ "", "author: Stefano Francesco Pitton" }),
-    t({ "", "title: " }),
+    t({ "", "title: '" }),
     f(filename, {}),
-    t({ "", "slug: " }),
+    t("'"),
+    t({ "", "slug: '" }),
     f(slugify, {}),
+    t("'"),
+    t({ "", "slug: " }),
     t({ "", "aliases: [" }),
     i(1, ""),
     t("]"),
@@ -68,5 +71,8 @@ return {
   s({ trig = "title", desc = "Insert filename as H1" }, {
     t("# "),
     f(filename, {}),
+  }),
+  s({ trig = "date", desc = "Get current date" }, {
+    f(current_date, {}),
   }),
 }

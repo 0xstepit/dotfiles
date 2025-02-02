@@ -10,6 +10,7 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       markdown = { "prettier", "markdownlint" },
+      json = { "prettier" },
       go = { "gofumpt", "gofmt", "goimports" },
       -- python = { 'isort', 'black' },
       -- -- use a sub-list to run only the first available formatter

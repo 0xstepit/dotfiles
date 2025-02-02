@@ -2,8 +2,8 @@ return {
   {
     "0xstepit/flow.nvim",
     enabled = true,
-    branch = "stepit/blink",
-    dev = true,
+    branch = "stepit/v2.0.2",
+    -- dev = true,
     lazy = false,
     priority = 1000,
     -- tag = "v1.0.0",

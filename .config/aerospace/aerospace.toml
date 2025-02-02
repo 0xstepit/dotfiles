@@ -56,6 +56,10 @@ if.app-name-regex-substring = 'kitty'
 run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
+if.app-name-regex-substring = 'ghostty'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = ['move-node-to-workspace 4']
 
@@ -69,7 +73,7 @@ run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'linear'
-run = ['move-node-to-workspace 5']
+run = ['move-node-to-workspace L']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'obsidian'
@@ -116,6 +120,7 @@ alt-5 = 'workspace 5'
 # alt-m = 'workspace M' # Music
 # alt-n = 'workspace N' # Notes
 # alt-s = 'workspace S' # Social
+alt-t = 'workspace L' # Social
 alt-z = 'workspace Z' # Social
 
 # Move app to workspace.
