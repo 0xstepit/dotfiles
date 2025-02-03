@@ -1,0 +1,5 @@
+[user]
+	name = stepit
+	email = stefanofrancesco.pitton@gmail.com
+[includeIf "gitdir:~/Repositories/Blockchain/Noble/"]
+    path = ~/Repositories/Blockchain/Noble/.gitconfig
