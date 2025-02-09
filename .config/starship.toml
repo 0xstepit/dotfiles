@@ -20,8 +20,8 @@ palette = 'new'
 disabled = true
 
 [palettes.new]
-purple = '#ac8cd9'
-base = '#75BDF0'
+purple = '#a670db'
+base = '#70afdb'
 
 [username]
 style_user = "blue"
@@ -39,7 +39,11 @@ symbol = ""
 style = "cyan"
 
 [git_status]
+ahead = '⇡${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+behind = '⇣${count}'
 style = "red"
+format = '([$all_status$ahead_behind]($style) )'
 
 [nix_shell]
 disabled = false
