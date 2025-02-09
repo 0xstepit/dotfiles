@@ -42,22 +42,30 @@ M.solidity_ls = {
 M.gopls = {
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  -- capabilities = lsp_capabilities,
   settings = {
     gopls = {
-      ["ui.inlayhint.hints"] = {
+      gofumpt = true,
+      buildFlags = { "-tags=build" },
+      -- directoryFilters = { "-utils" },
+      usePlaceholders = true,
+      completeFunctionCalls = true,
+      hints = {
+        assignVariableTypes = true,
         compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        functionTypeParameters = true,
         constantValues = true,
         parameterNames = true,
+        rangeVariableTypes = true,
       },
-      completeUnimported = true,
-      usePlaceholders = true,
+      -- completeUnimported = true,
       analyses = {
         unusedparams = true,
         unusedvariable = true,
+        assign = true,
+        shadow = true,
       },
       staticcheck = true,
-      gofumpt = true,
     },
   },
 }
