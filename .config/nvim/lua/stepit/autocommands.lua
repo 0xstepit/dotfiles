@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   callback = function()
-    local exc = { "TelescopePrompt", "fugitive", "git", "qf", "GV" }
+    local exc = { "TelescopePrompt", "fugitive", "git", "gitcommit", "qf", "GV" }
     local valid = true
     for _, e in ipairs(exc) do
       if vim.bo.filetype == e then
