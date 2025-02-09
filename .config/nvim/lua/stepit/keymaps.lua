@@ -43,6 +43,11 @@ set("c", "<C-k>", "<Up>", { desc = "Move up in command mode" })
 -- Windows management
 set("n", "<leader><C-v>", "<C-w>v", { desc = "Split window horizontally" })
 set("n", "<leader><C-h>", "<C-w>s", { desc = "Split window vertically" })
+set("n", "<leader>=", "<C-w>=", { desc = "Set split windows to equal size" })
+set("n", "<C-b>", "<c-w>5>", { desc = "Increase split window size on the right" })
+set("n", "<C-c>", "<c-w>5<", { desc = "Increase split window size on the left" })
+set("n", "<C-t>", "<C-W>+", { desc = "Increase split window size on the top" })
+set("n", "<C-s>", "<C-W>-", { desc = "Increase split window size on the bottom" })
 
 ----------------------------------------------------------------------------------------
 --- Notes management
