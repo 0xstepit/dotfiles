@@ -23,7 +23,6 @@ return {
     -- log_level = vim.log.levels.DEBUG,
   },
   config = function(_, opts)
-    print("I'm running bro")
     local conform = require("conform")
     conform.setup(opts)
 
