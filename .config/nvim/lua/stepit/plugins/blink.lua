@@ -56,15 +56,8 @@ return {
     snippets = { preset = "luasnip" },
     sources = {
       default = { "lsp", "snippets", "path", "buffer" },
-      -- default = { "lsp", "path", "snippets", "buffer", "markdown" },
-      -- providers = {
-      --   markdown = {
-      --     name = "RenderMarkdown",
-      --     module = "render-markdown.integ.blink",
-      --     fallbacks = { "lsp" },
-      --   },
-      -- },
     },
+
     completion = {
       -- Don't select by default, auto insert on selection
       list = { selection = { preselect = false, auto_insert = true } },
@@ -75,6 +68,7 @@ return {
           columns = {
             { "label", "label_description", gap = 3 },
             { "kind_icon", "kind", gap = 1 },
+            { "source_name", gap = 3 },
           },
         },
       },
