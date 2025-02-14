@@ -43,7 +43,7 @@ return {
         },
       },
       lualine_b = {
-        { "branch", icon = "" },
+        { "branch", icon = icons.git.branch },
         { "diff", symbols = { added = "", modified = "", removed = "" } },
       },
       lualine_c = {
@@ -58,7 +58,7 @@ return {
         -- },
       },
       lualine_x = {
-         "encoding",
+        "encoding",
         "filetype",
       },
       lualine_y = { "progress", "filesize", "searchcount" },

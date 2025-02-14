@@ -24,6 +24,7 @@ M.species = {
 
 M.git = {
   commit = "",
+  branch = "",
 }
 
 M.status = {
