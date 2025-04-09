@@ -5,6 +5,7 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     { "L3MON4D3/LuaSnip", version = "v2.*" },
   },
+  event = "InsertEnter",
   version = "*",
   opts = {
     keymap = {
@@ -59,7 +60,6 @@ return {
     },
 
     completion = {
-      -- Don't select by default, auto insert on selection
       list = { selection = { preselect = false, auto_insert = true } },
 
       menu = {
@@ -75,7 +75,7 @@ return {
       documentation = {
         window = {
           border = "rounded",
-          max_width = math.floor(vim.o.columns * 0.4),
+          max_width = math.floor(vim.o.columns * 0.7),
           max_height = math.floor(vim.o.lines * 0.5),
         },
         auto_show = true,

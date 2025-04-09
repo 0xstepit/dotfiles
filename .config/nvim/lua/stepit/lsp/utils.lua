@@ -98,6 +98,15 @@ function M.on_attach(client, buffer)
     map("gt", telescope.lsp_type_definitions, "[T]ype definition")
   end
 
+  if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
+    local semantic = client.config.capabilities.textDocument.semanticTokens
+    client.server_capabilities.semanticTokensProvider = {
+      full = true,
+      legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
+      range = true,
+    }
+  end
+
   ---@diagnostic disable-next-line: param-type-mismatch, undefined-field
   if client:supports_method("textDocument/implementation") then
     map("gi", telescope.lsp_implementations, "[I]mplementation")

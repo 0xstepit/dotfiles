@@ -30,10 +30,12 @@ local spec = {
   --   end,
   -- },
   {
-    -- dir = "~/Repositories/Nvim/devnotes.nvim/",
-    -- config = function()
-    --   require("devnotes").setup()
-    -- end,
+    dir = "~/Repositories/NvimPlugin/devnotes.nvim/",
+    config = function()
+      require("devnotes").setup()
+
+      vim.keymap.set("n", "<leader>md", ":Daily<CR>")
+    end,
   },
 }
 
@@ -47,7 +49,7 @@ local opts = {
   },
   change_detection = { notify = false },
   dev = {
-    path = "~/Repositories/Nvim/",
+    path = "~/Repositories/NvimPlugin/",
   },
   ui = {
     border = "rounded",

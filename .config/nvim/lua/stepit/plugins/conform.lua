@@ -13,6 +13,7 @@ return {
       json = { "prettier" },
       go = { "gofumpt", "goimports-reviser" }, -- "gofmt", "goimports",
       yaml = { "prettier" },
+      sh = { "shfmt" },
       -- python = { 'isort', 'black' },
       -- -- use a sub-list to run only the first available formatter
       -- javascript = { 'prettierd', 'prettier', stop_after_first = true },

@@ -72,6 +72,9 @@ return {
         lsp_implementations = {
           show_line = false,
         },
+        diagnostics = {
+          theme = "ivy",
+        },
       },
     })
 
@@ -82,14 +85,28 @@ return {
     end
 
     map("<leader>ff", builtin.find_files, "[F]iles in cwd")
-    map("<leader>fg", builtin.git_files, "[G]it files")
-    map("<leader>fc", builtin.git_commits, "[C]ommits")
-    map("<leader>fs", builtin.live_grep, "[S]tring in cwd")
+    map("<leader>fc", function()
+      builtin.find_files({ cwd = vim.fn.stdpath("config") })
+    end, "Files in [C]onfiguration")
+    map("<leader>fn", function()
+      builtin.find_files({ cwd = os.getenv("NOTES") })
+    end, "[N]otes")
+    map("<leader>fs", function()
+      builtin.live_grep({
+        file_ignore_patterns = { "%.pb.gw$", "%.pb.go$", "%.pulsar.go$" }, -- Ignore all .pb.go files
+      })
+    end, "[S]tring in cwd")
     map("<leader>fw", builtin.grep_string, "[W]ord under cursor in cwd")
     map("<leader>fo", builtin.oldfiles, "[O]ld files")
     map("<leader>fb", builtin.buffers, "Open [B]uffers")
     map("<leader>fh", builtin.highlights, "[H]ighlight groups")
+    map("<leader>fd", builtin.diagnostics, "[H]ighlight groups")
 
+    -- Git
+    map("<leader>fgf", builtin.git_files, "[G]it [F]iles")
+    map("<leader>fgb", builtin.git_branches, "[G]it [B]ranches")
+    map("<leader>fgc", builtin.git_commits, "[G]it [C]ommits")
+    map("<leader>fgs", builtin.git_bcommits, "[G]it bcommit[S]")
     -- TODO: add custom for todo, fix, ...
   end,
 }

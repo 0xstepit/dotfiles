@@ -25,10 +25,13 @@ return {
     local servers = {
       "lua_ls",
       "vimls",
+      "yamlls",
       "gopls",
       "solidity_ls",
       "buf_ls",
       "marksman",
+      "rust_analyzer",
+      "pyright",
     }
 
     for _, value in ipairs(servers) do

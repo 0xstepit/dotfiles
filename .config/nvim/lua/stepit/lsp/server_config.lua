@@ -47,6 +47,7 @@ M.gopls = {
       gofumpt = true,
       buildFlags = { "-tags=build" },
       -- directoryFilters = { "-utils" },
+      semanticTokens = true,
       usePlaceholders = true,
       completeFunctionCalls = true,
       hints = {
@@ -63,7 +64,7 @@ M.gopls = {
         unusedparams = true,
         unusedvariable = true,
         assign = true,
-        shadow = true,
+        shadow = false,
       },
       staticcheck = true,
     },

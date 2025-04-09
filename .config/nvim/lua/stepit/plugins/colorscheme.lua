@@ -1,9 +1,27 @@
 return {
   {
+    "0xstepit/noble.nvim",
+    enabled = false,
+    branch = "main",
+    dev = true,
+    lazy = false,
+    priority = 1000,
+    -- tag = "v1.0.0",
+    opts = {
+      colors = {
+        background = "grey",
+      },
+    },
+    config = function(_, opts)
+      require("noble").setup(opts)
+      vim.cmd("colorscheme noble")
+    end,
+  },
+  {
     "0xstepit/flow.nvim",
     enabled = true,
-    branch = "stepit/v2.0.2",
-    -- dev = true,
+    branch = "main",
+    dev = true,
     lazy = false,
     priority = 1000,
     -- tag = "v1.0.0",
@@ -11,7 +29,7 @@ return {
       theme = {
         style = "dark",
         contrast = "default",
-        transparent = true,
+        transparent = false,
       },
       colors = {
         mode = "default",

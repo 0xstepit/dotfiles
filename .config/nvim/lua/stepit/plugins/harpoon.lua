@@ -28,11 +28,20 @@ return {
         :find()
     end
 
+    local telescope = false
+
+    if telescope then
+      vim.keymap.set("n", "<C-e>", function()
+        toggle_telescope(harpoon:list())
+      end)
+    else
+      vim.keymap.set("n", "<C-e>", function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+    end
+
     vim.keymap.set("n", "<leader>a", function()
       harpoon:list():add()
-    end)
-    vim.keymap.set("n", "<C-e>", function()
-      toggle_telescope(harpoon:list())
     end)
 
     for i = 1, 5 do
