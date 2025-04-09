@@ -16,6 +16,12 @@ local active_lsp_clients = function()
   return table.concat(clients_, ", ")
 end
 
+local function cwd()
+  local cwd = vim.fn.getcwd()
+  local last_part = cwd:match("([^/]+)$")
+  return last_part
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   enabled = true,
@@ -43,12 +49,12 @@ return {
         },
       },
       lualine_b = {
-        { "branch", icon = icons.git.branch },
-        { "diff", symbols = { added = "", modified = "", removed = "" } },
+        { cwd },
+        { "diagnostics", symbols = { error = "", warn = "", info = "", hint = "" } },
       },
       lualine_c = {
-
-        { "diagnostics", symbols = { error = "", warn = "", info = "", hint = "" } },
+        { "branch", icon = icons.git.branch },
+        { "diff", symbols = { added = "", modified = "", removed = "" } },
         -- NOTE: deprecated in favor of barbecue.
         -- {
         --   'filename',
