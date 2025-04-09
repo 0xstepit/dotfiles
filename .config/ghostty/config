@@ -1,10 +1,11 @@
-font-family = "BlexMono Nerd Font"
+# font-family = "BlexMono Nerd Font"
+font-family = "JetBrainsMono Nerd Font"
 font-style = "Medium"
 font-size = 13
 adjust-cell-width = -5%
 adjust-cursor-thickness = 3
 
-background-opacity = 0.93
+background-opacity = 0.98
 background-blur-radius = 20
 
 theme = "flow-moon-eclipse"
