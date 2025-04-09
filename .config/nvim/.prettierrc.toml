@@ -10,3 +10,4 @@ files = "*.md"
 tabWidth = 2
 printWidth = 80
 proseWrap = "always"
+embeddedLanguageFormatting = "off"
