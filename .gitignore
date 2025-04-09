@@ -4,6 +4,7 @@
 **/cache/*
 **/.foundry/*
 **/dlv/*
+**/yarn/*
 **/nvm/*
 **/tmux/plugins/*
 **/zsh-syntax-highlighting/*
