@@ -15,6 +15,7 @@ return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
+    -- word_diff = true,
     signs = signs,
     signs_staged = signs, -- commit info on the left of a line
     preview_config = {
@@ -32,21 +33,26 @@ return {
 
       local opts = { noremap = true, buffer = buffer }
 
+      vim.keymap.set("n", "]h", gs.next_hunk, { desc = "Next [H]unk" })
+      vim.keymap.set("n", "[h", gs.prev_hunk, { desc = "Previous [H]unk" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+      vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "[H]unk [U]ndo stage" })
+      vim.keymap.set("n", "<leader>ghp", gs.preview_hunk, { desc = "[H]unk [P]review popup" })
 
-      vim.keymap.set("n", "]h", gs.next_hunk, {desc = "Next [H]unk"})
-      vim.keymap.set("n", "[h", gs.prev_hunk, {desc = "Previous [H]unk"})
-      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", {desc = "[H]unk [S]tage"})
-            vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", {desc = "[H]unk [R]eset"})
-            vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, {desc = "[H]unk [U]ndo stage"})
-            vim.keymap.set("n", "<leader>ghp", gs.preview_hunk_inline, {desc = "[H]unk [P]review inline"})
+      vim.keymap.set("n", "<leader>gbs", gs.stage_buffer, { desc = "[S]tage [B]uffer" })
+      vim.keymap.set("n", "<leader>gbr", gs.reset_buffer, { desc = "[R]eset [B]uffer" })
+      vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", { desc = "[H]ighlight [L]ine" })
+      vim.keymap.set("n", "<leader>gbl", function()
+        gs.blame_line({ full = true })
+      end, { desc = "[B]lame [L]ine" })
 
-      vim.keymap.set("n", "<leader>gbs", gs.stage_buffer, {desc = "[S]tage [B]uffer"})
-      vim.keymap.set("n", "<leader>gbr", gs.reset_buffer, {desc = "[R]eset [B]uffer"})
-            vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", {desc = "[H]ighlight [L]ine"})
-      vim.keymap.set("n", "<leader>gbl", function() gs.blame_line({ full = true }) end, {desc = "[B]lame [L]ine"})
-
-      vim.keymap.set("n", "<leader>gdm", function() gs.diffthis("main", { vertical = true, split = "belowright" }) end,  {desc = "Diff this main"})
-      vim.keymap.set("n", "<leader>gdt", function() gs.diffthis("~", { vertical = true, split = "belowright" }) end, {desc = "Diff this ~"})
+      vim.keymap.set("n", "<leader>gdm", function()
+        gs.diffthis("main", { vertical = true, split = "belowright" })
+      end, { desc = "Diff this main" })
+      vim.keymap.set("n", "<leader>gdt", function()
+        gs.diffthis("~", { vertical = true, split = "belowright" })
+      end, { desc = "Diff this ~" })
     end,
   },
 }
