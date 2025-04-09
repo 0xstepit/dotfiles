@@ -70,5 +70,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey '^E' fzf-cd-widget
 source "$HOME/.config/zsh/fzf-flow-eclipse.sh"
 
-# bun completions
+# Bun completions
 [ -s "/Users/stepit/.bun/_bun" ] && source "/Users/stepit/.bun/_bun"
+
+# Docker completions
+fpath=(/Users/stepit/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
