@@ -41,7 +41,7 @@ run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'docker'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace D']
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
@@ -59,13 +59,19 @@ run = ['move-node-to-workspace 3']
 if.app-name-regex-substring = 'ghostty'
 run = ['move-node-to-workspace 3']
 
+## Social
+
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['move-node-to-workspace 4']
+run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'telegram'
-run = ['move-node-to-workspace 4']
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'signal'
+run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'mail'
@@ -120,7 +126,7 @@ alt-2 = 'workspace 2'
 alt-3 = 'workspace 3' # Terminal
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
-# alt-d = 'workspace D' # Docker
+alt-d = 'workspace D' # Docker
 # alt-m = 'workspace M' # Music
 alt-n = 'workspace N' # Notes
 # alt-s = 'workspace S' # Social

@@ -27,7 +27,8 @@ y = 7
 
 [font.normal]
 # family = "Cascadia Code"
-family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
+# family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
+family = "Recursive Mono Linear Static" # A Nerd version of IBM Plex
 style = "Regular"
 
 [font.bold]
@@ -35,5 +36,5 @@ family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
 style = "Bold"
 
 [font.italic]
-family = "BlexMono Nerd Font" # A Nerd version of IBM Plex
+family = "Recursive Mono Casual Static" # A Nerd version of IBM Plex
 style = "Italic"

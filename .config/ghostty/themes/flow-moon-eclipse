@@ -4,8 +4,8 @@
 background = #1f282e
 foreground = #d1dbe0
 # black
-palette = 0=#2e3c47
-palette = 8=#2e3c47
+palette = 0=#47555d
+palette = 8=#47555d
 # red
 palette = 1=#db7079
 palette = 9=#db7079

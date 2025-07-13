@@ -77,3 +77,11 @@ source "$HOME/.config/zsh/fzf-flow-eclipse.sh"
 fpath=(/Users/stepit/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
+
+# pnpm
+export PNPM_HOME="/Users/stepit/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

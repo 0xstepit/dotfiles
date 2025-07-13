@@ -1,6 +1,7 @@
 # font-family = "BlexMono Nerd Font"
-font-family = "JetBrainsMono Nerd Font"
-font-style = "Medium"
+# font-family = "JetBrainsMono Nerd Font"
+font-family = "Recursive Mono Linear Static"
+font-style = "Regular"
 font-size = 13
 adjust-cell-width = -5%
 adjust-cursor-thickness = 3
@@ -15,3 +16,5 @@ window-padding-y = 15
 window-decoration = false
 
 macos-titlebar-style = hidden
+
+link-url = true

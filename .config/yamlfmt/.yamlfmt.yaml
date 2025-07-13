@@ -1,0 +1,4 @@
+style:
+  indent: 2
+  indent_sequence: " " # Adds a space before list items
+  flow_level_indent: 1 # Controls indentation of flow collections

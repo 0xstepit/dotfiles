@@ -1,5 +1,6 @@
 [user]
 	name = stepit
 	email = stefanofrancesco.pitton@gmail.com
+	signingkey = 69FAC38058C0AB45B5EF46AEBC65D73D02447F33
 [includeIf "gitdir:~/Repositories/Blockchain/Noble/"]
     path = ~/Repositories/Blockchain/Noble/.gitconfig
