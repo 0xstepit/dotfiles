@@ -1,6 +1,6 @@
 # .prettierrc.toml
 trailingComma = "es5"
-tabWidth = 8
+tabWidth = 2
 semi = false
 singleQuote = true
 

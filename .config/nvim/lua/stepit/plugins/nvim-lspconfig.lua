@@ -32,11 +32,40 @@ return {
       "marksman",
       "rust_analyzer",
       "pyright",
+      "ts_ls",
+      "html",
+      "cssls",
+      "jsonls",
+      "bashls",
+      "dockerls",
     }
 
     for _, value in ipairs(servers) do
       utils.configure_server(value, config[value] or {})
     end
+
+    -- https://github.com/Sin-cy/dotfiles/blob/main/nvim/.config/nvim/lua/sethy/core/keymaps.lua#L84-L92
+    -- Toggle LSP diagnostics visibility
+    local isLspDiagnosticsVisible = true
+    vim.keymap.set("n", "<leader>lx", function()
+      isLspDiagnosticsVisible = not isLspDiagnosticsVisible
+      vim.diagnostic.config({
+        virtual_text = isLspDiagnosticsVisible,
+        underline = isLspDiagnosticsVisible,
+      })
+    end, { desc = "Toggle LSP diagnostics" })
+
+    local is_virtual_line = false
+    vim.keymap.set("n", "<leader>tvl", function()
+      is_virtual_line = not is_virtual_line
+      vim.diagnostic.config({
+        virtual_text = not is_virtual_line and {
+          source = "if_many",
+          prefix = require("stepit.utils.icons").sign.none,
+        } or false,
+        virtual_lines = is_virtual_line,
+      })
+    end, { desc = "Toggle virtual lines" })
 
     -- Use LspAttach autocommand to only add keymaps after the language server attaches to
     -- the current buffer.

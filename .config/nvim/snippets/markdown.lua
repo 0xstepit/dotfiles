@@ -68,6 +68,13 @@ return {
     f(get_selection, {}),
     t(")"),
   }),
+  s({ trig = "img", desc = "Add md image ![caption](path)" }, {
+    t("!["),
+    i(1, "caption"),
+    t("]("),
+    f(get_selection, {}),
+    t(")"),
+  }),
   s({ trig = "title", desc = "Insert filename as H1" }, {
     t("# "),
     f(filename, {}),

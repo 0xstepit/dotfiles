@@ -37,6 +37,17 @@ local spec = {
       vim.keymap.set("n", "<leader>md", ":Daily<CR>")
     end,
   },
+  {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    enabled = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+    config = function()
+      require("hardtime").setup()
+      vim.keymap.set("n", "<leader>tw", ":Hardtime toggle<CR>")
+    end,
+  },
 }
 
 -- Opts are used to configure Lazy plugin manager.

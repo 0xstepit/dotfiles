@@ -30,6 +30,43 @@ M.solidity_ls_nomicfoundation = {
   single_file_support = true,
 }
 
+M.typescript = {
+  settings = {
+    -- Complete LSP features
+    complete_function_calls = true,
+    include_completions_with_insert_text = true,
+
+    -- Inlay hints
+    inlay_hints = {
+      parameter_hints = {
+        enabled = true,
+        show_parameter_names = true,
+      },
+      type_hints = {
+        enabled = true,
+        show_variable_type_hints = true,
+        show_function_parameter_type_hints = true,
+        show_return_type_hints = true,
+      },
+    },
+
+    -- Code style and formatting
+    code_lens = true,
+    format_on_save = true,
+
+    -- Additional features
+    expose_as_code_action = "all",
+    filter_out_diagnostics_by_code = {},
+    filter_out_diagnostics_by_severity = {},
+
+    -- JavaScript support
+    jsx_close_tag = {
+      enable = true,
+      filetypes = { "javascriptreact", "typescriptreact" },
+    },
+  },
+}
+
 M.solidity_ls = {
   settings = {
     solidity = {
@@ -65,6 +102,7 @@ M.gopls = {
         unusedvariable = true,
         assign = true,
         shadow = false,
+        deprecated = true,
       },
       staticcheck = true,
     },
@@ -86,6 +124,64 @@ buf beta lsp included in the cli itself
 buf beta lsp is a Protobuf language server compatible with Buf modules and workspaces
 ]],
   },
+}
+
+M.html = {
+  filetypes = { "html" },
+  init_options = {
+    configurationSection = { "html", "css", "javascript" },
+    embeddedLanguages = {
+      css = true,
+      javascript = true,
+    },
+    provideFormatter = true,
+  },
+  settings = {},
+  single_file_support = true,
+}
+
+M.cssls = {
+  filetypes = { "css", "scss", "less" },
+  settings = {
+    css = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    scss = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+    less = {
+      validate = true,
+      lint = {
+        unknownAtRules = "ignore",
+      },
+    },
+  },
+  single_file_support = true,
+}
+
+M.bashls = {
+  cmd = { "bash-language-server", "start" },
+  filetypes = { "sh", "bash" },
+  settings = {
+    bashIde = {
+      globPattern = "*@(.sh|.inc|.bash|.command)",
+    },
+  },
+  single_file_support = true,
+}
+
+M.dockerls = {
+  cmd = { "docker-langserver", "--stdio" },
+  filetypes = { "dockerfile" },
+  root_dir = vim.fs.dirname(vim.fs.find("Dockerfile", { path = "", upward = true })[1]),
+  settings = {},
+  single_file_support = true,
 }
 
 return M

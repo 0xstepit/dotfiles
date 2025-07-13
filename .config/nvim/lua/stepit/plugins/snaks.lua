@@ -44,7 +44,7 @@ return {
         -- render the image inline in the buffer
         -- if your env doesn't support unicode placeholders, this will be disabled
         -- takes precedence over `opts.float` on supported terminals
-        inline = false,
+        inline = true,
         -- render the image in a floating window
         -- only used if `opts.inline` is disabled
         float = true,

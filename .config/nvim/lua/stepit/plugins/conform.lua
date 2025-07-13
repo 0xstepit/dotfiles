@@ -10,10 +10,15 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       markdown = { "prettier", "markdownlint" },
-      json = { "prettier" },
-      go = { "gofumpt", "goimports-reviser" }, -- "gofmt", "goimports",
-      yaml = { "prettier" },
+      go = { "golangci-lint" }, -- "gofmt", "goimports",
+      yaml = { "yamlfmt", "prettier" },
       sh = { "shfmt" },
+      typescript = { "prettier" },
+      typescriptreact = { "prettier" },
+      javascript = { "prettier" },
+      css = { "prettier" },
+      html = { "prettier" },
+      json = { "prettier" },
       -- python = { 'isort', 'black' },
       -- -- use a sub-list to run only the first available formatter
       -- javascript = { 'prettierd', 'prettier', stop_after_first = true },

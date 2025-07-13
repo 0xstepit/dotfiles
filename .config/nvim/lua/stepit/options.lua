@@ -51,17 +51,18 @@ opt.smartcase = true
 opt.incsearch = true
 
 -- Indentation
-opt.expandtab = true
+opt.expandtab = false
 opt.shiftwidth = 4
-opt.tabstop = 4 -- number of spaces a tab counts for (very much needed in go)
+opt.tabstop = 4
+
 opt.smartindent = true
 
 -- Scrolling
 opt.scrolloff = 15
-opt.sidescrolloff = 5
+opt.sidescrolloff = 10
 
 -- Spelling
-opt.spelllang = { "en_us" }
+opt.spelllang = { "en" }
 opt.spell = false
 
 -- Folding
@@ -77,3 +78,10 @@ opt.foldmethod = "indent"
 -- opt.foldtext = "v:lua.FoldStyle()"
 opt.foldtext = ""
 opt.foldlevelstart = 99 -- no fold initially
+
+vim.opt.diffopt:append({
+  "internal",
+  "algorithm:patience",
+  "indent-heuristic",
+  "linematch:60", -- Enables intra-line diff highlighting
+})

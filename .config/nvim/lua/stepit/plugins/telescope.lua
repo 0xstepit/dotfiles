@@ -7,7 +7,37 @@ return {
   },
   config = function()
     local telescope = require("telescope")
+    local finders = require("telescope.finders")
+    local pickers = require("telescope.pickers")
+    local conf = require("telescope.config").values
+    local action_state = require("telescope.actions.state")
     local actions = require("telescope.actions")
+
+    local git_diff_files = function(branch)
+      local output = vim.fn.systemlist("git diff --name-only " .. branch)
+      if vim.v.shell_error ~= 0 then
+        vim.notify("Error running git diff", vim.log.levels.ERROR)
+        return
+      end
+
+      pickers
+        .new({}, {
+          prompt_title = "Git Diff Files",
+          finder = finders.new_table({
+            results = output,
+          }),
+          sorter = conf.generic_sorter({}),
+          attach_mappings = function(prompt_bufnr, map)
+            actions.select_default:replace(function()
+              local entry = action_state.get_selected_entry()
+              actions.close(prompt_bufnr)
+              vim.cmd("edit " .. entry.value)
+            end)
+            return true
+          end,
+        })
+        :find()
+    end
 
     pcall(require("telescope").load_extension, "fzf")
 
@@ -107,6 +137,14 @@ return {
     map("<leader>fgb", builtin.git_branches, "[G]it [B]ranches")
     map("<leader>fgc", builtin.git_commits, "[G]it [C]ommits")
     map("<leader>fgs", builtin.git_bcommits, "[G]it bcommit[S]")
+
+    map("<leader>fgd", function()
+      vim.ui.input({ prompt = "Git ref to diff against: " }, function(input)
+        if input then
+          git_diff_files(input)
+        end
+      end)
+    end, "[G]it [D]iff files")
     -- TODO: add custom for todo, fix, ...
   end,
 }

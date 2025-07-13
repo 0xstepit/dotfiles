@@ -15,7 +15,7 @@ return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
-    -- word_diff = true,
+    -- word_diff = true, different
     signs = signs,
     signs_staged = signs, -- commit info on the left of a line
     preview_config = {
@@ -27,6 +27,9 @@ return {
     },
     current_line_blame = true,
     current_line_blame_formatter = blame_format,
+    diff_opts = {
+      vertical = false,
+    },
 
     on_attach = function(buffer)
       local gs = package.loaded.gitsigns
@@ -51,7 +54,11 @@ return {
         gs.diffthis("main", { vertical = true, split = "belowright" })
       end, { desc = "Diff this main" })
       vim.keymap.set("n", "<leader>gdt", function()
-        gs.diffthis("~", { vertical = true, split = "belowright" })
+        vim.ui.input({ prompt = "Git ref to diff against: " }, function(input)
+          if input then
+            gs.diffthis(input, { vertical = true, split = "belowright" })
+          end
+        end)
       end, { desc = "Diff this ~" })
     end,
   },

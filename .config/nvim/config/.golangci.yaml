@@ -1,0 +1,30 @@
+version: '2'
+linters:
+  default: all
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - golines
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/cosmos/,cosmossdk.io)
+        - blank
+        - dot
+        - localmodule
+      custom-order: true
+      no-inline-comments: true
+      no-prefix-comments: true
+    gofmt:
+      rewrite-rules:
+        - pattern: 'interface{}'
+          replacement: 'any'
+    golines:
+      max-len: 100
+      tab-len: 4
+      shorten-comments: true
+      chain-split-dots: true
