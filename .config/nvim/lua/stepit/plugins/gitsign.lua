@@ -38,28 +38,30 @@ return {
 
       vim.keymap.set("n", "]h", gs.next_hunk, { desc = "Next [H]unk" })
       vim.keymap.set("n", "[h", gs.prev_hunk, { desc = "Previous [H]unk" })
-      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
-      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsignoooos stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
       vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "[H]unk [U]ndo stage" })
       vim.keymap.set("n", "<leader>ghp", gs.preview_hunk, { desc = "[H]unk [P]review popup" })
 
       vim.keymap.set("n", "<leader>gbs", gs.stage_buffer, { desc = "[S]tage [B]uffer" })
       vim.keymap.set("n", "<leader>gbr", gs.reset_buffer, { desc = "[R]eset [B]uffer" })
-      vim.keymap.set("n", "<leader>ghl", ":Gitsigns toggle_linehl<CR>", { desc = "[H]ighlight [L]ine" })
-      vim.keymap.set("n", "<leader>gbl", function()
+
+      vim.keymap.set("n", "<leader>gtl", ":Gitsigns toggle_linehl<CR>", { desc = "[T]oggle [L]ine highlight" })
+      vim.keymap.set("n", "<leader>gtw", ":Gitsigns toggle_word_diff<CR>", { desc = "[T]toggle [W]ord diff" })
+      vim.keymap.set("n", "<leader>gtb", function()
         gs.blame_line({ full = true })
-      end, { desc = "[B]lame [L]ine" })
+      end, { desc = "[T]oggle [B]lame line" })
 
       vim.keymap.set("n", "<leader>gdm", function()
         gs.diffthis("main", { vertical = true, split = "belowright" })
-      end, { desc = "Diff this main" })
+      end, { desc = "[D]iff against [M]ain" })
       vim.keymap.set("n", "<leader>gdt", function()
         vim.ui.input({ prompt = "Git ref to diff against: " }, function(input)
           if input then
             gs.diffthis(input, { vertical = true, split = "belowright" })
           end
         end)
-      end, { desc = "Diff this ~" })
+      end, { desc = "[D]iff against [T]his" })
     end,
   },
 }
