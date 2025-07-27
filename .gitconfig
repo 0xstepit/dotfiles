@@ -4,3 +4,28 @@
 	signingkey = 69FAC38058C0AB45B5EF46AEBC65D73D02447F33
 [includeIf "gitdir:~/Repositories/Blockchain/Noble/"]
     path = ~/Repositories/Blockchain/Noble/.gitconfig
+[branch]
+	sort = -committerdate
+[column]
+	ui = auto
+[tag]
+	sort = version:refname
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[push]
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[merge]
+	conflictstyle = zdiff3
