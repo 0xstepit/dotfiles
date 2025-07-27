@@ -23,7 +23,7 @@ return {
       style = "minimal",
       relative = "cursor",
       row = 0,
-      col = 1,
+      col = 10,
     },
     current_line_blame = true,
     current_line_blame_formatter = blame_format,
