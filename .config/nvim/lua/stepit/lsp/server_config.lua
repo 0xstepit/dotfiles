@@ -26,8 +26,7 @@ M.marksman = {
 M.solidity_ls_nomicfoundation = {
   cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
   filetypes = { "solidity" },
-  root_dir = vim.fs.dirname(vim.fs.find(".git", { path = "", upward = true })[1]),
-  single_file_support = true,
+  root_dir = require("lspconfig.util").root_pattern("foundry.toml", "hardhat.config.*", ".git"),
 }
 
 M.typescript = {
@@ -82,7 +81,6 @@ M.gopls = {
   settings = {
     gopls = {
       gofumpt = true,
-      buildFlags = { "-tags=build" },
       -- directoryFilters = { "-utils" },
       semanticTokens = true,
       usePlaceholders = true,

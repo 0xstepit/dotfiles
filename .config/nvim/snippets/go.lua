@@ -1,205 +1,305 @@
--- local ls = require("luasnip")
--- local s = ls.snippet
--- local t = ls.text_node
--- local i = ls.insert_node
--- local c = ls.choice_node
--- local f = ls.function_node
---
--- return {
---   -- Function snippets
---   s("func", {
---     t("func "), i(1, "funcName"), t("("), i(2), t(") "), i(3), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("funt", {
---     t("func Test"), i(1, "FuncName"), t("(t *testing.T) {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("funb", {
---     t("func Benchmark"), i(1, "FuncName"), t("(b *testing.B) {"),
---     t({"", "\tfor i := 0; i < b.N; i++ {"}),
---     t({"", "\t\t"}), i(0),
---     t({"", "\t}"}),
---     t({"", "}"}),
---   }),
---
---   s("meth", {
---     t("func ("), i(1, "receiver"), t(" "), i(2, "*Type"), t(") "), i(3, "MethodName"), t("("), i(4), t(") "), i(5), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   -- Error handling
---   s("iferr", {
---     t("if err != nil {"),
---     t({"", "\t"}), c(1, {
---       t("return err"),
---       t("log.Fatal(err)"),
---       t("panic(err)"),
---       t("return nil, err"),
---     }),
---     t({"", "}"}),
---   }),
---
---   s("errw", {
---     t("if err != nil {"),
---     t({"", "\treturn fmt.Errorf(\""}), i(1, "error message"), t(": %w\", err)"),
---     t({"", "}"}),
---   }),
---
---   -- Struct and interface
---   s("type", {
---     t("type "), i(1, "TypeName"), t(" "), c(2, {
---       t("struct"),
---       t("interface"),
---     }), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("st", {
---     t("type "), i(1, "StructName"), t(" struct {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("int", {
---     t("type "), i(1, "InterfaceName"), t(" interface {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   -- Package and imports
---   s("pkg", {
---     t("package "), i(1, "main"),
---   }),
---
---   s("import", {
---     t("import ("),
---     t({"", "\t\""}), i(1), t("\""),
---     t({"", "}"}),
---   }),
---
---   -- Variables and constants
---   s("var", {
---     t("var "), i(1, "name"), t(" "), i(2, "type"), c(3, {
---       t(""),
---       { t(" = "), i(1, "value") },
---     }),
---   }),
---
---   s("const", {
---     t("const "), i(1, "name"), t(" "), i(2, "type"), t(" = "), i(3, "value"),
---   }),
---
---   -- Control structures
---   s("for", {
---     t("for "), i(1), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("fori", {
---     t("for "), i(1, "i"), t(" := 0; "), f(function(args) return args[1][1] end, {1}), t(" < "), i(2, "n"), t("; "), f(function(args) return args[1][1] end, {1}), t("++ {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("forr", {
---     t("for "), i(1, "key"), t(", "), i(2, "value"), t(" := range "), i(3, "slice"), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("if", {
---     t("if "), i(1, "condition"), t(" {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("switch", {
---     t("switch "), i(1, "expression"), t(" {"),
---     t({"", "case "}), i(2, "value"), t(":"),
---     t({"", "\t"}), i(0),
---     t({"", "default:"}),
---     t({"", "}"}),
---   }),
---
---   -- HTTP and Web
---   s("http", {
---     t("http.HandleFunc(\"/"), i(1, "path"), t("\", func(w http.ResponseWriter, r *http.Request) {"),
---     t({"", "\t"}), i(0),
---     t({"", "})"}),
---   }),
---
---   s("handler", {
---     t("func "), i(1, "handlerName"), t("(w http.ResponseWriter, r *http.Request) {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   -- JSON tags
---   s("json", {
---     t("`json:\""), i(1, "field_name"), t("\"`"),
---   }),
---
---   -- Common patterns
---   s("main", {
---     t("func main() {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("init", {
---     t("func init() {"),
---     t({"", "\t"}), i(0),
---     t({"", "}"}),
---   }),
---
---   s("make", {
---     t("make("), i(1, "type"), c(2, {
---       t(""),
---       { t(", "), i(1, "len") },
---       { t(", "), i(1, "len"), t(", "), i(2, "cap") },
---     }), t(")"),
---   }),
---
---   -- Goroutines and channels
---   s("go", {
---     t("go func() {"),
---     t({"", "\t"}), i(0),
---     t({"", "}()"}),
---   }),
---
---   s("chan", {
---     t("chan "), i(1, "type"),
---   }),
---
---   s("select", {
---     t("select {"),
---     t({"", "case "}), i(1), t(":"),
---     t({"", "\t"}), i(0),
---     t({"", "default:"}),
---     t({"", "}"}),
---   }),
---
---   -- Context
---   s("ctx", {
---     t("ctx := context.Background()"),
---   }),
---
---   s("ctxcancel", {
---     t("ctx, cancel := context.WithCancel(context.Background())"),
---     t({"", "defer cancel()"}),
---   }),
---
---   s("ctxtimeout", {
---     t("ctx, cancel := context.WithTimeout(context.Background(), "), i(1, "time.Second*5"), t(")"),
---     t({"", "defer cancel()"}),
---   }),
--- }
+local ls = require("luasnip")
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local c = ls.choice_node
+local f = ls.function_node
 
+return {
+  -- Function snippets
+  s("func", {
+    t("func "),
+    i(1, "funcName"),
+    t("("),
+    i(2),
+    t(") "),
+    i(3),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("funt", {
+    t("func Test"),
+    i(1, "FuncName"),
+    t("(t *testing.T) {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("funb", {
+    t("func Benchmark"),
+    i(1, "FuncName"),
+    t("(b *testing.B) {"),
+    t({ "", "\tfor i := 0; i < b.N; i++ {" }),
+    t({ "", "\t\t" }),
+    i(0),
+    t({ "", "\t}" }),
+    t({ "", "}" }),
+  }),
+
+  s("meth", {
+    t("func ("),
+    i(1, "receiver"),
+    t(" "),
+    i(2, "*Type"),
+    t(") "),
+    i(3, "MethodName"),
+    t("("),
+    i(4),
+    t(") "),
+    i(5),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  -- Error handling
+  s("iferr", {
+    t("if err != nil {"),
+    t({ "", "\t" }),
+    c(1, {
+      t("return err"),
+      t("log.Fatal(err)"),
+      t("panic(err)"),
+      t("return nil, err"),
+    }),
+    t({ "", "}" }),
+  }),
+
+  s("errw", {
+    t("if err != nil {"),
+    t({ "", '\treturn fmt.Errorf("' }),
+    i(1, "error message"),
+    t(': %w", err)'),
+    t({ "", "}" }),
+  }),
+
+  -- Struct and interface
+  s("type", {
+    t("type "),
+    i(1, "TypeName"),
+    t(" "),
+    c(2, {
+      t("struct"),
+      t("interface"),
+    }),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("st", {
+    t("type "),
+    i(1, "StructName"),
+    t(" struct {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("int", {
+    t("type "),
+    i(1, "InterfaceName"),
+    t(" interface {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  -- Package and imports
+  s("pkg", {
+    t("package "),
+    i(1, "main"),
+  }),
+
+  s("import", {
+    t("import ("),
+    t({ "", '\t"' }),
+    i(1),
+    t('"'),
+    t({ "", "}" }),
+  }),
+
+  -- Variables and constants
+  s("var", {
+    t("var "),
+    i(1, "name"),
+    t(" "),
+    i(2, "type"),
+    c(3, {
+      t(""),
+      { t(" = "), i(1, "value") },
+    }),
+  }),
+
+  s("const", {
+    t("const "),
+    i(1, "name"),
+    t(" "),
+    i(2, "type"),
+    t(" = "),
+    i(3, "value"),
+  }),
+
+  -- Control structures
+  s("for", {
+    t("for "),
+    i(1),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("fori", {
+    t("for "),
+    i(1, "i"),
+    t(" := 0; "),
+    f(function(args)
+      return args[1][1]
+    end, { 1 }),
+    t(" < "),
+    i(2, "n"),
+    t("; "),
+    f(function(args)
+      return args[1][1]
+    end, { 1 }),
+    t("++ {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("forr", {
+    t("for "),
+    i(1, "key"),
+    t(", "),
+    i(2, "value"),
+    t(" := range "),
+    i(3, "slice"),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("if", {
+    t("if "),
+    i(1, "condition"),
+    t(" {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("switch", {
+    t("switch "),
+    i(1, "expression"),
+    t(" {"),
+    t({ "", "case " }),
+    i(2, "value"),
+    t(":"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "default:" }),
+    t({ "", "}" }),
+  }),
+
+  -- HTTP and Web
+  s("http", {
+    t('http.HandleFunc("/'),
+    i(1, "path"),
+    t('", func(w http.ResponseWriter, r *http.Request) {'),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "})" }),
+  }),
+
+  s("handler", {
+    t("func "),
+    i(1, "handlerName"),
+    t("(w http.ResponseWriter, r *http.Request) {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  -- JSON tags
+  s("json", {
+    t('`json:"'),
+    i(1, "field_name"),
+    t('"`'),
+  }),
+
+  -- Common patterns
+  s("main", {
+    t("func main() {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("init", {
+    t("func init() {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}" }),
+  }),
+
+  s("make", {
+    t("make("),
+    i(1, "type"),
+    c(2, {
+      t(""),
+      { t(", "), i(1, "len") },
+      { t(", "), i(1, "len"), t(", "), i(2, "cap") },
+    }),
+    t(")"),
+  }),
+
+  -- Goroutines and channels
+  s("go", {
+    t("go func() {"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "}()" }),
+  }),
+
+  s("chan", {
+    t("chan "),
+    i(1, "type"),
+  }),
+
+  s("select", {
+    t("select {"),
+    t({ "", "case " }),
+    i(1),
+    t(":"),
+    t({ "", "\t" }),
+    i(0),
+    t({ "", "default:" }),
+    t({ "", "}" }),
+  }),
+
+  -- Context
+  s("ctx", {
+    t("ctx := context.Background()"),
+  }),
+
+  s("ctxcancel", {
+    t("ctx, cancel := context.WithCancel(context.Background())"),
+    t({ "", "defer cancel()" }),
+  }),
+
+  s("ctxtimeout", {
+    t("ctx, cancel := context.WithTimeout(context.Background(), "),
+    i(1, "time.Second*5"),
+    t(")"),
+    t({ "", "defer cancel()" }),
+  }),
+}

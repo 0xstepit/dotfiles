@@ -38,8 +38,8 @@ return {
 
       vim.keymap.set("n", "]h", gs.next_hunk, { desc = "Next [H]unk" })
       vim.keymap.set("n", "[h", gs.prev_hunk, { desc = "Previous [H]unk" })
-      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsignoooos stage_hunk<CR>", { desc = "[H]unk [S]tage" })
-      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", { desc = "[H]unk [S]tage" })
+      vim.keymap.set({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", { desc = "[H]unk [R]eset" })
       vim.keymap.set("n", "<leader>ghu", gs.undo_stage_hunk, { desc = "[H]unk [U]ndo stage" })
       vim.keymap.set("n", "<leader>ghp", gs.preview_hunk, { desc = "[H]unk [P]review popup" })
 
@@ -52,9 +52,11 @@ return {
         gs.blame_line({ full = true })
       end, { desc = "[T]oggle [B]lame line" })
 
-      vim.keymap.set("n", "<leader>gdm", function()
-        gs.diffthis("main", { vertical = true, split = "belowright" })
-      end, { desc = "[D]iff against [M]ain" })
+      vim.keymap.set("n", "<leader>gd", function()
+        local branch = vim.g.ref_branch
+        gs.diffthis(branch, { vertical = true, split = "belowright" })
+      end, { desc = "[D]iff" })
+
       vim.keymap.set("n", "<leader>gdt", function()
         vim.ui.input({ prompt = "Git ref to diff against: " }, function(input)
           if input then

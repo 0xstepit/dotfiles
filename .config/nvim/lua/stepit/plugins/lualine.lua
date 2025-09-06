@@ -27,7 +27,7 @@ return {
   enabled = true,
   opts = {
     options = {
-      icons_enabled = true,
+      icons_enabled = false,
       theme = "auto",
       component_separators = icons.line.vertical.thin.central,
       section_separators = "",

@@ -56,7 +56,6 @@ return {
     },
     snippets = { preset = "luasnip" },
     sources = {
-      default = { "lsp", "snippets", "path", "buffer" },
       providers = {
         lsp = {
           name = "LSP",
@@ -67,6 +66,7 @@ return {
           name = "Snippets",
           module = "blink.cmp.sources.snippets",
           score_offset = -10, -- Lower priority than LSP
+          max_items = 10,
         },
         path = {
           name = "Path",
@@ -159,8 +159,6 @@ return {
       documentation = {
         window = {
           border = "rounded",
-          max_width = math.floor(vim.o.columns * 0.4),
-          max_height = math.floor(vim.o.lines * 0.3),
         },
         auto_show = true,
         auto_show_delay_ms = 200,

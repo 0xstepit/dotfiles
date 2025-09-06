@@ -15,8 +15,9 @@ function M.configure_ui()
   function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts = opts or {}
     opts.border = icons.get_borders()
-    opts.max_height = math.floor(vim.o.lines * 0.4)
-    opts.max_width = math.floor(vim.o.columns * 0.4)
+    -- opts.width = math.floor(vim.o.lines * 0.8)
+    -- opts.max_height = math.floor(vim.o.lines * 0.8)
+    -- opts.max_width = math.floor(vim.o.columns * 0.8)
     return orig_util_open_floating_preview(contents, syntax, opts, ...)
   end
 end

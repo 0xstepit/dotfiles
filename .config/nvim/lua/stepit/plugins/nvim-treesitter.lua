@@ -68,6 +68,8 @@ return {
     config = function(_, opts)
       local configs = require("nvim-treesitter.configs")
       configs.setup(opts)
+
+      vim.treesitter.language.register("markdown", "mdx")
     end,
   },
 }

@@ -7,7 +7,13 @@ return {
       buflisted = false,
       bufhidden = "hide",
     },
-    delete_to_trash = true,
+    icons_enabled = false,
+    columns = {
+      -- "icon",
+      -- "permissions",
+      -- "size",
+      -- "mtime",
+    },
     keymaps = {
       ["g?"] = { "actions.show_help", mode = "n" },
       ["<CR>"] = "actions.select",

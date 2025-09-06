@@ -1,0 +1,10 @@
+gui:
+  theme:
+    # Border color of focused window
+    activeBorderColor:
+      - "#70afdb"
+    inactiveBorderColor:
+      - "#3d505c"
+    selectedLineBgColor:
+      - "#ff007b"
+  showRandomTip: true

@@ -29,3 +29,11 @@
 	autoupdate = true
 [merge]
 	conflictstyle = zdiff3
+[color "diff"]
+	added = green bold white
+	; old = red bold 59
+	frag = yellow
+[color "branch"]
+	current = yellow reverse
+	local = green
+	remote = cyan
