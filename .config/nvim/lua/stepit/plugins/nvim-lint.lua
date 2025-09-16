@@ -37,16 +37,35 @@ return {
       "-",
     }
 
+    lint.linters.eslint = {
+      cmd = "npx",
+      args = {
+        "eslint_d", -- Will fallback to eslint if eslint_d not available
+        "--format",
+        "json",
+        "--stdin",
+        "--stdin-filename",
+        function()
+          return vim.api.nvim_buf_get_name(0)
+        end,
+      },
+      stdin = true,
+    }
+
     vim.api.nvim_create_user_command("LintInfo", function()
       local filetype = vim.bo.filetype
       -- We cannot use `local linters = require("lint").get_running()` because linters that
       -- run async, like golangcilint, run and exit and will not be displayed.
       local linters = require("lint").linters_by_ft[filetype]
-      local lt = require("lint").linters["golangcilint"]
-      print(vim.inspect(lt))
 
       if linters then
         print("Linters for " .. filetype .. ": " .. table.concat(linters, ", "))
+
+        for _, v in ipairs(linters) do
+          print("Config for: " .. v)
+          local lt = require("lint").linters[v]
+          print(vim.inspect(lt))
+        end
       else
         print("No linters configured for filetype: " .. filetype)
       end
