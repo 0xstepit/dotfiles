@@ -3,7 +3,7 @@ local icons = require("stepit.utils.icons")
 
 -- General
 opt.clipboard = "unnamedplus"
-opt.completeopt = "menu,menuone,preview,noinsert,noselect"
+opt.completeopt = "menu,menuone,preview,noinsert"
 opt.undofile = true
 opt.mouse = "a"
 opt.conceallevel = 2

@@ -55,11 +55,12 @@ end
 ---@param settings? table
 function M.configure_server(name, settings)
   -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local capabilities = require("blink.cmp").get_lsp_capabilities({}, true)
+  -- local capabilities = require("blink.cmp").get_lsp_capabilities({}, true)
 
-  require("lspconfig")[name].setup(
-    vim.tbl_deep_extend("error", { capabilities = capabilities, silent = true }, settings or {})
-  )
+  if name == "marksman" then
+    vim.notify(vim.inspect(settings))
+  end
+  require("lspconfig")[name].setup(settings)
 end
 
 --- Sets up LSP keymaps and autocommands for the given buffer and client.

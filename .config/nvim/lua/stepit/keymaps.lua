@@ -9,28 +9,46 @@ set("n", "<leader><leader>x", function()
   print("Sourcing project")
   vim.cmd("source %")
 end, { desc = "Source all files" })
+set("n", "<leader>yp", function()
+  local filePath = vim.fn.expand("%:~")
+  vim.fn.setreg("+", filePath)
+end, { desc = "[Y]arn file [P]ath to clipboard" })
+
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
 set("n", "<leader>ts", function()
   ---@diagnostic disable-next-line: undefined-field
   vim.opt.spell = not vim.opt.spell:get()
 end, { desc = "[T]oggle [Spell] checking" })
+set("n", "<leader>ssd", function()
+  vim.opt.spelllang = "de"
+end, { desc = "[S]pelllang [D]E" })
 set(
   "n",
   "<leader>sc",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "[S]earch and replace word under the cursor globally" }
 )
-set("n", "<leader>yp", function()
-  local filePath = vim.fn.expand("%:~")
-  vim.fn.setreg("+", filePath)
-end, { desc = "[Y]arn file [P]ath to clipboard" })
+-- Text movement
+set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+
+-- Movement
+set("c", "<C-j>", "<Down>", { desc = "Move down in command mode" })
+set("c", "<C-k>", "<Up>", { desc = "Move up in command mode" })
+
+-- Buffer navigation
+set("n", "[q", "<cmd>cprev<CR>", { desc = "Previous quickfix item" })
+set("n", "]q", "<cmd>cnext<CR>", { desc = "Next quickfix item" })
+-----------------------------------------------------------
+-----------------------------------------------------------
+-----------------------------------------------------------
 
 -- Buffer management
 set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 set("x", "p", "P", { desc = "Paste without changing clipboard" })
 
--- Buffer navigation
-set("n", "[q", "<cmd>cprev<CR>", { desc = "Previous quickfix item" })
-set("n", "]q", "<cmd>cnext<CR>", { desc = "Next quickfix item" })
 -- set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down with centered cursor" })
 -- set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up with centered cursor" })
 set("n", "n", "nzzzv", { desc = "Search with centered result" })
@@ -40,14 +58,6 @@ set("n", "N", "Nzzzv", { desc = "Search backwards with centered result" })
 set("v", ">", ">gv", { desc = "Intent multiple lines" })
 set("v", "<", "<gv", { desc = "Unindent multiple lines" })
 
--- Text movement
-set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
-set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-
--- Movement
-set("c", "<C-j>", "<Down>", { desc = "Move down in command mode" })
-set("c", "<C-k>", "<Up>", { desc = "Move up in command mode" })
-
 -- Windows management
 set("n", "<leader><C-v>", "<C-w>v", { desc = "Split window horizontally" })
 set("n", "<leader><C-h>", "<C-w>s", { desc = "Split window vertically" })
@@ -56,10 +66,6 @@ set("n", "<C-b>", "<c-w>5>", { desc = "Increase split window size on the right" 
 set("n", "<C-c>", "<c-w>5<", { desc = "Increase split window size on the left" })
 set("n", "<C-t>", "<C-W>+", { desc = "Increase split window size on the top" })
 set("n", "<C-s>", "<C-W>-", { desc = "Increase split window size on the bottom" })
-
-set("n", "<leader>ssd", function()
-  vim.opt.spelllang = "de"
-end, { desc = "[S]pelllang [D]E" })
 
 ----------------------------------------------------------------------------------------
 --- Colorscheme
@@ -73,7 +79,7 @@ set("n", "<leader>tc", function()
   else
     print("Environment variable MY_ENV_VAR is not set.")
   end
-end, { desc = "[N]ew note file" })
+end, { desc = "" })
 
 ----------------------------------------------------------------------------------------
 --- Notes management

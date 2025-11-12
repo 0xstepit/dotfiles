@@ -24,22 +24,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- vim.api.nvim_create_autocmd("FileType", {
---   group = vim.api.nvim_create_augroup("stepit/close_with_q", { clear = true }),
---   desc = "Close with <q>",
---   pattern = {
---     "fugitive",
---     "help",
---     "man",
---     "qf",
---     "query",
---     "scratch",
---   },
---   callback = function(args)
---     vim.keymap.set("n", "q", "<cmd>quit!<cr>", { buffer = args.buf })
---   end,
--- })
-
 -- https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/autocmds.lua#L53-L63
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = vim.api.nvim_create_augroup("stepit/last_location", { clear = true }),
@@ -58,7 +42,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "TelescopePrompt", "fugitive", "git", "qf", "GV" },
+  pattern = { "TelescopePrompt", "oil", "fugitive", "git", "qf", "GV" },
   desc = "Set cursorline to true when entering a window.",
   callback = function()
     vim.wo.cursorline = false
@@ -69,7 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   callback = function()
-    local exc = { "TelescopePrompt", "fugitive", "git", "gitcommit", "qf", "GV" }
+    local exc = { "TelescopePrompt", "oil", "fugitive", "git", "gitcommit", "qf", "GV" }
     local valid = true
     for _, e in ipairs(exc) do
       if vim.bo.filetype == e then
@@ -79,6 +63,7 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
 
     if valid then
       vim.wo.cursorline = true
+      vim.wo.colorcolumn = "100"
     end
   end,
 })

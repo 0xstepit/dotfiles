@@ -66,14 +66,14 @@ M.typescript = {
   },
 }
 
-M.solidity_ls = {
-  settings = {
-    solidity = {
-      enabledAsYouTypeCompilationErrorCheck = true,
-      validationDelay = 1500,
-    },
-  },
-}
+-- M.solidity_ls = {
+--   settings = {
+--     solidity = {
+--       enabledAsYouTypeCompilationErrorCheck = true,
+--       validationDelay = 1500,
+--     },
+--   },
+-- }
 
 M.gopls = {
   cmd = { "gopls" },
