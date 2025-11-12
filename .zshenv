@@ -6,3 +6,4 @@ export DOTFILES="$HOME/dotfiles"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 source "$HOME/.env"
+. "$HOME/.cargo/env"
