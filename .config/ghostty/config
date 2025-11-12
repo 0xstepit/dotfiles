@@ -13,7 +13,7 @@ theme = "flow-moon-eclipse"
 
 window-padding-x = 20
 window-padding-y = 15
-window-decoration = false
+window-decoration = true
 
 macos-titlebar-style = hidden
 
