@@ -20,24 +20,13 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [gaps]
 inner.horizontal = 15
-inner.vertical =   15
-outer.left =       15
-outer.bottom =     15
-outer.top =        15
-outer.right =      15
+inner.vertical = 15
+outer.left = 15
+outer.bottom = 15
+outer.top = 15
+outer.right = 15
 
 # Automatic app placing
-[[on-window-detected]]
-if.app-name-regex-substring = 'arc'
-run = ['move-node-to-workspace 1']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'brave'
-run = ['move-node-to-workspace 1']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'calendar'
-run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'docker'
@@ -46,32 +35,6 @@ run = ['move-node-to-workspace D']
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = ['move-node-to-workspace 2']
-
-[[on-window-detected]]
-if.app-id = 'org.alacritty'
-run = ['move-node-to-workspace 3']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'kitty'
-run = ['move-node-to-workspace 3']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'ghostty'
-run = ['move-node-to-workspace 3']
-
-## Social
-
-[[on-window-detected]]
-if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['layout floating', 'move-node-to-workspace 4']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'telegram'
-run = ['layout floating', 'move-node-to-workspace 4']
-
-[[on-window-detected]]
-if.app-name-regex-substring = 'signal'
-run = ['layout floating', 'move-node-to-workspace 4']
 
 [[on-window-detected]]
 if.app-name-regex-substring = 'mail'
@@ -101,7 +64,53 @@ run = ['move-node-to-workspace Z']
 if.app-name-regex-substring = 'bitwarden'
 run = 'layout floating'
 
+# -------------------------------------------------------------------------------------------------
+# Browsers
+# -------------------------------------------------------------------------------------------------
+[[on-window-detected]]
+if.app-name-regex-substring = 'arc'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'brave'
+run = ['move-node-to-workspace 1']
+
+# -------------------------------------------------------------------------------------------------
+# Terminals
+# -------------------------------------------------------------------------------------------------
+
+[[on-window-detected]]
+if.app-id = 'org.alacritty'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'kitty'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'ghostty'
+run = ['move-node-to-workspace 3']
+
+# -------------------------------------------------------------------------------------------------
+# Socials
+# -------------------------------------------------------------------------------------------------
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'telegram'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'signal'
+run = ['layout floating', 'move-node-to-workspace 4']
+
+# -------------------------------------------------------------------------------------------------
 # MAIN bindings
+# -------------------------------------------------------------------------------------------------
+
 [mode.main.binding]
 
 # Change container layout AND direction.
@@ -130,8 +139,8 @@ alt-d = 'workspace D' # Docker
 # alt-m = 'workspace M' # Music
 alt-n = 'workspace N' # Notes
 # alt-s = 'workspace S' # Social
-alt-t = 'workspace L' # Social
-alt-z = 'workspace Z' # Social
+alt-t = 'workspace L'
+alt-z = 'workspace Z'
 
 # Move app to workspace.
 alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
@@ -149,7 +158,10 @@ alt-tab = 'workspace-back-and-forth'
 
 alt-shift-tab = 'move-node-to-monitor --wrap-around next'
 
+# -------------------------------------------------------------------------------------------------
 # RESIZE bindings
+# -------------------------------------------------------------------------------------------------
+
 alt-r = 'mode resize'
 
 [mode.resize.binding]
@@ -163,7 +175,10 @@ alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
 r = ['flatten-workspace-tree', 'mode main'] # Reset layout
-q = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+q = [
+  'layout floating tiling',
+  'mode main',
+] # Toggle between floating and tiling layout
 
 enter = 'mode main'
 esc = 'mode main'
