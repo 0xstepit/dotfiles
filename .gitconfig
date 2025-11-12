@@ -37,3 +37,5 @@
 	current = yellow reverse
 	local = green
 	remote = cyan
+[init]
+	defaultBranch = main
