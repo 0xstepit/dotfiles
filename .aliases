@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-alias v='NVIM_APPNAME=nvim-new nvim'
+# alias v='NVIM_APPNAME=nvim-new nvim'
+alias v='nvim'
 
 # Tmux aliases.
 alias t=tmux
@@ -21,14 +22,12 @@ alias grs='git reset --soft HEAD~1'
 alias gpf='gp fork'
 alias gpo!='gp --set-upstream origin $(git symbolic-ref --short HEAD)'
 alias gdn='git diff --name-only'
-alias gdc='git_diff_count'
 alias gfom='git fetch origin main:main'
 
 # Utils aliases.
 alias ls='eza'
 alias lsl='eza -1 --long'
 alias tree='eza --tree --level=2'
-alias treen='treeN() { eza --tree --level=$1}; treeN'
 
 # cd aliases.
 alias cdr='cd "$REPOS"'
@@ -41,11 +40,3 @@ alias cdc='cd "$CHAINS"'
 
 # sourcing
 alias sz='source "$ZDOTDIR"/.zshrc'
-
-git_diff_count() {
-	output=$(git diff --name-status main)
-	m_count=$(echo "$output" | grep -E '^[[:space:]]*M' -c)
-	a_count=$(echo "$output" | grep -E '^[[:space:]]*A' -c)
-	d_count=$(echo "$output" | grep -E '^[[:space:]]*D' -c)
-	echo "Changes M: $m_count, A: $a_count, D: $d_count"
-}
