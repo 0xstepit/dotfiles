@@ -2,9 +2,6 @@
 # https://github.com/0xstepit/flow.nvim
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
---border \
---height 40% \
---layout=reverse \
 --color=bg+:#141a1f \
 --color=fg:#b3c1cc \
 --color=fg+:#b3c1cc \

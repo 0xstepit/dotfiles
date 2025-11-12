@@ -3,6 +3,22 @@ source "$HOME/.env"
 source "$HOME/.aliases"
 source "$HOME/.cargo/env"
 
+# Source functions
+# source "$HOME/.config/scripts/main.sh"
+
+SCRIPT_DIR="$HOME/.config/scripts"
+if [[ -d "$SCRIPT_DIR" ]]; then
+	for script in $SCRIPT_DIR/*.sh; do
+		[[ -f "$script" ]] && source "$script"
+	done
+fi
+
+# source "$HOME/.config/scripts/vim-fuzzy.sh"
+# source "$HOME/.config/scripts/cd-old-dirs.sh"
+# source "$HOME/.config/scripts/delete-branches.sh"
+# source "$HOME/.config/scripts/cd-work.sh"
+# source "$HOME/.config/scripts/pr-checkout.sh"
+
 # File to store history.
 
 export HISTFILE="$XDG_CACHE_HOME/zsh/.zhistory"
@@ -14,7 +30,8 @@ export SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 
-# Directory stack options. setopt AUTO_PUSHD
+# Directory stack options.
+setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_SILENT
 setopt share_history
@@ -64,11 +81,25 @@ eval "$(register-python-argcomplete pipx)"
 
 # fzf configuration.
 eval "$(fzf --zsh)"
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --exclude plugins/'
+export FZF_DEFAULT_COMMAND="fd \
+--type file \
+--follow \
+--hidden \
+--exclude .git"
+# --exclude plugins"
+export FZF_DEFAULT_OPTS="--height=40% \
+--layout=reverse \
+--pointer='' \
+--marker='┃' \
+--border=rounded \
+--prompt='  '"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 bindkey '^E' fzf-cd-widget
 source "$HOME/.config/zsh/fzf-flow-eclipse.sh"
+
+bindkey -M emacs '\ec' fzf-cd-widget
+bindkey -M vicmd '\ec' fzf-cd-widget
+bindkey -M viins '\ec' fzf-cd-widget
 
 # Bun completions
 [ -s "/Users/stepit/.bun/_bun" ] && source "/Users/stepit/.bun/_bun"
@@ -85,3 +116,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# gpg
+export GPG_TTY=$(tty)
+# gpg end
