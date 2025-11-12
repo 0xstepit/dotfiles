@@ -1,7 +1,0 @@
-indent_type = "Spaces" # use spaces for Tabs indentation
-indent_width = 2 # number of spaces for indent level (overwritten by project settings)
-no_call_parentheses = false # do not omit parenthesis for single-argument calls
-quote_style = "AutoPreferDouble"
-
-[sort_requires]
-enabled = true

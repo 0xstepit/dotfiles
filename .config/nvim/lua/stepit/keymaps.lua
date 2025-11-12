@@ -1,131 +1,74 @@
-local functions = require("stepit.utils.functions")
+local notes = require("stepit.notes")
 
 local set = vim.keymap.set
 
--- General
 set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
-set("n", "<esc>", ":nohlsearch<cr>", { desc = "clear search highlights" })
+
+-- ================================================================================================
+-- Active buffer management
+-- ================================================================================================
+
+set("n", "<esc>", ":nohlsearch<cr>", { desc = "Clear search highlights" })
+
 set("n", "<leader><leader>x", function()
-  print("Sourcing project")
-  vim.cmd("source %")
-end, { desc = "Source all files" })
+	print("Sourcing current file")
+	vim.cmd("source %")
+end, { desc = "Source current file" })
+
+set("n", "<leader>w", function()
+	local status_dict = vim.b.gitsigns_status_dict
+	local has_changes = status_dict
+		and ((status_dict.added or 0) > 0 or (status_dict.changed or 0) > 0 or (status_dict.removed or 0) > 0)
+
+	local is_modified = vim.bo.modified
+	local is_markdown = vim.fs.normalize(vim.fn.expand("%:e")) == "md"
+
+	if is_markdown and has_changes and is_modified then
+		notes.update_modified_in_frontmatter(0)
+	end
+
+	vim.cmd("w")
+	vim.notify("Current file saved", "info")
+end, { desc = "Save file" })
+
 set("n", "<leader>yp", function()
-  local filePath = vim.fn.expand("%:~")
-  vim.fn.setreg("+", filePath)
+	local filePath = vim.fn.expand("%:~")
+	vim.fn.setreg("+", filePath)
+	print("Yarn current file path")
 end, { desc = "[Y]arn file [P]ath to clipboard" })
 
------------------------------------------------------------
------------------------------------------------------------
------------------------------------------------------------
-set("n", "<leader>ts", function()
-  ---@diagnostic disable-next-line: undefined-field
-  vim.opt.spell = not vim.opt.spell:get()
-end, { desc = "[T]oggle [Spell] checking" })
-set("n", "<leader>ssd", function()
-  vim.opt.spelllang = "de"
-end, { desc = "[S]pelllang [D]E" })
-set(
-  "n",
-  "<leader>sc",
-  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = "[S]earch and replace word under the cursor globally" }
-)
--- Text movement
-set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
-set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-
--- Movement
-set("c", "<C-j>", "<Down>", { desc = "Move down in command mode" })
-set("c", "<C-k>", "<Up>", { desc = "Move up in command mode" })
-
--- Buffer navigation
-set("n", "[q", "<cmd>cprev<CR>", { desc = "Previous quickfix item" })
-set("n", "]q", "<cmd>cnext<CR>", { desc = "Next quickfix item" })
------------------------------------------------------------
------------------------------------------------------------
------------------------------------------------------------
-
--- Buffer management
-set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+-- When pasting on a selected line, the selected lines will not
+-- replace the pasted text in the clipboard.
 set("x", "p", "P", { desc = "Paste without changing clipboard" })
 
--- set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down with centered cursor" })
--- set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up with centered cursor" })
+set("v", ">", ">gv", { desc = "Indent in visual mode" })
+set("v", "<", "<gv", { desc = "Unindent in visual mode" })
+
+set("n", "J", "mzJ`z", { desc = "Join lines and keep cursor position" })
+
+set("n", "U", "<C-r>", { desc = "Redo" })
+
+-- ================================================================================================
+-- Movements on active buffer
+-- ================================================================================================
+--
 set("n", "n", "nzzzv", { desc = "Search with centered result" })
 set("n", "N", "Nzzzv", { desc = "Search backwards with centered result" })
+set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down with centered cursor" })
+set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up with centered cursor" })
 
--- Indentation
-set("v", ">", ">gv", { desc = "Intent multiple lines" })
-set("v", "<", "<gv", { desc = "Unindent multiple lines" })
-
+-- ================================================================================================
 -- Windows management
-set("n", "<leader><C-v>", "<C-w>v", { desc = "Split window horizontally" })
-set("n", "<leader><C-h>", "<C-w>s", { desc = "Split window vertically" })
-set("n", "<leader>=", "<C-w>=", { desc = "Set split windows to equal size" })
-set("n", "<C-b>", "<c-w>5>", { desc = "Increase split window size on the right" })
-set("n", "<C-c>", "<c-w>5<", { desc = "Increase split window size on the left" })
-set("n", "<C-t>", "<C-W>+", { desc = "Increase split window size on the top" })
-set("n", "<C-s>", "<C-W>-", { desc = "Increase split window size on the bottom" })
+-- ================================================================================================
+--
+set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+set("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
+set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
+set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
-----------------------------------------------------------------------------------------
---- Colorscheme
-----------------------------------------------------------------------------------------
+set("n", "<C-t>", "<Cmd>resize +2<CR>", { desc = "Increase window height" })
+set("n", "<C-s>", "<Cmd>resize -2<CR>", { desc = "Decrease window height" })
+set("n", "<C-c>", "<Cmd>vertical resize -2<CR>", { desc = "Decrease window width" })
+set("n", "<C-b>", "<Cmd>vertical resize +2<CR>", { desc = "Increase window width" })
 
-set("n", "<leader>tc", function()
-  local my_var = os.getenv("COLORSCHEME")
-
-  if my_var then
-    print("Environment variable MY_ENV_VAR is: " .. my_var)
-  else
-    print("Environment variable MY_ENV_VAR is not set.")
-  end
-end, { desc = "" })
-
-----------------------------------------------------------------------------------------
---- Notes management
-----------------------------------------------------------------------------------------
-local fn = require("stepit.utils.functions")
-set("n", "<leader>mn", function()
-  local note_title = vim.fn.input("Note title: ")
-  local result = fn.new_note(note_title)
-  if result.error then
-    vim.notify(result.message, vim.log.levels.ERROR)
-  else
-    vim.notify(result.message, vim.log.levels.INFO)
-  end
-end, { desc = "[N]ew note file" })
-
-set("n", "<leader>mr", function()
-  local resources = os.getenv("RESOURCES")
-  if not resources or resources == "" then
-    return
-  end
-
-  local out = functions.move_note_command(resources)
-  if not out.err == true then
-    vim.cmd(out.cmd)
-  end
-end, { desc = "Move file to [R]esources" })
-
-set("n", "<leader>mi", function()
-  local inbox = os.getenv("INBOX")
-  if not inbox or inbox == "" then
-    return
-  end
-  local out = fn.move_note_command(inbox)
-  if out.err ~= true then
-    vim.cmd(out.cmd)
-  end
-end, { desc = "Move file to [I]nbox" })
-
-set("n", "<leader>test", function()
-  -- local tab1 = { a = "ciao", b = "anche a te" }
-  local tab1 = { "eccomi" }
-  local tab2 = { c = "ciao", d = "anche a te" }
-
-  local tabres = vim.tbl_deep_extend("error", tab1, tab2)
-
-  print(vim.inspect(tabres))
-
-  print("KEK")
-end, { desc = "[T]oggle [Spell] checking" })
+set("n", "<C-w>z", "<C-w>|", { desc = "Maximize window width" })

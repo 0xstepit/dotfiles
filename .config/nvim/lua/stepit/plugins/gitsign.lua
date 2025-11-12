@@ -1,12 +1,12 @@
 local icons = require("stepit.utils.icons")
 
 local signs = {
-  add = { text = icons.line.vertical.single },
-  change = { text = icons.line.vertical.single },
-  delete = { text = icons.line.vertical.single },
-  topdelete = { text = icons.line.horizontal.top },
-  changedelete = { text = icons.line.vertical.single },
-  untracked = { text = icons.line.vertical.dash },
+  add = { text = icons.medium_lines.center },
+  change = { text = icons.medium_lines.center },
+  delete = { text = icons.medium_lines.center },
+  topdelete = { text = icons.lines.horizontal.top },
+  changedelete = { text = icons.medium_lines.center },
+  untracked = { text = icons.dashed_lines.center },
 }
 
 local blame_format = icons.species.person .. " <author>, <author_time:%d-%m-%Y> " .. icons.git.commit .. " <summary>"
@@ -31,10 +31,8 @@ return {
       vertical = false,
     },
 
-    on_attach = function(buffer)
+    on_attach = function(_)
       local gs = package.loaded.gitsigns
-
-      local opts = { noremap = true, buffer = buffer }
 
       vim.keymap.set("n", "]h", gs.next_hunk, { desc = "Next [H]unk" })
       vim.keymap.set("n", "[h", gs.prev_hunk, { desc = "Previous [H]unk" })

@@ -1,4 +1,4 @@
-local lopt = vim.opt_local
+local lopt = vim.opt
 
 lopt.shiftwidth = 2
 lopt.tabstop = 2

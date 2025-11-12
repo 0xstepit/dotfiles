@@ -1,106 +1,81 @@
 local M = {}
 
-M.line = {
-  vertical = {
-    thin = {
-      central = "│",
-      left = "▏",
-    },
-    single = "┃",
-    double = "▐",
-    dash = "┆",
-  },
-  horizontal = {
-    bottom = "_",
-    center = "⎯",
-    top = "‾",
-  },
+M.species = {
+	person = "",
+	alien = "󰢚",
 }
 
-M.species = {
-  person = "",
-  alien = "󰢚",
+M.chevrons = {
+	down = "",
+	right = "",
+}
+
+M.lines = {
+	vertical = {
+		center = "│",
+		left = "▏",
+	},
+	horizontal = {
+		bottom = "_",
+		center = "⎯",
+		top = "‾",
+	},
+	-- double = "▐",
+}
+
+M.medium_lines = {
+	center = "┃",
+}
+
+M.dashed_lines = {
+	center = "┆",
 }
 
 M.git = {
-  commit = "",
-  branch = "",
+	commit = "",
+	branch = "",
 }
 
 M.status = {
-  ok = "✓",
-  error = "✗",
-}
-
-M.arrow = {
-  right = "→",
-  double = "»",
-  fat = "",
-}
-
-M.chevron = {
-  down = "",
-  right = "",
-}
-
-M.sign = {
-  none = "",
-  plus = "→",
-  double = "»",
-  empty = "∅",
-}
-
-M.diagnostic = {
-  error = "●",
-  warn = "●",
-  hint = "●",
-  info = "●",
+	ok = "✓",
+	error = "✗",
 }
 
 M.symbols = {
-  lens = "",
+	Array = "󰅪",
+	Class = "",
+	Color = "󰏘",
+	Constant = "󰏿",
+	Constructor = "",
+	Enum = "",
+	EnumMember = "",
+	Event = "",
+	Field = "󰜢",
+	File = "󰈙",
+	Folder = "󰉋",
+	Function = "󰆧",
+	Interface = "",
+	Keyword = "󰌋",
+	Method = "󰆧",
+	Module = "",
+	Operator = "󰆕",
+	Property = "󰜢",
+	Reference = "󰈇",
+	Snippet = "",
+	Struct = "",
+	Text = "",
+	TypeParameter = "",
+	Unit = "",
+	Value = "",
+	Variable = "󰀫",
+	lens = "",
 }
 
-M.symbol_kinds = {
-  Array = "󰅪",
-  Class = "",
-  Color = "󰏘",
-  Constant = "󰏿",
-  Constructor = "",
-  Enum = "",
-  EnumMember = "",
-  Event = "",
-  Field = "󰜢",
-  File = "󰈙",
-  Folder = "󰉋",
-  Function = "󰆧",
-  Interface = "",
-  Keyword = "󰌆",
-  Method = "󰆧",
-  Module = "",
-  Operator = "󰆕",
-  Property = "󰜢",
-  Reference = "󰈇",
-  Snippet = "󰦨",
-  Struct = "",
-  Text = "",
-  TypeParameter = "",
-  Unit = "",
-  Value = "",
-  Variable = "󰀫",
+M.diagnostic = {
+	error = "●",
+	warn = "●",
+	hint = "●",
+	info = "●",
 }
-
-function M.get_borders()
-  return {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
-  }
-end
 
 return M
