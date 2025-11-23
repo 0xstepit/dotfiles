@@ -4,6 +4,16 @@ return {
 	init = function()
 		vim.b.autoformat = true
 	end,
+	keys = {
+		{
+			"<leader>ci",
+			function()
+				require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+			end,
+			mode = { "n", "x" },
+			desc = "Format Injected Langs",
+		},
+	},
 	opts = {
 		notify_on_error = false,
 		formatters_by_ft = {
@@ -22,6 +32,19 @@ return {
 			abi = { "prettier" },
 			toml = { "taplo" },
 			solidity = { "forge_fmt" },
+		},
+		formatters = {
+			injected = {
+				options = {
+					ignore_errors = true,
+					lang_to_ft = {
+						go = "markdown",
+					},
+					lang_to_ext = {
+						go = { "prettier" },
+					},
+				},
+			},
 		},
 		-- formatters = {
 		-- 	json = {

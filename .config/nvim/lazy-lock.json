@@ -13,6 +13,7 @@
   "lazy.nvim": { "branch": "main", "commit": "59334064f8604ca073791c25dcc5c9698865406e" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
   "mini.files": { "branch": "main", "commit": "51db5ded1b7ac4dd8ca4c22c66f156dac5309304" },
+  "mini.starter": { "branch": "main", "commit": "8ee6ce6a4c9be47682516908557cc062c4d595a2" },
   "nvim-autopairs": { "branch": "master", "commit": "23320e75953ac82e559c610bec5a90d9c6dfa743" },
   "nvim-lint": { "branch": "master", "commit": "335a6044be16d7701001059cba9baa36fbeef422" },
   "nvim-surround": { "branch": "main", "commit": "a868c256c861044beb9794b4dd126480dcdfbdad" },

@@ -88,12 +88,32 @@ return {
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "lsp", "path", "snippets" },
+			default = { "lsp", "path", "snippets", "buffer" },
 			providers = {
 				lsp = {
 					name = "LSP",
 					module = "blink.cmp.sources.lsp",
 					enabled = true, -- Explicitly enable
+					score_offset = 1000, -- Higher score = higher priority
+					max_items = 5,
+				},
+				snippets = {
+					name = "Snippets",
+					module = "blink.cmp.sources.snippets",
+					score_offset = 500,
+					max_items = 5,
+				},
+				path = {
+					name = "Path",
+					module = "blink.cmp.sources.path",
+					score_offset = 300,
+					max_items = 5,
+				},
+				buffer = {
+					name = "Buffer",
+					module = "blink.cmp.sources.buffer",
+					score_offset = 100,
+					max_items = 5,
 				},
 			},
 		},
