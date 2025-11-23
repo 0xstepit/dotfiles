@@ -25,15 +25,17 @@ function pr-checkout() {
 	repo=$(echo "$owner_and_repo" | cut -d'/' -f2)
 
 	local pr_number
+	# {1} refer to the first element of the provided string split at whitespaces refer to the first element of the provided string split at whitespaces
 	pr_number=$(
 		gh api 'repos/:owner/:repo/pulls' |
 			jq --raw-output '.[] | "#\(.number) \(.title) (@\(.user.login))"' |
 			fzf --prompt="Select PR: " \
-				--preview='gh pr view {1} | sed "s/^#//"' | # {1} refer to the first element of the provided string split at whitespaces refer to the first element of the provided string split at whitespaces
+				--preview='gh pr view {1} | sed "s/^#//"' |
 			sed -E 's/^#([0-9]+).*/\1/'
 	)
 
 	if [ -n "$pr_number" ]; then
+		# echo "$pr_number"
 		gh pr checkout "$pr_number"
 	fi
 }
