@@ -20,7 +20,8 @@ zstyle ':completion:*:-command-:*' group-order alias builtins functions commands
 # ANSI colors are used, for example, 48 is the background, 5 indicates the 256
 # palette, and 198 is the color.
 LS_COLORS=${LS_COLORS:-'di=34:ln=35:pi=33:ex=31'}
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} "ma=38;5;0;48;5;198;1"
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} "ma=38;5;198;48;5;198;1"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} "ma=38;5;198"
 
 # List completion ordered by last change time.
 zstyle ':completion:*' file-sort change
