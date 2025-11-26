@@ -50,10 +50,11 @@ return {
         gs.blame_line({ full = true })
       end, { desc = "[T]oggle [B]lame line" })
 
-      vim.keymap.set("n", "<leader>gd", function()
-        local branch = vim.g.ref_branch
-        gs.diffthis(branch, { vertical = true, split = "belowright" })
-      end, { desc = "[D]iff" })
+	  -- Deprecated for gitdiff?
+      -- vim.keymap.set("n", "<leader>gd", function()
+      --   local branch = vim.g.ref_branch
+      --   gs.diffthis(branch, { vertical = true, split = "belowright" })
+      -- end, { desc = "[D]iff" })
 
       vim.keymap.set("n", "<leader>gdt", function()
         vim.ui.input({ prompt = "Git ref to diff against: " }, function(input)

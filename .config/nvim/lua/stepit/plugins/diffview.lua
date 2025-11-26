@@ -3,9 +3,9 @@ return {
 		"sindrets/diffview.nvim",
 		lazy = false,
 		keys = {
-			{ "<leader>gdh", "<cmd>DiffviewFileHistory<cr>", desc = "[G]it[D]iff [H]istory" },
+			{ "<leader>gh", "<cmd>DiffviewFileHistory<cr>", desc = "[G]itDiff [H]istory" },
 			{
-				"<leader>gdo",
+				"<leader>gd",
 				function()
 					local branch = vim.g.ref_branch
 
@@ -19,7 +19,7 @@ return {
 				end,
 				desc = "[G]it[D]iff [O]pen",
 			},
-			{ "<leader>gdc", "<cmd>DiffviewClose<cr>", desc = "[G]it[D]iff [C]lose" },
+			{ "<leader>gc", "<cmd>DiffviewClose<cr>", desc = "[G]itDiff [C]lose" },
 		},
 		opts = function()
 			require("diffview.ui.panel").Panel.default_config_float.border = "rounded"

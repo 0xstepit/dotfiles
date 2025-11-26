@@ -24,9 +24,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+	desc = "insert cursorline and colorcolumn except for excluded files",
 	callback = function()
-		local exc = { "TelescopePrompt", "oil", "fugitive", "git", "gitcommit", "qf", "GV" }
+		local exc = { "fugitive", "git", "gitcommit", "GV", "oil", "qf", "TelescopePrompt" }
+
 		local valid = true
+
 		for _, e in ipairs(exc) do
 			if vim.bo.filetype == e then
 				valid = false
@@ -41,8 +44,23 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
 })
 
 vim.api.nvim_create_autocmd({ "WinLeave" }, {
+	desc = "remove cursorline and colorcolumn except for exluded files",
 	callback = function()
-		vim.wo.cursorline = false
+		local exc = { "DiffviewFileHistory" }
+
+		local remove = true
+
+		for _, e in ipairs(exc) do
+			if vim.bo.filetype == e then
+				remove = false
+			end
+		end
+
+		if remove then
+			vim.wo.cursorline = false
+		end
+
+		vim.wo.colorcolumn = ""
 	end,
 })
 
