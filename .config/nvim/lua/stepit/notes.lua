@@ -14,7 +14,7 @@ function M.new_note(title)
 		return { error = true, message = "$INBOX environment variable is not set" }
 	end
 
-	local title = title:gsub("^%l", string.upper)
+	title = title:gsub("^%l", string.upper)
 	local slug = title:lower():gsub("%s+", "-")
 	local slug_md = slug .. ".md"
 
@@ -39,20 +39,18 @@ function M.new_note(title)
 	local date = os.date("%Y-%m-%d")
 	local frontmatter = {
 		"---",
-		"author: Stefano Francesco Pitton",
+		"author: stepit",
 		string.format("title: '%s'", title),
 		string.format("slug: '%s'", slug),
 		string.format("created: %s", date),
 		string.format("modified: %s", date),
+		"summary: ''",
 		"category: ''",
 		"tags: []",
 		"related: []",
 		"to-publish: false",
 		"---",
 		"",
-		string.format("# %s", title),
-		"",
-		"", -- A line after the title.
 		"", -- Another line where we want to start adding text.
 	}
 
