@@ -96,6 +96,7 @@ require("stepit.autocommands")
 require("stepit.notes")
 require("stepit.lsp")
 require("stepit.winbar")
+require("stepit.tabline")
 require("stepit.statusline")
 require("stepit.filetype")
 
