@@ -31,6 +31,7 @@ return {
 			json = { "prettier" },
 			abi = { "prettier" },
 			toml = { "taplo" },
+			rust = { "rustfmt" },
 			solidity = { "forge_fmt" },
 		},
 		formatters = {

@@ -2,6 +2,7 @@
   "LuaSnip": { "branch": "master", "commit": "458560534a73f7f8d7a11a146c801db00b081df0" },
   "blink.cmp": { "branch": "main", "commit": "327fff91fe6af358e990be7be1ec8b78037d2138" },
   "conform.nvim": { "branch": "master", "commit": "9d6f881a4047a51c7709223dcf24e967633c6523" },
+  "crates.nvim": { "branch": "main", "commit": "afcd1cc3eeceb5783676fc8464389b9216a29d05" },
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "fidget.nvim": { "branch": "main", "commit": "3f5475949679953af6d78654db29b944fa826e6a" },
   "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
