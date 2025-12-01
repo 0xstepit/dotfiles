@@ -8,6 +8,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"help",
 		"man",
 		"qf",
+		"Lazy",
 	},
 	callback = function(args)
 		vim.keymap.set("n", "<C-q>", "<cmd>quit<cr>", { buffer = args.buf, noremap = true })
