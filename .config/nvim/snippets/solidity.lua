@@ -31,14 +31,21 @@ local ext_opts_choice = {
 
 local function in_assembly()
 	local has_parser, parser = pcall(vim.treesitter.get_parser, 0, "solidity")
-	if not has_parser then
+	if not has_parser or parser == nil then
 		return false
 	end
 
 	local cursor = vim.api.nvim_win_get_cursor(0)
+	-- remove 1 from the row because treesitter start from 0, but lines are indexed from 1.
 	local row, col = cursor[1] - 1, cursor[2]
 
-	local root = parser:parse()[1]:root()
+	local langs = parser:parse()
+	if langs == nil then
+		return false
+	end
+
+	local root = langs[1]:root()
+
 	local node = root:descendant_for_range(row, col, row, col)
 
 	-- Walk up the tree to find if we're inside an assembly block
@@ -56,7 +63,7 @@ return {
 	-- Yul
 	s({ trig = "assembly", dscr = "assembly block" }, {
 		t("assembly {"),
-		t({ "", "    " }),
+		t({ "", "	" }),
 		i(1),
 		t({ "", "}" }),
 	}),
@@ -67,7 +74,13 @@ return {
 		t({ ")" }),
 	}),
 
-	s({ trig = "mload", dscr = "mload function" }, {
+	s({ trig = "mload", dscr = "mload function", show_condition = in_assembly }, {
+		t("mload("),
+		i(1),
+		t({ ")" }),
+	}),
+
+	s({ trig = "mstore", dscr = "mload function", show_condition = in_assembly }, {
 		t("mload("),
 		i(1),
 		t({ ")" }),
