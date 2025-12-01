@@ -39,3 +39,5 @@
 	remote = cyan
 [init]
 	defaultBranch = main
+[credential]
+	helper = osxkeychain
