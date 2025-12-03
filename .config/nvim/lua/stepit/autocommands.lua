@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
 vim.api.nvim_create_autocmd({ "WinLeave" }, {
 	desc = "remove cursorline and colorcolumn except for exluded files",
 	callback = function()
-		local exc = { "DiffviewFileHistory" }
+		local exc = { "DiffviewFileHistory", "DiffviewFiles" }
 
 		local remove = true
 

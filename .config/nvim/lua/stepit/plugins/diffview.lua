@@ -26,6 +26,7 @@ return {
 			require("diffview.ui.panel").Panel.default_config_float.border = "rounded"
 
 			return {
+				use_icons = false,
 				file_panel = {
 					listing_style = "tree", -- One of 'list' or 'tree'
 					tree_options = { -- Only applies when listing_style is 'tree'
