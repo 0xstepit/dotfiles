@@ -1,16 +1,11 @@
 start-at-login = true
 
-# after-startup-command = [
-#   'exec-and-forget borders active_color=0xff1AE5D4 inactive_color=0xff494d64 width=5.0'
-# ]
-
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 accordion-padding = 30
 
 default-root-container-layout = 'tiles'
-
 default-root-container-orientation = 'auto'
 
 key-mapping.preset = 'qwerty'
@@ -27,7 +22,6 @@ outer.top = 15
 outer.right = 15
 
 # Automatic app placing
-
 [[on-window-detected]]
 if.app-name-regex-substring = 'docker'
 run = ['move-node-to-workspace D']
@@ -130,15 +124,13 @@ alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
 # Movements between workspaces.
-alt-1 = 'workspace 1' # Browser
+alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
-alt-3 = 'workspace 3' # Terminal
+alt-3 = 'workspace 3'
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
-alt-d = 'workspace D' # Docker
-# alt-m = 'workspace M' # Music
-alt-n = 'workspace N' # Notes
-# alt-s = 'workspace S' # Social
+alt-d = 'workspace D'
+alt-n = 'workspace N'
 alt-t = 'workspace L'
 alt-z = 'workspace Z'
 
@@ -148,14 +140,9 @@ alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
 alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
 alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
 alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
-# alt-shift-d = ['move-node-to-workspace D', 'workspace d']
-# alt-shift-m = ['move-node-to-workspace M', 'workspace m']
-# alt-shift-n = ['move-node-to-workspace N', 'workspace n']
-# alt-shift-s = ['move-node-to-workspace S', 'workspace s']
 alt-shift-z = ['move-node-to-workspace Z', 'workspace Z']
 
 alt-tab = 'workspace-back-and-forth'
-
 alt-shift-tab = 'move-node-to-monitor --wrap-around next'
 
 # -------------------------------------------------------------------------------------------------
