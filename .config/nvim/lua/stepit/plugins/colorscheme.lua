@@ -17,8 +17,8 @@ return {
 				mode = "default",
 				fluo = "pink",
 				custom = {
-					-- saturation = "80",
-					-- light = "",
+					saturation = "65",
+					light = "65",
 				},
 			},
 			ui = {
@@ -29,6 +29,16 @@ return {
 		config = function(_, opts)
 			require("flow").setup(opts)
 			vim.cmd("colorscheme flow")
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		enabled = false,
+		lazy = false,
+		priority = 1000,
+		opts = {},
+		config = function(_, _)
+			vim.cmd("colorscheme tokyonight-night")
 		end,
 	},
 }

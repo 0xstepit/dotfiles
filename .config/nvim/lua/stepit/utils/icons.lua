@@ -27,6 +27,12 @@ M.medium_lines = {
 	center = "┃",
 }
 
+M.blocks = {
+	left_five = "▋",
+	lower_one = "▁",
+	upper_one = "▔",
+}
+
 M.dashed_lines = {
 	center = "┆",
 }

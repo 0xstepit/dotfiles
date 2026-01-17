@@ -31,7 +31,6 @@ local function on_attach(client, buffer)
 	map("<leader>cr", vim.lsp.buf.rename, "[R]ename symbol")
 	map("<leader>cf", vim.lsp.buf.format, "[F]ormat document")
 
-	map("<C-s>", vim.lsp.buf.signature_help, "Signature help", "i")
 	map("K", vim.lsp.buf.hover, "Hover documentation")
 
 	if client:supports_method(methods.textDocument_codeAction) then

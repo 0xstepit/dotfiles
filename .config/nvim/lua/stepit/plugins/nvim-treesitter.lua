@@ -1,9 +1,10 @@
-local lines = require("stepit.utils.icons").lines.horizontal
+local icons = require("stepit.utils.icons")
 
 local languages = {
 	"astro",
 	"bash",
 	"c",
+	"css",
 	"diff",
 	"dockerfile",
 	-- GO
@@ -41,7 +42,7 @@ return {
 			{
 				"nvim-treesitter/nvim-treesitter-context",
 				opts = {
-					separator = lines.top,
+					separator = icons.blocks.upper_one,
 					max_lines = 3,
 					multiline_threshold = 1,
 					min_window_height = 20,

@@ -3,7 +3,7 @@ return {
 		"iamcco/markdown-preview.nvim",
 		ft = "markdown",
 		init = function()
-			vim.g.mkdp_auto_close = 1
+			vim.g.mkdp_auto_close = 0
 		end,
 		build = function()
 			require("lazy").load({ plugins = { "markdown-preview.nvim" } })

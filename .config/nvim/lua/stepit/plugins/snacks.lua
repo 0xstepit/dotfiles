@@ -3,17 +3,24 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
 		bigfile = { enabled = false },
 		dashboard = { enabled = false },
 		explorer = { enabled = false },
 		indent = {
-			enabled = true,
-			char = require("stepit.utils.icons").lines.vertical.left,
-			only_scope = false,
-			hl = "Function",
+			indent = {
+				enabled = true,
+				char = require("stepit.utils.icons").lines.vertical.left,
+				only_scope = false,
+				hl = "Comment",
+			},
+			scope = {
+				enabled = true,
+				priority = 200,
+				char = require("stepit.utils.icons").lines.vertical.left,
+				underline = false,
+				only_current = false,
+				hl = "Special",
+			},
 		},
 		input = { enabled = false },
 		picker = { enabled = false },
@@ -24,24 +31,8 @@ return {
 		statuscolumn = { enabled = false },
 		words = { enabled = false },
 		image = {
-			formats = {
-				"png",
-				"jpg",
-				"jpeg",
-				"gif",
-				"bmp",
-				"webp",
-				"tiff",
-				"heic",
-				"avif",
-				"mp4",
-				"mov",
-				"avi",
-				"mkv",
-				"webm",
-				"pdf",
-			},
-			force = false, -- try displaying the image, even if the terminal does not support it
+			formats = { "png", "jpg", "jpeg", "gif", "webp", "tiff", "heic", "pdf" },
+			force = false,
 			doc = {
 				-- enable image viewer for documents
 				-- a treesitter parser must be available for the enabled languages.
@@ -106,11 +97,7 @@ return {
 				},
 			},
 			math = {
-				enabled = true, -- enable math expression rendering
-				-- in the templates below, `${header}` comes from any section in your document,
-				-- between a start/end header comment. Comment syntax is language-specific.
-				-- * start comment: `// snacks: header start`
-				-- * end comment:   `// snacks: header end`
+				enabled = true,
 				typst = {
 					tpl = [[
         #set page(width: auto, height: auto, margin: (x: 2pt, y: 2pt))
@@ -121,8 +108,6 @@ return {
 				},
 				latex = {
 					font_size = "Large", -- see https://www.sascha-frank.com/latex-font-size.html
-					-- for latex documents, the doc packages are included automatically,
-					-- but you can add more packages here. Useful for markdown documents.
 					packages = { "amsmath", "amssymb", "amsfonts", "amscd", "mathtools" },
 					tpl = [[
         \documentclass[preview,border=0pt,varwidth,12pt]{standalone}

@@ -98,6 +98,7 @@ opt.list = true
 opt.listchars = {
 	space = " ",
 	trail = "⋅",
+	leadmultispace = "  ",
 	tab = lines.vertical.left .. " ",
 }
 opt.fillchars = {
