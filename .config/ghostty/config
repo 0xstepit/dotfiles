@@ -3,8 +3,9 @@
 font-family = "Recursive Mono Linear Static"
 font-style = "Regular"
 font-size = 13
-adjust-cell-width = -5%
+adjust-cell-width = -3%
 adjust-cursor-thickness = 3
+adjust-cell-height = 9
 
 background-opacity = 0.98
 background-blur-radius = 20
