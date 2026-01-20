@@ -2,6 +2,18 @@ return {
 	{
 		"nvim-mini/mini.files",
 		enabled = true,
+		init = function()
+			-- Auto-open mini.files when starting Neovim with a directory
+			vim.api.nvim_create_autocmd("VimEnter", {
+				callback = function()
+					local arg = vim.fn.argv(0)
+					if arg ~= "" and vim.fn.isdirectory(arg) == 1 then
+						require("mini.files").open(arg)
+					end
+				end,
+			})
+
+		end,
 		keys = {
 			{
 				"-",
@@ -18,6 +30,10 @@ return {
 			},
 		},
 		opts = {
+			-- Disable default explorer to prevent BufEnter autocmd from reopening
+			options = {
+				use_as_default_explorer = false,
+			},
 			mappings = {
 				show_help = "?",
 				synchronize = "<leader>w",

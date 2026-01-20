@@ -1,8 +1,23 @@
+-- Helper to close mini.files before opening fzf-lua
+local function close_mini_files()
+	local ok, mini_files = pcall(require, "mini.files")
+	if ok then
+		mini_files.close()
+	end
+end
+
 return {
 	"ibhagwan/fzf-lua",
 	lazy = false,
 	keys = {
-		{ "<leader>ff", "<cmd>FzfLua files<cr>", desc = "[F]ind [F]iles" },
+		{
+			"<leader>ff",
+			function()
+				close_mini_files()
+				require("fzf-lua").files()
+			end,
+			desc = "[F]ind [F]iles",
+		},
 		{
 			"<leader>fo",
 			function()
