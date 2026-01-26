@@ -90,8 +90,9 @@ opt.tabstop = 4
 
 opt.smartindent = true
 
+opt.laststatus = 2
+
 -- Visual
-opt.laststatus = 3
 opt.showmatch = true
 opt.virtualedit = "block"
 opt.list = true
