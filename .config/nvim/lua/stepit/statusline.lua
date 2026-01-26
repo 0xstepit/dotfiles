@@ -2,19 +2,25 @@ local icons = require("stepit.utils.icons")
 
 local M = {}
 
-M.hl_statusline = "%#Statusline#"
-M.hl_mode = "%#StatuslineMode#"
-M.hl_git_branch = "%#StatuslineGitBranch#"
-M.hl_filetype = "%#StatuslineGitBranch#"
+-- Helper to check if current window is active
+local function is_active()
+	return vim.g.statusline_winid == vim.api.nvim_get_current_win()
+end
+
+-- Helper to get highlight group based on active state
+local function hl(active_group, inactive_group)
+	return is_active() and ("%#" .. active_group .. "#") or ("%#" .. (inactive_group or "StatusLineNC") .. "#")
+end
+
+M.hl_statusline = function() return hl("Statusline", "StatusLineNC") end
+M.hl_mode = function() return hl("StatuslineMode", "StatusLineNC") end
+M.hl_git_branch = function() return hl("StatuslineGitBranch", "StatusLineNC") end
+M.hl_filetype = function() return hl("StatuslineGitBranch", "StatusLineNC") end
 M.hl_diagnostic = {
-	-- ERROR = "%#DiagnosticVirtualTextError#",
-	-- WARN = "%#DiagnosticVirtualTextWarn#",
-	-- INFO = "%#DiagnosticVirtualTextInfo#",
-	-- HINT = "%#DiagnosticVirtualTextHint#",
-	ERROR = "%#DiagnosticError#",
-	WARN = "%#DiagnosticWarn#",
-	INFO = "%#DiagnosticInfo#",
-	HINT = "%#DiagnosticHint#",
+	ERROR = function() return hl("DiagnosticError", "StatusLineNC") end,
+	WARN = function() return hl("DiagnosticWarn", "StatusLineNC") end,
+	INFO = function() return hl("DiagnosticInfo", "StatusLineNC") end,
+	HINT = function() return hl("DiagnosticHint", "StatusLineNC") end,
 }
 
 ---@return string
@@ -43,7 +49,7 @@ function M.mode()
 	}
 	local mode = mode_to_char[vim.api.nvim_get_mode().mode] or "?"
 
-	return string.format("%s %s %s", M.hl_mode, string.upper(mode), M.hl_statusline)
+	return string.format("%s %s %s", M.hl_mode(), string.upper(mode), M.hl_statusline())
 end
 
 function M.line_info()
@@ -78,13 +84,13 @@ function M.git_info()
 		return ""
 	end
 
-	return string.format("%s %s %s %s", M.hl_git_branch, branch_icon, git_info.head, M.hl_statusline)
+	return string.format("%s %s %s %s", M.hl_git_branch(), branch_icon, git_info.head, M.hl_statusline())
 end
 
 ---@return string
 function M.file_type()
 	-- Equivalent to " %Y "
-	return string.format("%s %s %s", M.hl_filetype, vim.bo.filetype:upper(), M.hl_statusline)
+	return string.format("%s %s %s", M.hl_filetype(), vim.bo.filetype:upper(), M.hl_statusline())
 end
 
 ---@return string
@@ -106,13 +112,13 @@ function M.diagnostic()
 				return nil -- skip
 			end
 
-			-- return string.format("%s %s:%s %s", M.hl_diagnostic[severity], severity:sub(1, 1), count, M.hl_statusline)
+			-- return string.format("%s %s:%s %s", M.hl_diagnostic[severity](), severity:sub(1, 1), count, M.hl_statusline())
 			return string.format(
 				"%s %s %s %s",
-				M.hl_diagnostic[severity],
+				M.hl_diagnostic[severity](),
 				icons.diagnostic[severity:lower()],
 				count,
-				M.hl_statusline
+				M.hl_statusline()
 			)
 		end)
 		:totable()
@@ -138,7 +144,7 @@ function M.active_lsp_client()
 		return ""
 	end
 
-	return string.format("%s %s %s", M.hl_mode, table.concat(clients_, ", "), M.hl_statusline)
+	return string.format("%s %s %s", M.hl_mode(), table.concat(clients_, ", "), M.hl_statusline())
 end
 
 ---@return string
