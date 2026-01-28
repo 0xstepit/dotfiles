@@ -20,7 +20,7 @@ return {
 				desc = "[G]it[D]iff [O]pen",
 			},
 			{ "<leader>gc", "<cmd>DiffviewClose<cr>", desc = "[G]itDiff [C]lose" },
-			{ "<leader>gf", "<cmd>DiffviewFileHistory --follow %<cr>", desc = "[G]itDiff [F]ile history" },
+			{ "<leader>gf", "<cmd>DiffviewFileHistory % --follow<cr>", desc = "[G]itDiff [F]ile history" },
 		},
 		opts = function()
 			require("diffview.ui.panel").Panel.default_config_float.border = "rounded"

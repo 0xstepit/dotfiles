@@ -72,3 +72,18 @@ set("n", "<C-c>", "<Cmd>vertical resize -2<CR>", { desc = "Decrease window width
 set("n", "<C-b>", "<Cmd>vertical resize +2<CR>", { desc = "Increase window width" })
 
 set("n", "<C-w>z", "<C-w>|", { desc = "Maximize window width" })
+
+set("n", "<C-q>", "<cmd>quit<cr>", { desc = "Close current window" })
+
+-- Center mode
+set("n", "<leader>z", function()
+	require("stepit.utils.center").toggle()
+end, { desc = "Toggle centered mode" })
+
+set("n", "<leader>Z", function()
+	local width = vim.fn.input("Center width: ", "120")
+	width = tonumber(width)
+	if width then
+		require("stepit.utils.center").set_width(width)
+	end
+end, { desc = "Set center width" })
