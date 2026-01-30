@@ -2,7 +2,36 @@ local M = {}
 
 local set = vim.keymap.set
 
+-- Default configuration
+M.config = {
+	author = "stepit",
+	date_format = "%Y-%m-%d",
+	default_category = "",
+	default_tags = {},
+	default_to_publish = false,
+}
+
+-- Setup function to override defaults
+function M.setup(opts)
+	opts = opts or {}
+	M.config = vim.tbl_deep_extend("force", M.config, opts)
+
+	-- Setup keymaps by default unless explicitly disabled
+	if opts.setup_keymaps ~= false then
+		M.setup_keymaps()
+	end
+end
+
 function M.new_note(title)
+	-- Validate and sanitize input
+	if not title or title == "" then
+		return { error = true, message = "Title cannot be empty" }
+	end
+	title = vim.trim(title)
+	if title == "" then
+		return { error = true, message = "Title cannot be empty or whitespace only" }
+	end
+
 	-- Get env vars required for the creation of a new note.
 	local notes_dir = os.getenv("NOTES")
 	if not notes_dir or notes_dir == "" then
@@ -15,7 +44,8 @@ function M.new_note(title)
 	end
 
 	title = title:gsub("^%l", string.upper)
-	local slug = title:lower():gsub("%s+", "-")
+	-- Generate slug: remove special chars, convert spaces to hyphens
+	local slug = title:lower():gsub("[^%w%s-]", ""):gsub("%s+", "-"):gsub("^-+", ""):gsub("-+$", "")
 	local slug_md = slug .. ".md"
 
 	local inbox_dir = table.concat({ notes_dir, "main", inbox }, "/")
@@ -31,31 +61,44 @@ function M.new_note(title)
 		return { error = true, message = string.format("Note already exists: %s", note_path) }
 	end
 
-	local file = io.open(note_path, "w")
-	if not file then
-		return { error = true, message = string.format("Failed to create file: %s", note_path) }
-	end
-
-	local date = os.date("%Y-%m-%d")
+	local date = os.date(M.config.date_format)
 	local frontmatter = {
 		"---",
-		"author: stepit",
+		string.format("author: %s", M.config.author),
 		string.format("title: '%s'", title),
 		string.format("slug: '%s'", slug),
 		string.format("created: %s", date),
 		string.format("modified: %s", date),
 		"summary: ''",
-		"category: ''",
-		"tags: []",
+		string.format("category: '%s'", M.config.default_category),
+		string.format("tags: [%s]", table.concat(M.config.default_tags, ", ")),
 		"related: []",
-		"to-publish: false",
+		string.format("to-publish: %s", tostring(M.config.default_to_publish)),
 		"---",
 		"",
 		"", -- Another line where we want to start adding text.
 	}
 
-	file:write(table.concat(frontmatter, "\n"))
-	file:close()
+	-- Use pcall for safer file operations
+	local ok, file_or_err = pcall(io.open, note_path, "w")
+	if not ok or not file_or_err then
+		return {
+			error = true,
+			message = string.format("Failed to create file: %s (%s)", note_path, tostring(file_or_err)),
+		}
+	end
+
+	local write_ok, write_err = pcall(function()
+		file_or_err:write(table.concat(frontmatter, "\n"))
+		file_or_err:close()
+	end)
+
+	if not write_ok then
+		return {
+			error = true,
+			message = string.format("Failed to write to file: %s (%s)", note_path, tostring(write_err)),
+		}
+	end
 
 	vim.cmd(string.format("edit %s", note_path))
 	local line_count = vim.api.nvim_buf_line_count(0)
@@ -77,9 +120,6 @@ local function floating_input(opts, on_confirm)
 	local row = math.floor((vim.o.lines - height) / 2) - 1
 	local col = math.floor((vim.o.columns - width) / 2)
 
-	-- Create border buffer for title
-	local border_buf = vim.api.nvim_create_buf(false, true)
-
 	-- Create the window with border
 	local win = vim.api.nvim_open_win(buf, true, {
 		relative = "editor",
@@ -94,8 +134,8 @@ local function floating_input(opts, on_confirm)
 	})
 
 	-- Configure buffer
-	vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+	vim.bo[buf].buftype = "nofile"
+	vim.bo[buf].bufhidden = "wipe"
 
 	-- Start in insert mode
 	vim.cmd("startinsert")
@@ -134,29 +174,72 @@ end
 
 function M.update_modified_in_frontmatter(bufnr)
 	bufnr = bufnr or 0
-	local date = os.date("%Y-%m-%d")
+	local date = os.date(M.config.date_format)
 
-	-- Only get first 20 lines (assuming frontmatter is at top)
-	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 20, false)
+	-- Get first 30 lines to account for longer frontmatter
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 30, false)
 
-	for line_num, line_content in ipairs(lines) do
-		-- Stop if we've passed the frontmatter
-		if line_num > 1 and line_content:match("^%-%-%-$") then
+	-- Check if file starts with frontmatter
+	if not lines[1] or not lines[1]:match("^%-%-%-$") then
+		return false
+	end
+
+	local frontmatter_end = nil
+	local modified_line = nil
+	local created_line = nil
+
+	-- Find frontmatter boundaries and relevant fields
+	for line_num = 2, #lines do
+		local line_content = lines[line_num]
+
+		-- Find closing frontmatter delimiter
+		if line_content:match("^%-%-%-$") then
+			frontmatter_end = line_num
 			break
 		end
 
-		-- Update if we find modified
+		-- Track modified and created fields
 		if line_content:match("^modified:") then
-			vim.api.nvim_buf_set_lines(bufnr, line_num - 1, line_num, false, { "modified: " .. date })
-			return true
+			modified_line = line_num
+		elseif line_content:match("^created:") then
+			created_line = line_num
 		end
+	end
+
+	-- If no frontmatter end found, not valid frontmatter
+	if not frontmatter_end then
+		return false
+	end
+
+	-- Update existing modified field
+	if modified_line then
+		vim.api.nvim_buf_set_lines(bufnr, modified_line - 1, modified_line, false, { "modified: " .. date })
+		return true
+	end
+
+	-- If no modified field but we have created field, insert after it
+	if created_line then
+		vim.api.nvim_buf_set_lines(bufnr, created_line, created_line, false, { "modified: " .. date })
+		return true
+	end
+
+	-- If no created or modified field, insert before closing delimiter
+	if frontmatter_end then
+		vim.api.nvim_buf_set_lines(
+			bufnr,
+			frontmatter_end - 1,
+			frontmatter_end - 1,
+			false,
+			{ "modified: " .. date }
+		)
+		return true
 	end
 
 	return false
 end
 
--- Your keybinding
-set("n", "<leader>mn", function()
+-- Public function to prompt for and create a new note
+function M.prompt_new_note()
 	floating_input({ prompt = "Note title:", width = 50 }, function(note_title)
 		if not note_title or note_title == "" then
 			return
@@ -168,6 +251,36 @@ set("n", "<leader>mn", function()
 			vim.notify(result.message, vim.log.levels.INFO)
 		end
 	end)
-end, { desc = "[M]arkdown [N]ew note" })
+end
+
+-- Default keybinding (can be disabled by not calling this or overriding)
+function M.setup_keymaps()
+	set("n", "<leader>mn", M.prompt_new_note, { desc = "[M]arkdown [N]ew note" })
+end
+
+-- Setup autocmd to auto-update modified date on save
+local function setup_autocmds()
+	local notes_dir = os.getenv("NOTES")
+	if not notes_dir or notes_dir == "" then
+		return -- Skip autocmd setup if NOTES env var not set
+	end
+
+	local group = vim.api.nvim_create_augroup("NotesAutoUpdate", { clear = true })
+
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = group,
+		pattern = notes_dir .. "/**/*.md",
+		callback = function(args)
+			M.update_modified_in_frontmatter(args.buf)
+		end,
+		desc = "Auto-update modified date in note frontmatter",
+	})
+end
+
+setup_autocmds()
+
+-- Setup default keymaps (for backwards compatibility)
+-- Users can disable by calling M.setup({ setup_keymaps = false })
+M.setup_keymaps()
 
 return M
