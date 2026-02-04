@@ -54,5 +54,16 @@ return {
 				luasnip.change_choice(-1)
 			end
 		end, { silent = true })
+
+		-- Auto-exit snippet mode when leaving insert mode. This is added to prevent jumping
+		-- to the snippet position when you press TAB if you exit the snippets before jumping
+		-- to all the destinations.
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			callback = function()
+				if luasnip.in_snippet() then
+					luasnip.unlink_current()
+				end
+			end,
+		})
 	end,
 }
