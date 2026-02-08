@@ -16,6 +16,9 @@ M.hl_statusline = function() return hl("Statusline", "StatusLineNC") end
 M.hl_mode = function() return hl("StatuslineMode", "StatusLineNC") end
 M.hl_git_branch = function() return hl("StatuslineGitBranch", "StatusLineNC") end
 M.hl_filetype = function() return hl("StatuslineGitBranch", "StatusLineNC") end
+M.hl_snippet = function()
+	return hl("DiagnosticWarn", "StatusLineNC")
+end
 M.hl_diagnostic = {
 	ERROR = function() return hl("DiagnosticError", "StatusLineNC") end,
 	WARN = function() return hl("DiagnosticWarn", "StatusLineNC") end,
@@ -147,10 +150,29 @@ function M.active_lsp_client()
 	return string.format("%s %s %s", M.hl_mode(), table.concat(clients_, ", "), M.hl_statusline())
 end
 
+--- Returns the statusline information for snippets.
+---@return string A non empty string if there is a jumpable position.
+function M.snippet_status()
+	local ok, luasnip = pcall(require, "luasnip")
+	if not ok then
+		return ""
+	end
+
+	-- Show indicator if there's a snippet position to jump to.
+	-- This is useful when in insert mode and you press TAB. If a previous snippet is still active,
+	-- the cursor will jump to that snippet position.
+	if luasnip.jumpable(1) or luasnip.jumpable(-1) then
+		return string.format("%s SNIP %s", M.hl_snippet(), M.hl_statusline())
+	end
+
+	return ""
+end
+
 ---@return string
 function M.render()
 	return M.mode()
 		.. M.git_info()
+		.. M.snippet_status()
 		-- .. "%="
 		.. M.diagnostic()
 		.. "%="
