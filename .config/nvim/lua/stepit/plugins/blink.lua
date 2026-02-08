@@ -7,40 +7,6 @@ return {
 	},
 	version = "1.*",
 	config = function()
-		-- Set up custom colors for different completion kinds.
-		local kind_colors = {
-			Text = "#a6e3a1",
-			Method = "#f9e2af",
-			Function = "#fab387",
-			Constructor = "#f38ba8",
-			Field = "#94e2d5",
-			Variable = "#cba6f7",
-			Class = "#f38ba8",
-			Interface = "#eba0ac",
-			Module = "#89b4fa",
-			Property = "#94e2d5",
-			Unit = "#f5c2e7",
-			Value = "#f5e0dc",
-			Enum = "#f38ba8",
-			Keyword = "#cba6f7",
-			Snippet = "#a6e3a1",
-			Color = "#f5c2e7",
-			File = "#89b4fa",
-			Reference = "#f2cdcd",
-			Folder = "#89b4fa",
-			EnumMember = "#eba0ac",
-			Constant = "#fab387",
-			Struct = "#f38ba8",
-			Event = "#f5c2e7",
-			Operator = "#89dceb",
-			TypeParameter = "#f5e0dc",
-		}
-
-		for kind, color in pairs(kind_colors) do
-			vim.api.nvim_set_hl(0, "BlinkCmpKind" .. kind, { fg = color })
-			vim.api.nvim_set_hl(0, "BlinkCmpKindIcon" .. kind, { fg = color })
-		end
-
 		require("blink.cmp").setup({
 			keymap = {
 				preset = "default",
