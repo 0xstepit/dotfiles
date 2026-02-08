@@ -5,41 +5,14 @@ return {
 		"rafamadriz/friendly-snippets",
 		"mlaursen/vim-react-snippets",
 	},
-	opts = function()
-		-- local types = require("luasnip.util.types")
-		-- return {
-		-- 	-- Check if the current snippet was deleted.
-		-- 	delete_check_events = "TextChanged",
-		-- 	-- Display a cursor-like placeholder in unvisited nodes
-		-- 	-- of the snippet.
-		-- 	ext_opts = {
-		-- 		[types.insertNode] = {
-		-- 			unvisited = {
-		-- 				virt_text = { { "|", "Conceal" } },
-		-- 				virt_text_pos = "inline",
-		-- 			},
-		-- 		},
-		-- 		[types.exitNode] = {
-		-- 			unvisited = {
-		-- 				virt_text = { { "|", "Conceal" } },
-		-- 				virt_text_pos = "inline",
-		-- 			},
-		-- 		},
-		-- 		[types.choiceNode] = {
-		-- 			active = {
-		-- 				virt_text = { { "(snippet) choice node", "LspInlayHint" } },
-		-- 			},
-		-- 		},
-		-- 	},
-		-- }
-	end,
+	opts = function() end,
 	config = function(_, opts)
 		local luasnip = require("luasnip")
 
 		luasnip.setup(opts)
 
 		require("luasnip.loaders.from_vscode").lazy_load()
-		-- Load custom plugins in snippets folder
+		-- Load custom plugins in snippets folder.
 		require("luasnip.loaders.from_lua").load({ paths = { "./snippets" } })
 
 		require("vim-react-snippets").lazy_load()
@@ -47,23 +20,19 @@ return {
 		vim.keymap.set({ "i", "s" }, "<C-n>", function()
 			if luasnip.choice_active() then
 				luasnip.change_choice(1)
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
 			end
+			vim.cmd("redrawstatus")
 		end, { silent = true })
+
 		vim.keymap.set({ "i", "s" }, "<C-p>", function()
 			if luasnip.choice_active() then
 				luasnip.change_choice(-1)
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
 			end
+			vim.cmd("redrawstatus")
 		end, { silent = true })
-
-		-- Auto-exit snippet mode when leaving insert mode. This is added to prevent jumping
-		-- to the snippet position when you press TAB if you exit the snippets before jumping
-		-- to all the destinations.
-		vim.api.nvim_create_autocmd("InsertLeave", {
-			callback = function()
-				if luasnip.in_snippet() then
-					luasnip.unlink_current()
-				end
-			end,
-		})
 	end,
 }
