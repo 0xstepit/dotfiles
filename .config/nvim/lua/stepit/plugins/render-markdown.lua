@@ -25,11 +25,27 @@ return {
 				width = 99,
 			},
 			file_types = { "markdown", "Avante", "copilot-chat", "help" },
-			render_modes = true,
+			render_modes = { "n", "c" }, -- Only render in normal and command mode, not insert mode
 		},
 		ft = { "markdown", "Avante" },
 		config = function(_, opts)
 			require("render-markdown").setup(opts)
+
+			-- Explicitly disable rendering when entering insert mode
+			vim.api.nvim_create_autocmd("InsertEnter", {
+				pattern = { "*.md", "*.markdown" },
+				callback = function()
+					vim.cmd("RenderMarkdown disable")
+				end,
+			})
+
+			-- Re-enable when leaving insert mode
+			vim.api.nvim_create_autocmd("InsertLeave", {
+				pattern = { "*.md", "*.markdown" },
+				callback = function()
+					vim.cmd("RenderMarkdown enable")
+				end,
+			})
 		end,
 	},
 }

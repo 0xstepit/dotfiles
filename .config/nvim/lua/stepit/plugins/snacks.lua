@@ -11,7 +11,7 @@ return {
 				enabled = true,
 				char = require("stepit.utils.icons").lines.vertical.left,
 				only_scope = false,
-				hl = "Comment",
+				hl = "VertSplit",
 			},
 			scope = {
 				enabled = true,
@@ -40,10 +40,10 @@ return {
 				-- render the image inline in the buffer
 				-- if your env doesn't support unicode placeholders, this will be disabled
 				-- takes precedence over `opts.float` on supported terminals
-				inline = true,
+				inline = true, -- Enable inline rendering
 				-- render the image in a floating window
 				-- only used if `opts.inline` is disabled
-				float = true,
+				float = false, -- Disable floating window
 				max_width = 80,
 				max_height = 40,
 				-- Set to `true`, to conceal the image text when rendering inline.
@@ -51,8 +51,8 @@ return {
 				---@param lang string tree-sitter language
 				---@param type snacks.image.Type image type
 				conceal = function(lang, type)
-					-- only conceal math expressions
-					return type == "math"
+					-- Never auto-conceal - only manual trigger with <C-m>
+					return false
 				end,
 			},
 			img_dirs = { "img", "images", "assets", "static", "public", "media", "attachments" },
@@ -84,7 +84,7 @@ return {
 				image = " ",
 			},
 			convert = {
-				notify = true, -- show a notification on error
+				notify = false, -- disable conversion error notifications
 				mermaid = function()
 					local theme = vim.o.background == "light" and "neutral" or "dark"
 					return { "-i", "{src}", "-o", "{file}", "-b", "transparent", "-t", theme, "-s", "{scale}" }
