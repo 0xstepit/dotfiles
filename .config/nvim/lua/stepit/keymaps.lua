@@ -27,8 +27,20 @@ set("n", "<leader>w", function()
 		notes.update_modified_in_frontmatter(0)
 	end
 
+	-- Track if buffer changes during save (formatting might modify it)
+	local changedtick_before = vim.b.changedtick
+
 	vim.cmd("w")
 	vim.notify("Current file saved", "info")
+
+	-- Check if formatting actually changed the buffer
+	vim.defer_fn(function()
+		local changedtick_after = vim.b.changedtick
+		if changedtick_after ~= changedtick_before then
+			-- Formatting happened and changed content
+			vim.cmd("normal! 0")
+		end
+	end, 50) -- Small delay to let formatting complete
 end, { desc = "Save file" })
 
 set("n", "<leader>yp", function()
@@ -75,7 +87,6 @@ set("n", "<C-w>z", "<C-w>|", { desc = "Maximize window width" })
 
 set("n", "<C-q>", "<cmd>quit<cr>", { desc = "Close current window" })
 
--- Center mode
 set("n", "<leader>z", function()
 	require("stepit.utils.center").toggle()
 end, { desc = "Toggle centered mode" })
@@ -86,4 +97,4 @@ set("n", "<leader>Z", function()
 	if width then
 		require("stepit.utils.center").set_width(width)
 	end
-end, { desc = "Set center width" })
+end, { desc = "Set center buffer width" })
