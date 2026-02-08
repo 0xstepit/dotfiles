@@ -2,31 +2,56 @@ local icons = require("stepit.utils.icons")
 
 local M = {}
 
--- Helper to check if current window is active
+--- Helper to check if current window is active.
+--- @return boolean True if the statusline is associated with the active window.
 local function is_active()
 	return vim.g.statusline_winid == vim.api.nvim_get_current_win()
 end
 
--- Helper to get highlight group based on active state
+--- Helper to get highlight group based on active state.
+--- @return string The group highlight based on the window status.
 local function hl(active_group, inactive_group)
 	return is_active() and ("%#" .. active_group .. "#") or ("%#" .. (inactive_group or "StatusLineNC") .. "#")
 end
 
-M.hl_statusline = function() return hl("Statusline", "StatusLineNC") end
-M.hl_mode = function() return hl("StatuslineMode", "StatusLineNC") end
-M.hl_git_branch = function() return hl("StatuslineGitBranch", "StatusLineNC") end
-M.hl_filetype = function() return hl("StatuslineGitBranch", "StatusLineNC") end
+-- Helpers to get the statusline hi groups based on the statusline component.
+M.hl_statusline = function()
+	return hl("Statusline", "StatusLineNC")
+end
+
+M.hl_mode = function()
+	return hl("StatuslineMode", "StatusLineNC")
+end
+
+M.hl_git_branch = function()
+	return hl("StatuslineGitBranch", "StatusLineNC")
+end
+
+M.hl_filetype = function()
+	return hl("StatuslineGitBranch", "StatusLineNC")
+end
+
 M.hl_snippet = function()
 	return hl("DiagnosticWarn", "StatusLineNC")
 end
+
 M.hl_diagnostic = {
-	ERROR = function() return hl("DiagnosticError", "StatusLineNC") end,
-	WARN = function() return hl("DiagnosticWarn", "StatusLineNC") end,
-	INFO = function() return hl("DiagnosticInfo", "StatusLineNC") end,
-	HINT = function() return hl("DiagnosticHint", "StatusLineNC") end,
+	ERROR = function()
+		return hl("DiagnosticError", "StatusLineNC")
+	end,
+	WARN = function()
+		return hl("DiagnosticWarn", "StatusLineNC")
+	end,
+	INFO = function()
+		return hl("DiagnosticInfo", "StatusLineNC")
+	end,
+	HINT = function()
+		return hl("DiagnosticHint", "StatusLineNC")
+	end,
 }
 
----@return string
+--- Vim mode information for the statusline.
+---@return string The characters to display based on the current vim mode.
 function M.mode()
 	local mode_to_char = {
 		["n"] = "N",
@@ -55,6 +80,8 @@ function M.mode()
 	return string.format("%s %s %s", M.hl_mode(), string.upper(mode), M.hl_statusline())
 end
 
+--- Cursor line information for the statusline.
+---@return string The percentage of the file associated with the current line, the line and column vim indexes.
 function M.line_info()
 	if vim.bo.filetype == "alpha" then
 		return ""
@@ -63,6 +90,7 @@ function M.line_info()
 	return " %P L%03l:C%02c "
 end
 
+--- File size information for the statusline.
 ---@return string
 function M.file_size()
 	local size = vim.fn.getfsize(vim.fn.expand("%"))
@@ -78,7 +106,8 @@ function M.file_size()
 	end
 end
 
----@return string
+--- Git information for the statusline.
+---@return string The name of the current active branch.
 function M.git_info()
 	local branch_icon = require("stepit.utils.icons").git.branch
 
@@ -90,13 +119,15 @@ function M.git_info()
 	return string.format("%s %s %s %s", M.hl_git_branch(), branch_icon, git_info.head, M.hl_statusline())
 end
 
----@return string
+--- File type information for the statusline.
+---@return string The name of the file type.
 function M.file_type()
 	-- Equivalent to " %Y "
 	return string.format("%s %s %s", M.hl_filetype(), vim.bo.filetype:upper(), M.hl_statusline())
 end
 
----@return string
+--- Diagnostic information for the statusline.
+---@return string The number of diagnostics grouped by severity.
 function M.diagnostic()
 	local counts = vim.iter(vim.diagnostic.get(0)):fold({
 		ERROR = 0,
@@ -112,10 +143,9 @@ function M.diagnostic()
 	local diagnostics = vim.iter(counts)
 		:map(function(severity, count)
 			if count == 0 then
-				return nil -- skip
+				return nil
 			end
 
-			-- return string.format("%s %s:%s %s", M.hl_diagnostic[severity](), severity:sub(1, 1), count, M.hl_statusline())
 			return string.format(
 				"%s %s %s %s",
 				M.hl_diagnostic[severity](),
@@ -129,7 +159,8 @@ function M.diagnostic()
 	return table.concat(diagnostics, "")
 end
 
----@return string
+--- LSP information for the statusline.
+---@return string The active language server protocols.
 function M.active_lsp_client()
 	local bufnr = vim.api.nvim_get_current_buf()
 	local clients = vim.lsp.get_clients({ bufnr = bufnr })
@@ -150,7 +181,7 @@ function M.active_lsp_client()
 	return string.format("%s %s %s", M.hl_mode(), table.concat(clients_, ", "), M.hl_statusline())
 end
 
---- Returns the statusline information for snippets.
+--- Statusline information for snippets.
 ---@return string A non empty string if there is a jumpable position.
 function M.snippet_status()
 	local ok, luasnip = pcall(require, "luasnip")
@@ -168,19 +199,12 @@ function M.snippet_status()
 	return ""
 end
 
----@return string
+--- The statusline to render in the buffer. If the window is not active, the statusline is empty.
+---@return string The statusline to render.
 function M.render()
-	return M.mode()
-		.. M.git_info()
-		.. M.snippet_status()
-		-- .. "%="
-		.. M.diagnostic()
-		.. "%="
-		.. " %m " -- modified
-		.. M.line_info()
-		.. M.file_size()
-		.. M.file_type()
-		.. M.active_lsp_client()
+	return is_active()
+			and M.mode() .. M.git_info() .. M.snippet_status() .. M.diagnostic() .. "%=" .. " %m " .. M.line_info() .. M.file_size() .. M.file_type() .. M.active_lsp_client()
+		or ""
 end
 
 vim.o.statusline = "%!v:lua.require'stepit.statusline'.render()"
