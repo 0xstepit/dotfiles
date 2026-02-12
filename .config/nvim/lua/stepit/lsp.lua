@@ -92,27 +92,25 @@ local function on_attach(client, buffer)
 	end
 end
 
--- vim.keymap.set("n", "gK", function()
--- 	local new_config = not vim.diagnostic.config().virtual_lines
--- 	vim.diagnostic.config({ virtual_lines = new_config })
--- end, { desc = "Toggle diagnostic virtual_lines" })
-
 --  Static LSP configuration.
-vim.diagnostic.config({
-	virtual_text = {
-		source = false,
-		update_in_insert = false,
-		severity = {
-			vim.diagnostic.severity.ERROR,
-			vim.diagnostic.severity.WARN,
-			vim.diagnostic.severity.INFO,
-			vim.diagnostic.severity.HINT,
-		},
-		prefix = "", -- remove the square in front of the text
-		format = function(diagnostic)
-			return string.format("%s(%s): %s", diagnostic.source, diagnostic.code, diagnostic.message)
-		end,
+-- Store the virtual_text config for toggling
+local virtual_text_config = {
+	source = false,
+	update_in_insert = false,
+	severity = {
+		vim.diagnostic.severity.ERROR,
+		vim.diagnostic.severity.WARN,
+		vim.diagnostic.severity.INFO,
+		vim.diagnostic.severity.HINT,
 	},
+	prefix = "", -- remove the square in front of the text
+	format = function(diagnostic)
+		return string.format("%s(%s): %s", diagnostic.source, diagnostic.code, diagnostic.message)
+	end,
+}
+
+vim.diagnostic.config({
+	virtual_text = virtual_text_config,
 	-- virtual_lines = {
 	-- 	current_line = true,
 	-- 	severity = {
@@ -123,6 +121,34 @@ vim.diagnostic.config({
 	-- },
 	severity_sort = true,
 })
+
+-- Toggle diagnostic virtual text (inline text)
+vim.keymap.set("n", "<leader>td", function()
+	local current = vim.diagnostic.config()
+	local is_enabled = current.virtual_text ~= false
+
+	if is_enabled then
+		vim.diagnostic.config({ virtual_text = false })
+		vim.notify("Diagnostic virtual text disabled", vim.log.levels.INFO)
+	else
+		vim.diagnostic.config({ virtual_text = virtual_text_config })
+		vim.notify("Diagnostic virtual text enabled", vim.log.levels.INFO)
+	end
+end, { desc = "[T]oggle [D]iagnostic virtual text" })
+
+-- User command for toggling diagnostic virtual text
+vim.api.nvim_create_user_command("DiagnosticToggleVirtualText", function()
+	local current = vim.diagnostic.config()
+	local is_enabled = current.virtual_text ~= false
+
+	if is_enabled then
+		vim.diagnostic.config({ virtual_text = false })
+		vim.notify("Diagnostic virtual text disabled", vim.log.levels.INFO)
+	else
+		vim.diagnostic.config({ virtual_text = virtual_text_config })
+		vim.notify("Diagnostic virtual text enabled", vim.log.levels.INFO)
+	end
+end, { desc = "Toggle diagnostic virtual text" })
 
 for level, icon in pairs(diagnostic_icons) do
 	local hl = "DiagnosticSign" .. level:sub(1, 1):upper() .. level:sub(2)
