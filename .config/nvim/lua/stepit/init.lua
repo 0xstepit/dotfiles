@@ -44,7 +44,7 @@ local opts = {
 		colorscheme = { "flow" },
 	},
 	change_detection = { notify = false },
-	dev = { path = "~/Repositories/NvimPlugin/" },
+	dev = { path = "~/Repositories/projects/" },
 	ui = {
 		border = "rounded",
 		icons = {
@@ -91,6 +91,7 @@ local opts = {
 
 require("stepit.globals")
 require("stepit.options")
+require("stepit.utils.fold").setup()
 require("stepit.keymaps")
 require("stepit.autocommands")
 require("stepit.notes")

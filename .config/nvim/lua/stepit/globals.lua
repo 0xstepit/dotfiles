@@ -14,6 +14,6 @@ g.ref_branch = "main"
 -- Flag to activate or deactivate inlay hint.
 g.inlay_hints = false
 
-g.update_date = true
+g.autoupdate_date = true
 
 g.autoformat = true

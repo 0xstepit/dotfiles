@@ -16,17 +16,6 @@ set("n", "<leader><leader>x", function()
 end, { desc = "Source current file" })
 
 set("n", "<leader>w", function()
-	local status_dict = vim.b.gitsigns_status_dict
-	local has_changes = status_dict
-		and ((status_dict.added or 0) > 0 or (status_dict.changed or 0) > 0 or (status_dict.removed or 0) > 0)
-
-	local is_modified = vim.bo.modified
-	local is_markdown = vim.fs.normalize(vim.fn.expand("%:e")) == "md"
-
-	if is_markdown and has_changes and is_modified then
-		notes.update_modified_in_frontmatter(0)
-	end
-
 	-- Track if buffer changes during save (formatting might modify it)
 	local changedtick_before = vim.b.changedtick
 
@@ -98,3 +87,21 @@ set("n", "<leader>Z", function()
 		require("stepit.utils.center").set_width(width)
 	end
 end, { desc = "Set center buffer width" })
+
+-- ================================================================================================
+-- Image
+-- ================================================================================================
+
+set("n", "<leader>ti", function()
+	local buf = vim.api.nvim_get_current_buf()
+	local config = Snacks.image.config.doc
+	config.float = not config.float
+	if config.float then
+		vim.b[buf].snacks_image_attached = false
+		Snacks.image.doc._attach(buf)
+	else
+		Snacks.image.doc.hover_close()
+		pcall(vim.api.nvim_del_augroup_by_name, "snacks.image.doc." .. buf)
+	end
+	vim.notify("Image float: " .. (config.float and "on" or "off"), vim.log.levels.INFO)
+end, { desc = "Toggle image float" })

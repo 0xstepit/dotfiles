@@ -69,22 +69,31 @@ opt.spell = false
 
 -- Folding
 function FoldStyle()
-	local line = vim.fn.getline(vim.v.foldstart)
-	return " " .. line
+	local foldstart = vim.v.foldstart
+	local foldend = vim.v.foldend
+	local first_line = vim.fn.getline(foldstart)
+	local last_line = vim.fn.getline(foldend)
+	local line_count = foldend - foldstart + 1
+
+	-- Remove leading whitespace
+	first_line = first_line:gsub("^%s*", "")
+	last_line = last_line:gsub("^%s*", "")
+
+	-- VSCode-style: "function foo() { ...10 lines... }"
+	return string.format("  %s ...%d lines... %s", first_line, line_count, last_line)
 end
 
 -- opt.statuscolumn='%s%C  %l%=  '
 opt.foldcolumn = "0"
 opt.foldenable = true
 opt.foldmethod = "indent"
--- opt.foldtext = "v:lua.FoldStyle()"
-opt.foldtext = ""
+opt.foldtext = "" -- Using custom virtual text display (see utils/fold.lua)
 opt.foldlevelstart = 99 -- no fold initially
 
 opt.wrap = false
 
 -- Indentation
-opt.expandtab = false
+opt.expandtab = true
 opt.shiftwidth = 4
 opt.tabstop = 4
 
