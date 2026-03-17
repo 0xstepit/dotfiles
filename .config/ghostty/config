@@ -7,7 +7,7 @@ adjust-cell-width = -3%
 adjust-cursor-thickness = 3
 adjust-cell-height = 9
 
-background-opacity = 0.98
+background-opacity = 1
 background-blur-radius = 20
 
 theme = "flow-moon-eclipse"
