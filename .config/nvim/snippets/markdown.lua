@@ -3,6 +3,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 
+-- <div style="text-align: right;">▬</div>
 local function in_latex()
 	local has_parser, parser = pcall(vim.treesitter.get_parser, 0, "markdown")
 	if not has_parser or parser == nil then
@@ -326,13 +327,15 @@ return {
 	}),
 
 	-- Definition block
-	s({ trig = "def", dscr = "Definition block" }, {
-		t({ '<div class="definition">', '  <div class="definition-header">' }),
-		t({ "", '    <strong class="definition-type">[Def]</strong>' }),
-		t({ "", '    <strong class="definition-title">' }),
-		i(1, "Title"),
+	s({ trig = "callout", dscr = "Callout block" }, {
+		t({ '<div class="callout">', '  <div class="callout-header">' }),
+		t({ "", '    <strong class="callout-type">' }),
+		i(1, "Type"),
+		t({ "</strong>" }),
+		t({ "", '    <strong class="callout-title">' }),
+		i(2, "Title"),
 		t({ "</strong>", "  </div>", "  " }),
-		i(2, "Definition content"),
+		i(3, "Content"),
 		t({ "", "</div>" }),
 	}),
 }

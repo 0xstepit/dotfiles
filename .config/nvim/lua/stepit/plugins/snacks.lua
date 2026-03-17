@@ -40,10 +40,10 @@ return {
 				-- render the image inline in the buffer
 				-- if your env doesn't support unicode placeholders, this will be disabled
 				-- takes precedence over `opts.float` on supported terminals
-				inline = true, -- Enable inline rendering
+				inline = false, -- Enable inline rendering
 				-- render the image in a floating window
 				-- only used if `opts.inline` is disabled
-				float = false, -- Disable floating window
+				float = true, -- Disable floating window
 				max_width = 80,
 				max_height = 40,
 				-- Set to `true`, to conceal the image text when rendering inline.
