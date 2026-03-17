@@ -17,22 +17,23 @@ return {
 	opts = {
 		notify_on_error = false,
 		formatters_by_ft = {
+			abi = { "prettier" },
 			astro = { "prettier" },
+			css = { "prettier" },
 			lua = { "stylua" },
+			go = { "golangci-lint" },
+			javascript = { "prettier" },
+			json = { "prettier" },
+			html = { "prettier" },
 			markdown = { "prettier" },
-			go = { "golangci-lint" }, -- "gofmt", "goimports",
-			yaml = { "yamlfmt", "prettier" },
+			python = { "ruff" },
+			rust = { "rustfmt" },
 			sh = { "shfmt" },
+			solidity = { "forge_fmt" },
+			toml = { "taplo" },
 			typescript = { "prettier" },
 			typescriptreact = { "prettier" },
-			javascript = { "prettier" },
-			css = { "prettier" },
-			html = { "prettier" },
-			json = { "prettier" },
-			abi = { "prettier" },
-			toml = { "taplo" },
-			rust = { "rustfmt" },
-			solidity = { "forge_fmt" },
+			yaml = { "yamlfmt", "prettier" },
 		},
 		formatters = {
 			injected = {
@@ -47,47 +48,11 @@ return {
 				},
 			},
 		},
-		-- formatters = {
-		-- 	json = {
-		-- 		command = "jq",
-		-- 		-- A list of strings, or a function that returns a list of strings
-		-- 		-- Return a single string instead of a list to run the command in a shell
-		-- 		args = { "'.'", "$FILENAME" },
-		-- 		condition = function(self, ctx)
-		-- 			return vim.fs.basename(ctx.filename) ~= "*.abi"
-		-- 		end,
-		-- 	},
-		-- },
-		-- log_level = vim.log.levels.DEBUG,
 	},
 	config = function(_, opts)
 		local conform = require("conform")
 
 		conform.setup(opts)
-
-		-- local prettier_config = vim.fn.resolve(vim.fn.stdpath("config") .. "/.prettierrc.toml")
-		-- if vim.fn.filereadable(prettier_config) == 0 then
-		--   print("errror")
-		--   vim.notify("prettier config file not found: " .. prettier_config, vim.log.levels.warn)
-		-- else
-		--   for n, _ in ipairs(conform.formatters) do
-		--     print(n)
-		--   end
-		--   local prt = conform.formatters["prettier"]
-		--   if not prt then
-		--     print("Not here")
-		--   else
-		--     prt.args = {
-		--       args = { "--config", "" .. prettier_config },
-		--     }
-		--     -- These can also be set directly
-		--     conform.formatters.prettier = prt
-		--   end
-		-- end
-		--
-		-- require("conform").formatters.abi = {
-		-- 	command = "jq '.'",
-		-- }
 
 		vim.keymap.set("n", "<leader>tf", function()
 			local active = vim.b.autoformat

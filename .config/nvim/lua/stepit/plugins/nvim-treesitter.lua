@@ -59,7 +59,7 @@ return {
 			},
 		},
 		opts = {
-			indent = { enable = true },
+			indent = { enable = false },
 			autoinstall = true,
 			ensure_installed = languages,
 			incremental_selection = {

@@ -329,8 +329,19 @@ local function tag_selector(available_tags, on_confirm)
 	})
 end
 
+vim.keymap.set("n", "<leader>ts", function()
+	if vim.g.autoupdate_date == false then
+		vim.notify("Enabling autoupdate date on save...", vim.log.levels.INFO)
+		vim.g.autoupdate_date = true
+	else
+		vim.notify("Disabling autoupdate date on save...", vim.log.levels.INFO)
+		vim.g.autoupdate_date = false
+	end
+end, { desc = "[T]oggle autoupdate date on [S]ave" })
+
 function M.update_modified_in_frontmatter(bufnr)
 	bufnr = bufnr or 0
+
 	local date = os.date(M.config.date_format)
 
 	-- Get first 30 lines to account for longer frontmatter
@@ -643,12 +654,21 @@ local function setup_autocmds()
 		return -- Skip autocmd setup if NOTES env var not set
 	end
 
+	-- Initialize the global setting (enabled by default)
+	if vim.g.autoupdate_date == nil then
+		vim.g.autoupdate_date = true
+	end
+
 	local group = vim.api.nvim_create_augroup("NotesAutoUpdate", { clear = true })
 
 	vim.api.nvim_create_autocmd("BufWritePre", {
 		group = group,
 		pattern = notes_dir .. "/**/*.md",
 		callback = function(args)
+			-- Skip if autoupdate is explicitly disabled
+			if vim.g.autoupdate_date == false then
+				return
+			end
 			M.update_modified_in_frontmatter(args.buf)
 		end,
 		desc = "Auto-update modified date in note frontmatter",

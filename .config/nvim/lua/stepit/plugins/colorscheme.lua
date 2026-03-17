@@ -1,34 +1,41 @@
+local theme = os.getenv("COLORSCHEME") or "dark"
+
+local mode = "default"
+if theme == "light" then
+	mode = "dark"
+end
+
 return {
 	{
 		"0xstepit/flow.nvim",
 		enabled = true,
-		branch = "main",
+		branch = "stepit/new-scheme",
 		dev = true,
 		lazy = false,
 		priority = 1000,
 		-- tag = "v1.0.0",
 		opts = {
 			theme = {
-				style = os.getenv("COLORSCHEME") or "dark",
+				style = theme,
 				contrast = "default",
 				transparent = false,
 			},
 			colors = {
-				mode = "default",
+				mode = mode,
 				fluo = "pink",
-				custom = {
-					saturation = "65",
-					light = "65",
-				},
+				-- custom = {
+				-- 	saturation = "65",
+				-- 	light = "65",
+				-- },
 			},
 			ui = {
-				borders = "inverse",
+				borders = "none",
 				aggressive_spell = false,
 			},
 		},
 		config = function(_, opts)
 			require("flow").setup(opts)
-			vim.cmd("colorscheme flow")
+			vim.cmd("colorscheme flow-mono")
 		end,
 	},
 	{
