@@ -3,6 +3,7 @@ $username\
 $hostname\
 $localip\
 $directory\
+$python\
 $git_branch\
 $git_commit\
 $git_state\
@@ -15,6 +16,8 @@ $shell\
 """
 
 palette = 'new'
+
+command_timeout = 5000 # milliseconds (default is 500ms)
 
 [line_break]
 disabled = true
@@ -53,3 +56,7 @@ impure_msg = '[impure shell](bold red)'
 pure_msg = '[pure shell](bold green)'
 unknown_msg = '[unknown shell](bold yellow)'
 format = 'via [☃️ $state( \($name\))](bold blue) '
+
+[python]
+format = 'with [(${version}) (\($virtualenv\) )]($style)'
+style = "blue bold"
