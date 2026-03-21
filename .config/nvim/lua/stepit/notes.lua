@@ -196,69 +196,8 @@ function M.new_note(title, tags)
 	}
 end
 
-local function floating_input(opts, on_confirm)
-	-- Create buffer
-	local buf = vim.api.nvim_create_buf(false, true)
-
-	-- Calculate centered position
-	local width = opts.width or 50
-	local height = 1
-	local row = math.floor((vim.o.lines - height) / 2) - 1
-	local col = math.floor((vim.o.columns - width) / 2)
-
-	-- Create the window with border
-	local win = vim.api.nvim_open_win(buf, true, {
-		relative = "editor",
-		width = width,
-		height = height,
-		row = row,
-		col = col,
-		style = "minimal",
-		border = "rounded",
-		title = " " .. (opts.prompt or "Input") .. " ",
-		title_pos = "center",
-	})
-
-	-- Configure buffer
-	vim.bo[buf].buftype = "nofile"
-	vim.bo[buf].bufhidden = "wipe"
-
-	-- Start in insert mode
-	vim.cmd("startinsert")
-
-	local function close_and_callback(input)
-		if vim.api.nvim_win_is_valid(win) then
-			vim.api.nvim_win_close(win, true)
-		end
-		on_confirm(input)
-	end
-
-	-- Handle submission with Enter
-	vim.keymap.set("i", "<CR>", function()
-		local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-		local input = lines[1] or ""
-		close_and_callback(input)
-	end, { buffer = buf, nowait = true })
-
-	-- Handle cancellation with Escape
-	vim.keymap.set({ "n", "i" }, "<Esc>", function()
-		close_and_callback(nil)
-	end, { buffer = buf, nowait = true })
-
-	-- Close on losing focus
-	vim.api.nvim_create_autocmd({ "BufLeave" }, {
-		buffer = buf,
-		once = true,
-		callback = function()
-			if vim.api.nvim_win_is_valid(win) then
-				vim.api.nvim_win_close(win, true)
-			end
-			on_confirm(nil)
-		end,
-	})
-end
-
--- Tag selector using fzf-lua
+-- Tag selector using fzf-lua with iterative selection.
+-- Selected tags are shown in the fzf header so they remain visible.
 local function tag_selector(available_tags, on_confirm)
 	local ok, fzf = pcall(require, "fzf-lua")
 	if not ok then
@@ -267,66 +206,70 @@ local function tag_selector(available_tags, on_confirm)
 		return
 	end
 
-	-- Create a copy of available tags and add special entry for custom tags
-	local items = vim.tbl_extend("force", {}, available_tags)
-	table.insert(items, 1, "+ Add custom tag...")
+	local selected_tags = {}
 
-	fzf.fzf_exec(items, {
-		prompt = "Select Tags> ",
-		multi = true,
-		fzf_opts = {
-			["--multi"] = "",
-			["--bind"] = "ctrl-a:toggle-all",
-			["--header"] = "Tab: multi-select | Ctrl-A: toggle all | Select '+' to add custom tags",
-			["--no-sort"] = "", -- Keep tags in order
-		},
-		actions = {
-			["default"] = function(selected)
-				if not selected then
-					-- User cancelled
-					on_confirm(nil)
-					return
-				end
+	local function build_header()
+		local header = "Enter: select tag | Ctrl-N: add query as tag | Ctrl-D: done"
+		if #selected_tags > 0 then
+			header = header .. "\nSelected: " .. table.concat(selected_tags, ", ")
+		end
+		return header
+	end
 
-				local tags = {}
-				local needs_custom_input = false
+	local function finish()
+		table.sort(selected_tags)
+		on_confirm(selected_tags)
+	end
 
-				-- Process selections
-				for _, item in ipairs(selected) do
-					if item == "+ Add custom tag..." then
-						needs_custom_input = true
-					else
-						table.insert(tags, item)
+	local function open_picker()
+		-- Build items list excluding already selected tags
+		local items = {}
+		for _, tag in ipairs(available_tags) do
+			if not vim.tbl_contains(selected_tags, tag) then
+				table.insert(items, tag)
+			end
+		end
+
+		fzf.fzf_exec(items, {
+			prompt = "Select Tags> ",
+			fzf_opts = {
+				["--header"] = build_header(),
+				["--no-sort"] = "",
+			},
+			actions = {
+				["default"] = function(sel)
+					if not sel or #sel == 0 then
+						finish()
+						return
 					end
-				end
 
-				-- If user selected custom tag option, show input
-				if needs_custom_input then
-					floating_input({ prompt = "Custom tag(s) (comma-separated):", width = 50 }, function(input)
-						if input and input ~= "" then
-							-- Split by comma and add each tag
-							for tag_raw in input:gmatch("[^,]+") do
-								local tag = vim.trim(tag_raw):gsub("%s+", "-"):lower()
-								if tag ~= "" and not vim.tbl_contains(tags, tag) then
-									table.insert(tags, tag)
-								end
-							end
+					local choice = sel[1]
+					if not vim.tbl_contains(selected_tags, choice) then
+						table.insert(selected_tags, choice)
+					end
+					vim.schedule(open_picker)
+				end,
+				["ctrl-n"] = function(_, opts)
+					local query = opts.last_query or ""
+					if query ~= "" then
+						local tag = vim.trim(query):gsub("%s+", "-"):lower()
+						if tag ~= "" and not vim.tbl_contains(selected_tags, tag) then
+							table.insert(selected_tags, tag)
 						end
-						table.sort(tags)
-						on_confirm(tags)
-					end)
-				else
-					-- No custom tags needed, return selections
-					if #selected == 0 then
-						on_confirm({}) -- Empty selection is valid
-					else
-						table.sort(tags)
-						on_confirm(tags)
 					end
-				end
-			end,
-		},
-	})
+					vim.schedule(open_picker)
+				end,
+				["ctrl-d"] = function()
+					finish()
+				end,
+				["esc"] = function()
+					finish()
+				end,
+			},
+		})
+	end
+
+	open_picker()
 end
 
 vim.keymap.set("n", "<leader>ts", function()
