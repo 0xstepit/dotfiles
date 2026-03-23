@@ -343,6 +343,53 @@ function M.update_modified_in_frontmatter(bufnr)
 	return false
 end
 
+--- Sync current note folder to $BLOG_NOTES if to-publish is true,
+--- or remove it from $BLOG_NOTES if to-publish is false/absent.
+function M.sync_to_blog(bufnr)
+	bufnr = bufnr or 0
+
+	local blog_dir = os.getenv("BLOG_NOTES")
+	if not blog_dir or blog_dir == "" then
+		return
+	end
+
+	local filepath = vim.api.nvim_buf_get_name(bufnr)
+	local note_folder = vim.fn.fnamemodify(filepath, ":h")
+	local slug = vim.fn.fnamemodify(note_folder, ":t")
+	local dest = blog_dir .. "/" .. slug
+
+	-- Parse to-publish from frontmatter
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 30, false)
+	if not lines[1] or not lines[1]:match("^%-%-%-$") then
+		return
+	end
+
+	local to_publish = false
+	for i = 2, #lines do
+		if lines[i]:match("^%-%-%-$") then
+			break
+		end
+		local value = lines[i]:match("^to%-publish:%s*(.+)$")
+		if value then
+			to_publish = vim.trim(value) == "true"
+			break
+		end
+	end
+
+	if to_publish then
+		vim.fn.mkdir(blog_dir, "p")
+		-- Remove existing dest first to avoid nested copy
+		if vim.fn.isdirectory(dest) == 1 then
+			vim.fn.delete(dest, "rf")
+		end
+		vim.fn.system({ "cp", "-r", note_folder, dest })
+	else
+		if vim.fn.isdirectory(dest) == 1 then
+			vim.fn.delete(dest, "rf")
+		end
+	end
+end
+
 -- Find and open existing note
 function M.find_note()
 	local ok, fzf = pcall(require, "fzf-lua")
@@ -615,6 +662,15 @@ local function setup_autocmds()
 			M.update_modified_in_frontmatter(args.buf)
 		end,
 		desc = "Auto-update modified date in note frontmatter",
+	})
+
+	vim.api.nvim_create_autocmd("BufWritePost", {
+		group = group,
+		pattern = notes_dir .. "/**/*.md",
+		callback = function(args)
+			M.sync_to_blog(args.buf)
+		end,
+		desc = "Sync to-publish notes to $BLOG_NOTES",
 	})
 end
 
