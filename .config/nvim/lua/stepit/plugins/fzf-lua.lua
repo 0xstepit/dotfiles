@@ -14,7 +14,9 @@ return {
 			"<leader>ff",
 			function()
 				close_mini_files()
-				require("fzf-lua").files()
+				require("fzf-lua").files({
+					cwd_prompt = false,
+				})
 			end,
 			desc = "[F]ind [F]iles",
 		},
@@ -31,20 +33,31 @@ return {
 		{
 			"<leader>fn",
 			function()
-				local notes_dir = os.getenv("NOTES")
+				local notes_dir = os.getenv("KNOWLEDGE_BASE")
 				if not notes_dir or notes_dir == "" then
-					return vim.notify("$NOTES environment variable is not set")
+					return vim.notify("$KNOWLEDGE_BASE environment variable is not set")
 				end
 
 				require("fzf-lua").files({
-					prompt = require("stepit.utils.icons").symbols.lens .. " Notes ",
-					cwd = vim.fs.joinpath(notes_dir, "main"),
-					find_opts = [[-type f \! -path '*/.git/*' \! -path '*/Deprecated/*' \! -path '*/.obsidian/*']],
-					rg_opts = [[--color=never --hidden --files -g "!.git" -g "!Deprecated" -g "!.obsidian"]],
-					fd_opts = [[--color=never --hidden --type f --type l --exclude .git --exclude Deprecated --exclude .obsidian]],
+					prompt = require("stepit.utils.icons").symbols.lens .. "    ",
+					cwd = notes_dir,
+					find_opts = [[-type f \! -path '*/.*' \! -path '*/Deprecated/*']],
+					rg_opts = [[--color=never --files -g "!.*" -g "!Deprecated"]],
+					fd_opts = [[--color=never --type f --type l --exclude '.*' --exclude Deprecated]],
+					-- With these opts we can grep only the file name.
+					fzf_opts = {
+						["--delimiter"] = "/",
+						["--with-nth"] = "-1",
+					},
+					winopts = {
+						fullscreen = false,
+						preview = {
+							hidden = true,
+						},
+					},
 				})
 			end,
-			desc = "[F]ind [F]iles",
+			desc = "[F]ind [N]otes",
 		},
 		{
 			"<leader>fk",
@@ -55,14 +68,12 @@ return {
 		},
 		{ "<leader>fs", "<cmd>FzfLua live_grep<cr>", desc = "[F]ind [G]rep" },
 		{ "<leader>fob", "<cmd>FzfLua buffers<cr>", desc = "[F]ind [B]uffers" },
-
 		{ "<leader>fgb", "<cmd>FzfLua git_branches<cr>", desc = "[F]ind [G]it [B]ranches" },
-
 		{ "<leader>fdd", "<cmd>FzfLua diagnostics_document<cr>", desc = "[F]ind [D]iagnostics [D]ocument" },
 		{
 			"<leader>fdw",
 			function()
-				FzfLua.diagnostics_workspace({
+				require("fzf-lua").diagnostics_workspace({
 					fzf_opts = {
 						["--pointer"] = "┃",
 					},
@@ -70,26 +81,17 @@ return {
 			end,
 			desc = "[F]ind [D]iagnostics [W]orkspace",
 		},
-
 		{ "<leader>fch", "<cmd>FzfLua highlights<cr>", desc = "[F]ind [C]olor [H]ighlights" },
 	},
 	opts = function()
 		require("fzf-lua").register_ui_select()
 
 		return {
-			files = {
-				cwd_prompt = false,
-			},
 			keymap = {
 				fzf = {
 					["ctrl-a"] = "toggle-all",
 				},
 			},
-			-- actions = {
-			-- 	files = {
-			-- 		["ctrl-q"] = actions.file_sel_to_qf,
-			-- 	},
-			-- },
 			previewers = {
 				builtin = {
 					syntax_limit_b = 1024 * 100, -- 100KB
