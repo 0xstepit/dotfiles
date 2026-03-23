@@ -1,22 +1,31 @@
-local M = {}
+local M = {
+	max_frontmatter_check = 30,
+}
 
 local set = vim.keymap.set
 
 -- Default configuration used for notes frontmatter.
-M.config = {
+--- @class Config
+--- @field author string
+--- @field date_format string
+--- @field category string
+--- @field tags string[]
+--- @field to_publish boolean
+M.default_config = {
 	author = "stepit",
 	date_format = "%Y-%m-%d",
-	default_category = "",
-	default_tags = {},
-	default_to_publish = false,
+	category = "",
+	tags = {},
+	to_publish = false,
 }
 
--- Extract tags from a frontmatter line.
--- TODO: add support for multiline tags.
+-- Extract tags from a frontmatter line and returns them in a table without quotes.
+-- The function does not support multiline tags.
 local function parse_tags_from_line(line)
 	local tags = {}
 
 	-- Match YAML array format: tags: [tag1, tag2, tag3]
+	-- and returns tag1, tag2, tag3.
 	local array_match = line:match("^tags:%s*%[(.*)%]")
 	if array_match then
 		for tag in array_match:gmatch("[^,%s]+") do
@@ -32,15 +41,16 @@ local function parse_tags_from_line(line)
 end
 
 -- Scan all notes and extract unique tags.
+-- @return table
 function M.get_all_tags()
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or notes_dir == "" then
 		return {}
 	end
 
 	local tags_set = {}
 
-	-- Use vim.fn.globpath to find all markdown files
+	-- Use vim.fn.globpath to find all markdown files.
 	local md_files = vim.fn.globpath(notes_dir, "**/*.md", false, true)
 
 	for _, file_path in ipairs(md_files) do
@@ -52,7 +62,7 @@ function M.get_all_tags()
 			for line in file:lines() do
 				line_count = line_count + 1
 
-				-- Check frontmatter boundaries
+				-- Check frontmatter boundaries.
 				if line_count == 1 and line:match("^%-%-%-$") then
 					in_frontmatter = true
 				elseif in_frontmatter and line:match("^%-%-%-$") then
@@ -65,7 +75,7 @@ function M.get_all_tags()
 				end
 
 				-- Stop after 30 lines just in case.
-				if line_count > 30 then
+				if line_count > M.max_frontmatter_check then
 					break
 				end
 			end
@@ -84,8 +94,11 @@ function M.get_all_tags()
 	return tags_array
 end
 
+--- Create a new note with the given title and tags.
+--- @param title string
+--- @param tags string[]
 function M.new_note(title, tags)
-	-- Validate and sanitize input
+	-- Validate and sanitize input.
 	if not title or title == "" then
 		return { error = true, message = "Title cannot be empty" }
 	end
@@ -93,23 +106,22 @@ function M.new_note(title, tags)
 	if title == "" then
 		return { error = true, message = "Title cannot be empty or whitespace only" }
 	end
+	title = title:gsub("^%l", string.upper)
+
+	-- Generate slug: remove special chars, convert spaces to hyphens.
+	local slug = title:lower():gsub("[^%w%s-]", ""):gsub("%s+", "-"):gsub("^-+", ""):gsub("-+$", "")
 
 	-- Get env vars required for the creation of a new note.
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or notes_dir == "" then
-		return { error = true, message = "$NOTES environment variable is not set" }
+		return { error = true, message = "$KNOWLEDGE_BASE environment variable is not set" }
 	end
-
 	local inbox = os.getenv("INBOX")
 	if not inbox or inbox == "" then
 		return { error = true, message = "$INBOX environment variable is not set" }
 	end
 
-	title = title:gsub("^%l", string.upper)
-	-- Generate slug: remove special chars, convert spaces to hyphens
-	local slug = title:lower():gsub("[^%w%s-]", ""):gsub("%s+", "-"):gsub("^-+", ""):gsub("-+$", "")
-
-	local inbox_dir = table.concat({ notes_dir, "main", inbox }, "/")
+	local inbox_dir = table.concat({ notes_dir, inbox }, "/")
 	if vim.fn.isdirectory(inbox_dir) == 0 then
 		return {
 			error = true,
@@ -117,22 +129,25 @@ function M.new_note(title, tags)
 		}
 	end
 
-	-- Create folder for the note
+	-- Create folder for the note.
 	local note_folder = table.concat({ inbox_dir, slug }, "/")
 	if vim.fn.isdirectory(note_folder) == 1 then
-		return { error = true, message = string.format("Note folder already exists: %s", note_folder) }
+		return {
+			error = true,
+			message = string.format("Note folder already exists: %s", note_folder),
+		}
 	end
 
-	-- Create the note folder
+	-- Create the note folder.
 	vim.fn.mkdir(note_folder, "p")
 
-	-- Note file has the same name as the folder
+	-- Note file has the same name as the folder.
 	local note_path = table.concat({ note_folder, slug .. ".md" }, "/")
 
-	-- Use provided tags or fall back to config defaults
-	tags = tags or M.config.default_tags
+	-- Use provided tags or fall back to config defaults.
+	tags = tags or M.default_config.tags
 
-	-- Format tags for YAML array
+	-- Format tags for YAML array.
 	local tags_str = ""
 	if tags and #tags > 0 then
 		-- Quote tags if they contain spaces or special chars
@@ -147,25 +162,25 @@ function M.new_note(title, tags)
 		tags_str = table.concat(quoted_tags, ", ")
 	end
 
-	local date = os.date(M.config.date_format)
+	local date = os.date(M.default_config.date_format)
 	local frontmatter = {
 		"---",
-		string.format("author: %s", M.config.author),
+		string.format("author: %s", M.default_config.author),
 		string.format("title: '%s'", title),
 		string.format("slug: '%s'", slug),
 		string.format("created: %s", date),
 		string.format("modified: %s", date),
 		"summary: ''",
-		string.format("category: '%s'", M.config.default_category),
+		string.format("category: '%s'", M.default_config.category),
 		string.format("tags: [%s]", tags_str),
 		"related: []",
-		string.format("to-publish: %s", tostring(M.config.default_to_publish)),
+		string.format("to-publish: %s", tostring(M.default_config.to_publish)),
 		"---",
 		"",
 		"", -- Another line where we want to start adding text.
 	}
 
-	-- Use pcall for safer file operations
+	-- Use pcall for safer file operations.
 	local ok, file_or_err = pcall(io.open, note_path, "w")
 	if not ok or not file_or_err then
 		return {
@@ -285,7 +300,7 @@ end, { desc = "[T]oggle autoupdate date on [S]ave" })
 function M.update_modified_in_frontmatter(bufnr)
 	bufnr = bufnr or 0
 
-	local date = os.date(M.config.date_format)
+	local date = os.date(M.default_config.date_format)
 
 	-- Get first 30 lines to account for longer frontmatter
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 30, false)
@@ -398,9 +413,9 @@ function M.find_note()
 		return
 	end
 
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or notes_dir == "" then
-		vim.notify("$NOTES environment variable is not set", vim.log.levels.ERROR)
+		vim.notify("$KNOWLEDGE_BASE environment variable is not set", vim.log.levels.ERROR)
 		return
 	end
 
@@ -416,9 +431,8 @@ function M.find_note()
 		return
 	end
 
-	local main_notes_dir = vim.fs.joinpath(notes_dir, "main")
-	local inbox_dir = vim.fs.joinpath(main_notes_dir, inbox)
-	local resources_dir = vim.fs.joinpath(main_notes_dir, resources)
+	local inbox_dir = vim.fs.joinpath(notes_dir, inbox)
+	local resources_dir = vim.fs.joinpath(notes_dir, resources)
 
 	-- Build fd command to search for note folders (directories)
 	local fd_cmd = string.format(
@@ -480,9 +494,9 @@ function M.create_note()
 		return
 	end
 
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or notes_dir == "" then
-		vim.notify("$NOTES environment variable is not set", vim.log.levels.ERROR)
+		vim.notify("$KNOWLEDGE_BASE environment variable is not set", vim.log.levels.ERROR)
 		return
 	end
 
@@ -492,9 +506,8 @@ function M.create_note()
 		return
 	end
 
-	local main_notes_dir = vim.fs.joinpath(notes_dir, "main")
-	local inbox_dir = vim.fs.joinpath(main_notes_dir, inbox)
-	local resources_dir = vim.fs.joinpath(main_notes_dir, "resources")
+	local inbox_dir = vim.fs.joinpath(notes_dir, inbox)
+	local resources_dir = vim.fs.joinpath(notes_dir, "resources")
 
 	-- Build fd command to search for note folders (directories)
 	local fd_cmd = string.format(
@@ -539,7 +552,7 @@ function M.move_image_to_note()
 	local current_file = vim.fn.expand("%:p")
 
 	-- Check if current file is in notes directory
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or not current_file:match("^" .. vim.pesc(notes_dir)) then
 		vim.notify("Current file is not in notes directory", vim.log.levels.ERROR)
 		return
@@ -630,16 +643,130 @@ function M.move_image_to_note()
 	end
 end
 
+-- Parse a .bib file and return a list of entries with citekey, title, author, year.
+local function parse_bib_file(bib_path)
+	local ok, file = pcall(io.open, bib_path, "r")
+	if not ok or not file then
+		return {}
+	end
+
+	local content = file:read("*a")
+	file:close()
+
+	local entries = {}
+	-- Match each bib entry: @type{citekey, ... }
+	for entry_type, citekey, body in content:gmatch("@(%w+)%s*{%s*([^,]+),%s*(.-)\n}") do
+		if entry_type ~= "comment" and entry_type ~= "string" then
+			local title = body:match("title%s*=%s*{(.-)}")
+			local author = body:match("author%s*=%s*{(.-)}")
+			local year = body:match("year%s*=%s*{?(%d+)}")
+
+			-- Clean up LaTeX artifacts from title
+			if title then
+				title = title
+					:gsub("{{(.-)}}", "%1")
+					:gsub("{(.-)}", "%1")
+					:gsub("\\textbar{}", "|")
+					:gsub("\\textasciitilde{?}?", "~")
+			end
+			-- Simplify author to first author's last name + "et al." if multiple
+			if author then
+				local first_author = author:match("^([^,]+)")
+				if first_author and author:match(" and ") then
+					author = first_author .. " et al."
+				elseif first_author then
+					author = first_author
+				end
+			end
+
+			table.insert(entries, {
+				citekey = citekey,
+				title = title or "",
+				author = author or "",
+				year = year or "",
+			})
+		end
+	end
+
+	return entries
+end
+
+-- Insert a Zotero citation using fzf-lua to pick from the .bib file.
+function M.cite()
+	local fzf_ok, fzf = pcall(require, "fzf-lua")
+	if not fzf_ok then
+		vim.notify("fzf-lua is not installed", vim.log.levels.ERROR)
+		return
+	end
+
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
+	if not notes_dir or notes_dir == "" then
+		vim.notify("$KNOWLEDGE_BASE environment variable is not set", vim.log.levels.ERROR)
+		return
+	end
+
+	local bib_path = vim.fs.joinpath(notes_dir, "references.bib")
+	if vim.fn.filereadable(bib_path) == 0 then
+		vim.notify("Bibliography file not found: " .. bib_path, vim.log.levels.ERROR)
+		return
+	end
+
+	local entries = parse_bib_file(bib_path)
+	if #entries == 0 then
+		vim.notify("No entries found in bibliography", vim.log.levels.WARN)
+		return
+	end
+
+	-- Build display lines and a lookup table
+	local items = {}
+	local lookup = {}
+	for _, entry in ipairs(entries) do
+		local display = string.format("@%s", entry.citekey)
+		if entry.author ~= "" then
+			display = display .. " | " .. entry.author
+		end
+		if entry.title ~= "" then
+			display = display .. " - " .. entry.title
+		end
+		if entry.year ~= "" then
+			display = display .. " (" .. entry.year .. ")"
+		end
+		table.insert(items, display)
+		lookup[display] = entry.citekey
+	end
+
+	fzf.fzf_exec(items, {
+		prompt = "Cite> ",
+		fzf_opts = {
+			["--header"] = "Enter: insert [@citekey]",
+			["--no-sort"] = "",
+		},
+		actions = {
+			["default"] = function(selected)
+				if not selected or #selected == 0 then
+					return
+				end
+				local citekey = lookup[selected[1]]
+				if citekey then
+					local citation = "[@" .. citekey .. "]"
+					vim.api.nvim_put({ citation }, "c", true, true)
+				end
+			end,
+		},
+	})
+end
+
 -- Default keybindings (can be disabled by not calling this or overriding)
 function M.setup_keymaps()
 	set("n", "<leader>mf", M.find_note, { desc = "[M]arkdown [F]ind note" })
 	set("n", "<leader>mn", M.create_note, { desc = "[M]arkdown [N]ew note" })
 	set("v", "<leader>mi", M.move_image_to_note, { desc = "[M]arkdown [I]mage - move to note folder" })
+	set("n", "<leader>mc", M.cite, { desc = "[M]arkdown [C]ite - insert citation from Zotero" })
 end
 
 -- Setup autocmd to auto-update modified date on save
 local function setup_autocmds()
-	local notes_dir = os.getenv("NOTES")
+	local notes_dir = os.getenv("KNOWLEDGE_BASE")
 	if not notes_dir or notes_dir == "" then
 		return -- Skip autocmd setup if NOTES env var not set
 	end
