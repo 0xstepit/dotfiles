@@ -86,7 +86,10 @@ return {
 
 		vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
 			callback = function()
-				require("lint").try_lint()
+				local ok, err = pcall(require("lint").try_lint)
+				if not ok then
+					vim.notify("nvim-lint: " .. tostring(err), vim.log.levels.WARN)
+				end
 			end,
 		})
 	end,
