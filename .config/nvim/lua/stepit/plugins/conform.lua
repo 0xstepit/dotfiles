@@ -25,7 +25,7 @@ return {
 			javascript = { "prettier" },
 			json = { "prettier" },
 			html = { "prettier" },
-			markdown = { "prettier" },
+			markdown = { "mdformat" },
 			python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 			rust = { "rustfmt" },
 			sh = { "shfmt" },
