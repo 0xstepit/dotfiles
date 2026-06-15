@@ -37,7 +37,6 @@ vim.o.winborder = "rounded"
 -- Scrolling
 opt.scrolloff = 15
 opt.sidescrolloff = 10
-
 -- Numbers
 opt.number = true
 opt.relativenumber = true
@@ -118,3 +117,8 @@ opt.fillchars = {
 	diff = "╱",
 }
 opt.inccommand = "split"
+
+-- Add blinking to cursor in different modes.
+opt.guicursor = "n-v-c:block-blinkwait700-blinkon400-blinkoff250,"
+	.. "i-ci-ve:ver25-blinkwait700-blinkon400-blinkoff250,"
+	.. "r-cr:hor20-blinkwait700-blinkon400-blinkoff250"
